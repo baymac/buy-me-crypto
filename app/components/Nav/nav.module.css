@@ -17,6 +17,7 @@
   margin: 0 auto;
   padding-top: var(--mb-1);
   padding-bottom: var(--mb-1);
+  transition: background-color 0.5s linear, color 0.5s linear;
 }
 
 .nav__toggle,
