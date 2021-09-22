@@ -173,7 +173,6 @@
 
 html {
   height: 100%;
-  
 }
 
 body {
@@ -184,7 +183,6 @@ body {
   color: var(--text-color);
   min-height: 100%;
   line-height: 1.6;
-  transition: background-color 0.5s linear, color 0.5s linear;
 }
 
 h1,

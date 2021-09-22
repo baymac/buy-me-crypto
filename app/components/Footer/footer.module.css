@@ -1,7 +1,6 @@
 .footer {
   margin-top: auto;
   border-top: 0.05rem solid var(--footer-border-color);
-  transition: background-color 0.5s linear, color 0.5s linear;
 }
 
 /* Controls padding of footer top and bottom */

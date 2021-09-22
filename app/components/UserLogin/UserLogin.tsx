@@ -7,20 +7,17 @@ import LoginLayout from '../../layouts/LoginLayout';
 import fetchJson from '../../lib/fetchJson';
 import ButtonLoading from '../ButtonLoading/ButtonLoading';
 import styles from './userlogin.module.css';
-import {Magic} from 'magic-sdk'
-import {signIn} from 'next-auth/client'
+
 const LoginSchema = yup.object().shape({
   email: yup.string().email().required('Email is required'),
-
-  //Do not need password as trying magic authentication 
   // Picked password regex from https://stackoverflow.com/a/21456918/7814679
-  // password: yup
-  //   .string()
-  //   .required('Password')
-  //   .matches(
-  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //     'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.'
-  //   ),
+  password: yup
+    .string()
+    .required('Password')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.'
+    ),
 });
 
 export interface ILoginUserRequest {
@@ -43,30 +40,16 @@ export default function UserLogin() {
   const [token, setToken] = useState<string | null>(null);
 
   const onSubmit = async (data: ILoginUserRequest) => {
-    
     setLoading(true);
-    
-    console.log(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
-    const did = await new Magic(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
-                .auth
-                .loginWithMagicLink({email:data.email});
-
-    console.log(did);
-
-    await signIn('credentials',{
-      did,
-      callbackUrl : "http://localhost:3000/home"
-    })
-    //commenting for the results
-    // await fetchJson('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     email: data.email,
-    //     token,
-    //     password: data.password,
-    //   }), // TODO: hash the password
-    // });
+    await fetchJson('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        token,
+        password: data.password,
+      }), // TODO: hash the password
+    });
     setLoading(false);
   };
 
@@ -80,14 +63,14 @@ export default function UserLogin() {
             type="email"
             placeholder="Email"
             disabled={loading}
-            {...register('email',{required:true})}
+            {...register('email')}
           />
           {errors.email && (
             <p className={styles.error_message}>{errors.email.message}</p>
           )}
         </div>
-        {/* do not need tag for password  */}
-        {/* <div className={cn(styles.input_box)}>
+
+        <div className={cn(styles.input_box)}>
           <input
             name="password"
             type={'password'}
@@ -97,7 +80,7 @@ export default function UserLogin() {
           {errors.password && (
             <p className={styles.error_message}>{errors.password.message}</p>
           )}
-        </div> */}
+        </div>
         <div
           className={cn(styles.input_box, {
             [styles.button_disable]: loading,
@@ -108,28 +91,6 @@ export default function UserLogin() {
           </button>
         </div>
       </form>
-
-      <br></br>
-      <div>
-      <div
-          className={cn(styles.input_box, {
-            [styles.button_disable]: loading,
-          })}
-        >
-          <button type="submit" disabled={loading}>
-            {loading ? <ButtonLoading /> : 'Login with Google '}
-          </button>
-        </div>
-        <div
-          className={cn(styles.input_box, {
-            [styles.button_disable]: loading,
-          })}
-        >
-          <button type="submit" disabled={loading}>
-            {loading ? <ButtonLoading /> : 'Login with Apple '}
-          </button>
-        </div>
-      </div>
     </LoginLayout>
   );
 }
