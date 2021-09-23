@@ -3,6 +3,7 @@ import React from 'react';
 import rootStyles from '../styles/root.module.css';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
+import { getSession } from 'next-auth/client'
 
 export default function Index() {
   return (
@@ -20,4 +21,21 @@ export default function Index() {
       </section>
     </HomeLayout>
   );
+}
+
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const session = await getSession({ req });
+  if (session) {
+    return {
+      redirect: { destination: "/home" },
+    };
+  }
+
+  return {
+    props: {
+
+    },
+  };
 }

@@ -5,6 +5,7 @@ import {
   UilMultiply,
   UilSun,
   UilSignOutAlt,
+  UilSignInAlt
 } from '@iconscout/react-unicons';
 
 import cn from 'classnames';
@@ -19,7 +20,7 @@ import NavLinkBigScreen from './NavLinkBigScreen';
 import { useTheme } from 'next-themes';
 import Logo from '../Logo/Logo';
 import fetchJson from '../../lib/fetchJson';
-import {signIn, signOut , useSession } from "next-auth/client"
+import { signIn, signOut, useSession } from "next-auth/client"
 
 
 export default function Nav() {
@@ -146,7 +147,7 @@ export default function Nav() {
                 title: 'Sign in',
               },
               createElement(
-                UilSignOutAlt,
+                UilSignInAlt,
                 {
                   id: 'sign-in-icon',
                   width: 28,

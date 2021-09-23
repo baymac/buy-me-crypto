@@ -3,12 +3,12 @@ import React from 'react';
 import rootStyles from '../styles/root.module.css';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/home.module.css';
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 
 
-import {useSession,getSession,providers,csrfToken} from 'next-auth/client'
+import { useSession, getSession, providers, csrfToken } from 'next-auth/client'
 export default function Home() {
-  const [session,loading] = useSession()
+  const [session, loading] = useSession()
   const router = useRouter();
 
   return (
@@ -22,8 +22,8 @@ export default function Home() {
           )}
         >
           <div>home</div>
-          {session && <div>{`${session.user.name}`}</div> }
-          {session && <div>{`${session.user.email}`}</div> }
+          {session && <div>{`${session.user.name}`}</div>}
+          {session && <div>{`${session.user.email}`}</div>}
         </div>
       </section>
     </HomeLayout>
@@ -33,7 +33,6 @@ export default function Home() {
 export async function getServerSideProps(context) {
   const { req } = context;
   const session = await getSession({ req });
-  console.log(session)
   if (!session) {
     return {
       redirect: { destination: "/" },
@@ -42,7 +41,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      
+
     },
   };
 }
