@@ -1,41 +1,44 @@
 import cn from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import rootStyles from '../styles/root.module.css';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
-import { getSession } from 'next-auth/client'
-
+import { getSession, useSession } from 'next-auth/client'
+import Loading from '../components/Loading/Loading'
+import { useRouter } from 'next/router'
 export default function Index() {
-  return (
-    <HomeLayout>
-      <section className={cn(rootStyles.section)} id="about">
-        <div
-          className={cn(
-            rootStyles.container,
-            rootStyles.grid,
-            styles.about__container
-          )}
-        >
-          <>Index</>
-        </div>
-      </section>
-    </HomeLayout>
-  );
-}
 
+  const [session, loading] = useSession();
+  const router = useRouter()
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const session = await getSession({ req });
-  if (session) {
-    return {
-      redirect: { destination: "/home" },
-    };
+  useEffect(() => {
+    if (session) {
+      router.push('/home')
+    }
+  })
+
+  if (loading || session) {
+    return (
+      <Loading></Loading>
+    )
+  }
+  else {
+    return (
+      <HomeLayout>
+        <section className={cn(rootStyles.section)} id="about">
+          <div
+            className={cn(
+              rootStyles.container,
+              rootStyles.grid,
+              styles.about__container
+            )}
+          >
+            <>Index</>
+          </div>
+        </section>
+      </HomeLayout>
+    );
   }
 
-  return {
-    props: {
-
-    },
-  };
 }
+
