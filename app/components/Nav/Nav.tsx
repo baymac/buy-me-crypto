@@ -19,13 +19,15 @@ import NavLinkBigScreen from './NavLinkBigScreen';
 import { useTheme } from 'next-themes';
 import Logo from '../Logo/Logo';
 import fetchJson from '../../lib/fetchJson';
+import {signIn, signOut , useSession } from "next-auth/client"
+
 
 export default function Nav() {
   const { navBarOpen, setNavBarOpen } = useAppContext();
 
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
-
+  const [session, loading] = useSession();
   // After mounting, we have access to the theme
   useEffect(() => setMounted(true), []);
 
@@ -113,12 +115,12 @@ export default function Nav() {
                 <UilMultiply width={28} height={28} id="nav_toggle" />
               </button>
             )}
-            {createElement(
+            {session && createElement(
               'button',
               {
                 className: cn(styles.nav__signout),
                 onClick: async () => {
-                  await fetchJson('/api/logout', { method: 'POST' });
+                  signOut()
                 },
                 'aria-label': 'sign-out-button',
                 title: 'Sign out',
@@ -133,6 +135,28 @@ export default function Nav() {
                 null
               )
             )}
+            {!session && createElement(
+              'button',
+              {
+                className: cn(styles.nav__signout),
+                onClick: async () => {
+                  router.push('/login')
+                },
+                'aria-label': 'sign-out-button',
+                title: 'Sign in',
+              },
+              createElement(
+                UilSignOutAlt,
+                {
+                  id: 'sign-in-icon',
+                  width: 28,
+                  height: 28,
+                },
+                null
+              )
+            )
+
+            }
           </div>
         </nav>
       </header>
