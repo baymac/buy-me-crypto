@@ -1,0 +1,43 @@
+
+.loaderOverlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100%;
+    bottom:0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--body-color);
+}
+
+.loaderContainer{
+    position: absolute;
+    padding: 3rem 4rem;
+    border-radius: 5px;
+    z-index: 1000;
+    top: 30%;
+    left: 50%;
+    border: 2px solid var(--text-color);
+    transform: translate(-50%,-50%);
+    /* background-clip: padding-box; */
+    background: var(--loader-background-color);
+    /* box-shadow: 0 0 10px var(--first-color); */
+}
+
+.loaderText{
+    text-align: center;
+    /* margin: 1rem 0; */
+    padding: 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--text-color)
+}
+
+.loaderWrapper{
+    width:fit-content;
+    margin:0 auto;
+}
