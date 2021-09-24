@@ -1,5 +1,8 @@
 import { Account, Connection } from '@solana/web3.js';
 
+export const getHttpProtocol = (env) =>
+  env === 'development' ? 'http://' : 'https://';
+
 export interface IGenericAPIResponse {
   error: boolean;
   message: string;
@@ -17,11 +20,6 @@ export const getAccountFromLocalStorage = (key: string): Account => {
     );
     return account;
   }
-  // const keypair = Keypair.generate();
-  // window.localStorage.setItem(
-  //   key,
-  //   Buffer.from(keypair.secretKey).toString('base64')
-  // );
 };
 
 export const getConnection = (): { connection: Connection } => {

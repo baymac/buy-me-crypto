@@ -3,29 +3,29 @@ import {
   UilArrowLeft,
   UilMoon,
   UilMultiply,
-  UilSun,
+  UilSignInAlt,
   UilSignOutAlt,
+  UilSun,
 } from '@iconscout/react-unicons';
-
 import cn from 'classnames';
+import { signOut, useSession } from 'next-auth/client';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createElement, useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
 import rootStyles from '../../styles/root.module.css';
-import styles from './nav.module.css';
-import NavLinkMobile from './NavLinkMobile';
-import NavLinkBigScreen from './NavLinkBigScreen';
-import { useTheme } from 'next-themes';
 import Logo from '../Logo/Logo';
-import fetchJson from '../../lib/fetchJson';
+import styles from './nav.module.css';
+import NavLinkBigScreen from './NavLinkBigScreen';
+import NavLinkMobile from './NavLinkMobile';
 
 export default function Nav() {
   const { navBarOpen, setNavBarOpen } = useAppContext();
 
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
-
+  const [session, loading] = useSession();
   // After mounting, we have access to the theme
   useEffect(() => setMounted(true), []);
 
@@ -113,26 +113,48 @@ export default function Nav() {
                 <UilMultiply width={28} height={28} id="nav_toggle" />
               </button>
             )}
-            {createElement(
-              'button',
-              {
-                className: cn(styles.nav__signout),
-                onClick: async () => {
-                  await fetchJson('/api/logout', { method: 'POST' });
-                },
-                'aria-label': 'sign-out-button',
-                title: 'Sign out',
-              },
+            {session &&
               createElement(
-                UilSignOutAlt,
+                'button',
                 {
-                  id: 'sign-out-icon',
-                  width: 28,
-                  height: 28,
+                  className: cn(styles.nav__signout),
+                  onClick: async () => {
+                    signOut();
+                  },
+                  'aria-label': 'sign-out-button',
+                  title: 'Sign out',
                 },
-                null
-              )
-            )}
+                createElement(
+                  UilSignOutAlt,
+                  {
+                    id: 'sign-out-icon',
+                    width: 28,
+                    height: 28,
+                  },
+                  null
+                )
+              )}
+            {!session &&
+              createElement(
+                'button',
+                {
+                  className: cn(styles.nav__signout),
+                  onClick: async () => {
+                    router.push('/login');
+                  },
+                  'aria-label': 'sign-out-button',
+                  title: 'Sign in',
+                },
+                createElement(
+                  UilSignInAlt,
+                  {
+                    id: 'sign-in-icon',
+                    width: 28,
+                    height: 28,
+                  },
+                  null
+                )
+              )}
           </div>
         </nav>
       </header>
