@@ -1,15 +1,21 @@
-import { ClientSafeProvider, providers, useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import Loading from '../components/Loading/Loading';
+import { ClientSafeProvider, getSession, providers } from 'next-auth/client';
+import React from 'react';
 import UserLogin from '../components/UserLogin/UserLogin';
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: { destination: '/home' },
+    };
+  }
+
   return {
     props: {
       providers: await providers(),
-      // Only for Email
-      // csrfToken: await csrfToken(context),
+      // csrfToken: await csrfToken(context), //Only for Email
     },
   };
 }
@@ -19,18 +25,5 @@ export default function Login({
 }: {
   providers: Record<string, ClientSafeProvider>;
 }) {
-  const [session, loading] = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      router.push('/home');
-    }
-  }, [session]);
-
-  if (loading || session) {
-    return <Loading></Loading>;
-  } else {
-    return <UserLogin providers={providers} />;
-  }
+  return <UserLogin providers={providers} />;
 }

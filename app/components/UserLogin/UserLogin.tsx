@@ -12,7 +12,7 @@ const UserLogin = ({
 }) => {
   const providerEleArr = Object.values(providers).map((provider) => {
     return (
-      <div className={cn(styles.input_box)}>
+      <div className={cn(styles.input_box)} key={provider.id}>
         <button
           onClick={() =>
             signIn(provider.id, {
