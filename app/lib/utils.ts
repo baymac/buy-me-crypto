@@ -20,11 +20,6 @@ export const getAccountFromLocalStorage = (key: string): Account => {
     );
     return account;
   }
-  // const keypair = Keypair.generate();
-  // window.localStorage.setItem(
-  //   key,
-  //   Buffer.from(keypair.secretKey).toString('base64')
-  // );
 };
 
 export const getConnection = (): { connection: Connection } => {

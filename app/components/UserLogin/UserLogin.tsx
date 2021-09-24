@@ -30,7 +30,7 @@ const UserLogin = ({
   return (
     <LoginLayout>
       <h1 className={styles.heading}>Buy Me Crypto</h1>
-      <>{providerEleArr}</>
+      {providerEleArr}
     </LoginLayout>
   );
 };
