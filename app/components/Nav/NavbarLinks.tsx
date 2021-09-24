@@ -1,5 +1,6 @@
 import { UilHome, UilSignOutAlt } from '@iconscout/react-unicons';
 import cn from 'classnames';
+import { signOut } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createElement } from 'react';
@@ -57,10 +58,8 @@ export default function NavBarLinks() {
         ))}
         <a
           className={cn(styles.nav__item, styles.signout_nav_item)}
-          onClick={async () => {
-            await fetchJson('/api/logout', { method: 'POST' });
-            setNavBarOpen(false);
-            router.push('/login');
+          onClick={() => {
+            signOut();
           }}
           tabIndex={0}
         >
