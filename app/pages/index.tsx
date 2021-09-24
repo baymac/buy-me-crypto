@@ -6,6 +6,7 @@ import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
 import rootStyles from '../styles/root.module.css';
+
 export default function Index() {
   const [session, loading] = useSession();
   const router = useRouter();
