@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import Loading from '../components/Loading/Loading';
+import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
 import rootStyles from '../styles/root.module.css';
@@ -17,7 +17,11 @@ export default function Index() {
   }, [session]);
 
   if (loading || session) {
-    return <Loading></Loading>;
+    return (
+      <div className={rootStyles.center}>
+        <PieLoading></PieLoading>
+      </div>
+    );
   } else {
     return (
       <HomeLayout>

@@ -18,6 +18,13 @@
   padding: 2rem 0 4rem;
 }
 
+.absolute_center {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media screen and (min-width: 351px) {
   .container {
     padding: 0 var(--mb-1-5);
