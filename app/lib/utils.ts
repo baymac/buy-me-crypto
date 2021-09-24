@@ -1,5 +1,8 @@
 import { Account, Connection } from '@solana/web3.js';
 
+export const getHttpProtocol = (env) =>
+  env === 'development' ? 'http://' : 'https://';
+
 export interface IGenericAPIResponse {
   error: boolean;
   message: string;
