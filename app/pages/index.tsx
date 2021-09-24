@@ -18,7 +18,7 @@ export default function Index() {
 
   if (loading || session) {
     return (
-      <div className={rootStyles.center}>
+      <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
       </div>
     );

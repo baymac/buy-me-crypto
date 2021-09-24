@@ -19,7 +19,7 @@ export default function Home() {
 
   if (loading || !session) {
     return (
-      <div className={rootStyles.center}>
+      <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
       </div>
     );
