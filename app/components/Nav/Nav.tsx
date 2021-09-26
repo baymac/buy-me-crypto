@@ -35,14 +35,15 @@ export default function Nav() {
         <nav className={cn(styles.nav, rootStyles.container)}>
           {!router.pathname.startsWith('/posts') && (
             <Link href="/" passHref>
-              <button
+              <Logo />
+              {/* <button
                 className={styles.nav__logo_button}
                 aria-label="logo-button"
               >
                 <div className={styles.nav__logo}>
                   <Logo />
                 </div>
-              </button>
+              </button> */}
             </Link>
           )}
           {router.pathname.startsWith('/posts') && (
