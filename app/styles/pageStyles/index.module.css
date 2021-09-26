@@ -28,14 +28,14 @@
   text-align: center;
   max-width: 520px;
   font-weight: 800;
-  font-size: 40px;
+  font-size: var(--big-font-size);
   line-height: 52px;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
 }
 
 .landingContainer__content__subheadline {
-  font-size: 18px;
+  font-size: var(--h3-font-size);
   line-height: 28px;
   text-align: center;
   max-width: 530px;
@@ -49,7 +49,7 @@
 
 .landingContainer__getStarted__btnWrapper,
 .landingContainer__getStarted__inpWrapper {
-  font-size: 1.25rem;
+  font-size: var(--landing-input-text-size);
   line-height: 1.5rem;
   margin-bottom: 1rem;
   border-radius: 10px;
