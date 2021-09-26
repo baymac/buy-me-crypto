@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
-import styles from '../styles/pageStyles/home.module.css';
+import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 
 export default function Home() {

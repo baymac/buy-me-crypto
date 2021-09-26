@@ -4,10 +4,12 @@ function Logo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "inline" }}
       width={24}
       height={24}
       viewBox="0 0 100 100"
       {...props}
+
     >
       <path
         fill="#fff"

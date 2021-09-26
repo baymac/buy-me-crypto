@@ -43,6 +43,7 @@ export default function Nav() {
               >
                 <div className={styles.nav__logo}>
                   <Logo />
+                  <div className={styles.nav__logo__name}>Buy Me Crypto</div>
                 </div>
               </button>
             </Link>
@@ -59,7 +60,7 @@ export default function Nav() {
               </button>
             </Link>
           )}
-          <NavLinkBigScreen />
+          {/* <NavLinkBigScreen /> */}
           <div className={styles.nav__btns}>
             {mounted &&
               createElement(
@@ -124,36 +125,45 @@ export default function Nav() {
                   'aria-label': 'sign-out-button',
                   title: 'Sign out',
                 },
-                createElement(
-                  UilSignOutAlt,
-                  {
-                    id: 'sign-out-icon',
-                    width: 28,
-                    height: 28,
-                  },
-                  null
-                )
+                [
+                  createElement(
+                    'span',
+                    {
+                      className: cn(styles.nav__signout__text)
+                    },
+                    'Log Out'
+                  ),
+                  createElement(
+                    UilSignOutAlt,
+                    {
+                      id: 'sign-out-icon',
+                      width: 28,
+                      height: 28,
+                    },
+                    null
+                  )
+                ]
               )}
             {!session &&
               createElement(
                 'button',
                 {
-                  className: cn(styles.nav__signout),
+                  className: cn(styles.nav__signin),
                   onClick: async () => {
                     router.push('/login');
                   },
-                  'aria-label': 'sign-out-button',
+                  'aria-label': 'sign-in-button',
                   title: 'Sign in',
                 },
-                createElement(
-                  UilSignInAlt,
-                  {
-                    id: 'sign-in-icon',
-                    width: 28,
-                    height: 28,
-                  },
-                  null
-                )
+                [
+                  createElement(
+                    'span',
+                    {
+                      className: cn(styles.nav__signin__text)
+                    },
+                    'Log In'
+                  ),
+                ]
               )}
           </div>
         </nav>

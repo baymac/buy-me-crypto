@@ -4,9 +4,212 @@
   margin: 4rem auto;
 }
 
+
+.landingContainer{
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+}
+
+.landingContainer__content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  line-height:24px;
+  width: fit-content;
+  margin:0 auto ;
+}
+
+.landingContainer__content__headline{
+  text-align: center;
+  max-width : 520px;
+  font-weight: 800;
+  font-size:40px ; 
+  line-height:52px;
+  letter-spacing: -.02em;
+  margin-bottom:2rem;
+}
+
+.landingContainer__content__subheadline{
+  font-size: 18px;
+  line-height:28px;
+  text-align: center;
+  max-width:530px;
+}
+
+
+.landingContainer__getStarted{
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.landingContainer__getStarted__btnWrapper,
+.landingContainer__getStarted__inpWrapper{
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+}
+
+.landingContainer__getStarted__inpWrapper{
+ 
+  background-color: var(--landing-input-bg-color);
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.landingContainer__getStarted__btnWrapper{
+  height: 60px;
+}
+
+
+.landingContainer__getStarted__inpWrapper__url > div{
+  font-size: 1.25rem;
+  line-height:65px;
+  color: var(--landing-input-url-color);
+  font-weight: bold;
+}
+
+.landingContainer__getStarted_inpWrapper__url__L{
+  display: none;
+}
+
+.landingContainer__getStarted__inpWrapper__inp{
+  background-color: var(--landing-input-bg-color);
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  width: 135px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: normal;
+  color: var(--landing-input-text-color);
+}
+
+
+
+.landingContainer__getStarted__inpWrapper__inp::before{
+  content: "yourname";
+  position: absolute;
+  color:#a4a3ab;
+  top:0 ;
+  padding-left: 2px;
+  cursor:text;
+  left:-1px;
+}
+
+.landingContainer__getStarted__inpWrapper__inp::after{
+  font-size:1.5rem;
+  content: "|";
+  animation: blink 0.5s infinite;
+  top: -1px;
+  position: absolute;
+  right:35px;
+}
+
+.landingContainer__getStarted__inpWrapper__inp.inputFocused::before,
+.landingContainer__getStarted__inpWrapper__inp.inputFocused::before{
+  content:"";
+}
+
+.landingContainer__getStarted__inpWrapper__inp.inputFocused::after{
+  content:"";
+}
+
+.landingContainer__getStarted__btnWrapper > button{
+  display: flex;
+  width:100%;
+  height:100%;
+  align-items: center;
+  justify-content:center;
+  font-size:inherit;
+  line-height:inherit;
+  border-radius: 10px;
+  border: none;
+  color: var(--default-bw);
+  background-color: var(--button-color);
+  cursor: pointer;
+}
+
+.landingContainer__getStarted__btnWrapper > button > span{
+  margin-right:5px;
+  font-weight: var(--font-semi-bold);
+}
+
+.landingContainer__getStarted__btnWrapper > button >  svg{
+  transition: 0.3s transform ease-in-out;
+}
+
+.landingContainer__getStarted__btnWrapper> button:hover > svg {
+  transform : translateX(10px)
+}
+
+
 @media (min-width: 600px) {
-  .about__container {
+  /* .about__container {
     grid-template-columns: 1fr 200px;
     grid-column-gap: 2rem;
+  } */
+
+
+
+  .landingContainer__getStarted{
+    flex-direction: row;
+
+  }
+
+  .landingContainer__getStarted__inpWrapper{
+    max-width: 450px;
+    min-width:350px;
+  }
+
+  .landingContainer__getStarted__btnWrapper {
+    min-width: 200px;
+    margin-left:1rem;
+  }
+}
+
+
+@media (min-width:800px){
+  .landingContainer__getStarted_inpWrapper__url__L{
+    display: block;
+  }
+
+  .landingContainer__getStarted_inpWrapper__url__S{
+    display: none;
+  }
+}
+
+@media( min-width: 1024px){
+  .landingContainer__content__headline
+  {
+    max-width: 900px;
+  }
+
+  .landingContainer__content__subheadline{
+    max-width: 592px;
+  }
+
+  .landingContainer__content__headline{
+    font-size: 80px;
+    line-height:100px
+  }
+}
+
+@keyframes blink {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
   }
 }
