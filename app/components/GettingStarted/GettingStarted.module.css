@@ -1,0 +1,119 @@
+.getStarted {
+  display: flex;
+  flex-direction: column;
+}
+
+.getStarted__btnWrapper,
+.getStarted__inpWrapper {
+  font-size: var(--landing-input-text-size);
+  border-radius: 0.5rem;
+}
+
+.getStarted__inpWrapper {
+  background-color: var(--landing-input-bg-color);
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+.getStarted__btnWrapper {
+  height: 60px;
+}
+
+.getStarted__inpWrapper__url > div {
+  font-size: 1.25rem;
+  line-height: 65px;
+  color: var(--landing-input-url-color);
+  font-weight: bold;
+}
+
+.getStarted__inpWrapper__inp {
+  background-color: var(--landing-input-bg-color);
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  width: 135px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: normal;
+  color: var(--landing-input-text-color);
+}
+
+.getStarted__inpWrapper__inp::before {
+  content: 'yourname';
+  position: absolute;
+  color: #a4a3ab;
+  cursor: text;
+  left: 1px;
+}
+
+.getStarted__inpWrapper__inp::after {
+  font-size: 1.5rem;
+  content: '|';
+  animation: blink 1s infinite;
+  position: absolute;
+  /* Hard coding right margin to skip yourname text */
+  right: 35px;
+}
+
+.getStarted__inpWrapper__inp.inputFocused::before,
+.getStarted__inpWrapper__inp.inputFocused::after {
+  content: '';
+}
+
+.getStarted__btnWrapper > button {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: inherit;
+  line-height: inherit;
+  border-radius: 10px;
+  border: none;
+  color: var(--default-bw);
+  background-color: var(--button-color);
+  cursor: pointer;
+}
+
+.getStarted__btnWrapper > button > span {
+  margin-right: 5px;
+  font-weight: var(--font-semi-bold);
+}
+
+.getStarted__btnWrapper > button > svg {
+  transition: 0.3s transform ease-in-out;
+}
+
+.getStarted__btnWrapper > button:hover > svg {
+  transform: translateX(10px);
+}
+
+@media (min-width: 768px) {
+  .getStarted {
+    flex-direction: row;
+  }
+
+  .getStarted__inpWrapper {
+    max-width: 450px;
+    min-width: 350px;
+  }
+
+  .getStarted__btnWrapper {
+    min-width: 200px;
+    margin-left: 1rem;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #a4a3ab;
+  }
+}

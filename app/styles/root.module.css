@@ -15,7 +15,7 @@
 }
 
 .section {
-  padding: 2rem 0 4rem;
+  padding: 2rem 0 2rem;
 }
 
 .absolute_center {
@@ -33,7 +33,7 @@
 
 @media screen and (min-width: 600px) {
   .section {
-    padding: 6rem 0;
+    padding: 6rem 0 0;
   }
 
   .container {
