@@ -59,9 +59,9 @@ export default function Index() {
         >
           <div className={styles.landingContainer}>
             <div className={styles.landingContainer__content}>
-              <h1 className={styles.landingContainer__content__headline}>
+              <h2 className={styles.landingContainer__content__headline}>
                 Start earning donations via crypto
-              </h1>
+              </h2>
               <p className={styles.landingContainer__content__subheadline}>
                 Its a fast, easy and secure way to receive donations and
                 provides you with a unique way to fund your creative work or
