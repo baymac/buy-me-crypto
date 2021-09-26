@@ -45,85 +45,81 @@ export default function Index() {
         <PieLoading></PieLoading>
       </div>
     );
-  } else {
-    return (
-      <HomeLayout>
-        <section className={cn(rootStyles.section)} id="about">
-          <div
-            className={cn(
-              rootStyles.container,
-              rootStyles.grid,
-              styles.about__container
-            )}
-          >
-            <div className={styles.landingContainer}>
-              <div className={styles.landingContainer__content}>
-                <h1 className={styles.landingContainer__content__headline}>
-                  Start earning donations via crypto
-                </h1>
-                <p className={styles.landingContainer__content__subheadline}>
-                  Its a fast, easy and secure way to receive donations and
-                  provides you with a unique way to fund your creative work or
-                  support people.
-                </p>
-              </div>
-              <div className={styles.landingContainer__getStarted}>
+  }
+
+  return (
+    <HomeLayout>
+      <section className={cn(rootStyles.section)} id="about">
+        <div
+          className={cn(
+            rootStyles.container,
+            rootStyles.grid,
+            styles.about__container
+          )}
+        >
+          <div className={styles.landingContainer}>
+            <div className={styles.landingContainer__content}>
+              <h1 className={styles.landingContainer__content__headline}>
+                Start earning donations via crypto
+              </h1>
+              <p className={styles.landingContainer__content__subheadline}>
+                Its a fast, easy and secure way to receive donations and
+                provides you with a unique way to fund your creative work or
+                support people.
+              </p>
+            </div>
+            <div className={styles.landingContainer__getStarted}>
+              <div className={styles.landingContainer__getStarted__inpWrapper}>
                 <div
-                  className={styles.landingContainer__getStarted__inpWrapper}
+                  className={
+                    styles.landingContainer__getStarted__inpWrapper__url
+                  }
                 >
                   <div
                     className={
-                      styles.landingContainer__getStarted__inpWrapper__url
+                      styles.landingContainer__getStarted_inpWrapper__url__L
                     }
                   >
-                    <div
-                      className={
-                        styles.landingContainer__getStarted_inpWrapper__url__L
-                      }
-                    >
-                      buymecrypto.com/
-                    </div>
-                    <div
-                      className={
-                        styles.landingContainer__getStarted_inpWrapper__url__S
-                      }
-                    >
-                      buymecryp.to/
-                    </div>
+                    buymecrypto.com/
                   </div>
                   <div
-                    ref={inputRef}
-                    className={cn(
-                      styles.landingContainer__getStarted__inpWrapper__inp,
-                      { [styles.inputFocused]: inputFocus }
-                    )}
-                    contentEditable="true"
-                    onFocus={() => handleInputFocus()}
-                    onBlur={() => handleInputBlur()}
-                  ></div>
+                    className={
+                      styles.landingContainer__getStarted_inpWrapper__url__S
+                    }
+                  >
+                    buymecryp.to/
+                  </div>
                 </div>
-
                 <div
-                  className={styles.landingContainer__getStarted__btnWrapper}
-                >
-                  <button onClick={() => handleStartMyPageSubmit()}>
-                    <span>Start my page</span>
-                    {createElement(
-                      UilArrowRight,
-                      {
-                        id: 'right-arrow-icon',
-                        width: 28,
-                        height: 28,
-                      },
-                      null
-                    )}
-                  </button>
-                </div>
+                  ref={inputRef}
+                  className={cn(
+                    styles.landingContainer__getStarted__inpWrapper__inp,
+                    { [styles.inputFocused]: inputFocus }
+                  )}
+                  contentEditable="true"
+                  onFocus={() => handleInputFocus()}
+                  onBlur={() => handleInputBlur()}
+                ></div>
+              </div>
+
+              <div className={styles.landingContainer__getStarted__btnWrapper}>
+                <button onClick={() => handleStartMyPageSubmit()}>
+                  <span>Start my page</span>
+                  {createElement(
+                    UilArrowRight,
+                    {
+                      id: 'right-arrow-icon',
+                      width: 28,
+                      height: 28,
+                    },
+                    null
+                  )}
+                </button>
               </div>
             </div>
           </div>
-        </section>
-      </HomeLayout>
-    );
-  }
+        </div>
+      </section>
+    </HomeLayout>
+  );
 }
