@@ -12,7 +12,7 @@ export default function Index() {
   const [session, loading] = useSession();
   const router = useRouter();
 
-  const [isInputInFocus, setFocus] = useState<boolean>(false);
+  const [inputFocus, setInputFocus] = useState<boolean>(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -22,12 +22,12 @@ export default function Index() {
   }, [session]);
 
   const handleInputFocus = () => {
-    setFocus(true);
+    setInputFocus(true);
   };
 
   const handleInputBlur = () => {
     if (inputRef.current.innerHTML == '') {
-      setFocus(false);
+      setInputFocus(false);
     }
   };
 
@@ -95,7 +95,7 @@ export default function Index() {
                     ref={inputRef}
                     className={cn(
                       styles.landingContainer__getStarted__inpWrapper__inp,
-                      { [styles.inputFocused]: isInputInFocus }
+                      { [styles.inputFocused]: inputFocus }
                     )}
                     contentEditable="true"
                     onFocus={() => handleInputFocus()}
