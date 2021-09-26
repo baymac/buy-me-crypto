@@ -88,6 +88,13 @@
   align-items: center;
 }
 
+.nav__logo__name {
+  margin: 0 0.5rem;
+  font-size: var(--nav-logo-size);
+  font-weight: var(--font-semi-bold);
+  color: rgba(250, 250, 250);
+}
+
 .nav__btns {
   display: flex;
   align-items: center;
@@ -136,8 +143,7 @@
   transition: 0.3s transform ease-in-out;
 }
 
-.nav__signout:hover > svg
-/* .nav__signin:hover > svg*/ {
+.nav__signout:hover > svg {
   transform: translateX(10px);
 }
 

@@ -1,13 +1,14 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import React, {  useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
 import rootStyles from '../styles/root.module.css';
 import Headline from '../components/Headline/Headline'
 import GettingStarted from '../components/GettingStarted/GettingStarted'
+
 
 export default function Index() {
   const [session, loading] = useSession();
@@ -19,13 +20,14 @@ export default function Index() {
     }
   }, [session]);
 
+
   if (loading || session) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
       </div>
     );
-  }
+  } 
 
   return (
     <HomeLayout>

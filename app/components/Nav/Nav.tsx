@@ -42,6 +42,7 @@ export default function Nav() {
               >
                 <div className={styles.nav__logo}>
                   <Logo />
+                  <div className={styles.nav__logo__name}>Buy Me Crypto</div>
                 </div>
               </button> */}
             </Link>
