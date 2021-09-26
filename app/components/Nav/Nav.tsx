@@ -34,7 +34,7 @@ export default function Nav() {
       <header className={styles.header}>
         <nav className={cn(styles.nav, rootStyles.container)}>
           {!router.pathname.startsWith('/posts') && (
-            <Link href="/" passHref>
+            <Link href="/">
               <Logo />
               {/* <button
                 className={styles.nav__logo_button}
@@ -117,7 +117,7 @@ export default function Nav() {
                 'button',
                 {
                   className: cn(styles.nav__signout),
-                  onClick: async () => {
+                  onClick: () => {
                     signOut();
                   },
                   'aria-label': 'sign-out-button',
@@ -147,7 +147,7 @@ export default function Nav() {
                 'button',
                 {
                   className: cn(styles.nav__signin),
-                  onClick: async () => {
+                  onClick: () => {
                     router.push('/login');
                   },
                   'aria-label': 'sign-in-button',

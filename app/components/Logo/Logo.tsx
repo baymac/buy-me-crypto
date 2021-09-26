@@ -1,6 +1,6 @@
-import { SVGProps } from 'react';
+import { forwardRef, SVGProps } from 'react';
 
-function Logo(props: SVGProps<SVGSVGElement>) {
+const Logo = forwardRef((props: SVGProps<SVGSVGElement>, ref: any) => {
   return (
     <svg
       id="prefix__Layer_1"
@@ -21,6 +21,6 @@ function Logo(props: SVGProps<SVGSVGElement>) {
       />
     </svg>
   );
-}
+});
 
 export default Logo;
