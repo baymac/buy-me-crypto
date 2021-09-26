@@ -3,7 +3,6 @@ import {
   UilArrowLeft,
   UilMoon,
   UilMultiply,
-  UilSignInAlt,
   UilSignOutAlt,
   UilSun,
 } from '@iconscout/react-unicons';
@@ -17,7 +16,6 @@ import { useAppContext } from '../../context/AppContextProvider';
 import rootStyles from '../../styles/root.module.css';
 import Logo from '../Logo/Logo';
 import styles from './nav.module.css';
-import NavLinkBigScreen from './NavLinkBigScreen';
 import NavLinkMobile from './NavLinkMobile';
 
 export default function Nav() {
@@ -43,7 +41,6 @@ export default function Nav() {
               >
                 <div className={styles.nav__logo}>
                   <Logo />
-                  <div className={styles.nav__logo__name}>Buy Me Crypto</div>
                 </div>
               </button>
             </Link>
@@ -129,7 +126,7 @@ export default function Nav() {
                   createElement(
                     'span',
                     {
-                      className: cn(styles.nav__signout__text)
+                      className: cn(styles.nav__signout__text),
                     },
                     'Log Out'
                   ),
@@ -141,7 +138,7 @@ export default function Nav() {
                       height: 28,
                     },
                     null
-                  )
+                  ),
                 ]
               )}
             {!session &&
@@ -159,7 +156,7 @@ export default function Nav() {
                   createElement(
                     'span',
                     {
-                      className: cn(styles.nav__signin__text)
+                      className: cn(styles.nav__signin__text),
                     },
                     'Log In'
                   ),
