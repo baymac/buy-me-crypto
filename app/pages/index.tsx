@@ -21,25 +21,23 @@ export default function Index() {
     }
   }, [session]);
 
-
   const handleInputFocus = () => {
     setFocus(true);
-  }
+  };
 
   const handleInputBlur = () => {
     if (inputRef.current.innerHTML == '') {
       setFocus(false);
     }
-  }
+  };
 
   const handleStartMyPageSubmit = () => {
     if (inputRef.current.innerHTML == '') {
       console.log('cannot submit without name');
-    }
-    else {
+    } else {
       //check with database if that name is taken
     }
-  }
+  };
 
   if (loading || session) {
     return (
@@ -60,28 +58,54 @@ export default function Index() {
           >
             <div className={styles.landingContainer}>
               <div className={styles.landingContainer__content}>
-                <h1 className={styles.landingContainer__content__headline}>Start earning donations via crypto</h1>
-                <p className={styles.landingContainer__content__subheadline}>Its a fast, easy and secure way to receive donations and provides you with a unique way to fund your creative work or support people.  </p>
+                <h1 className={styles.landingContainer__content__headline}>
+                  Start earning donations via crypto
+                </h1>
+                <p className={styles.landingContainer__content__subheadline}>
+                  Its a fast, easy and secure way to receive donations and
+                  provides you with a unique way to fund your creative work or
+                  support people.
+                </p>
               </div>
               <div className={styles.landingContainer__getStarted}>
-                <div className={styles.landingContainer__getStarted__inpWrapper}>
-                  <div className={styles.landingContainer__getStarted__inpWrapper__url}>
-                    <div className={styles.landingContainer__getStarted_inpWrapper__url__L}>buymecrypto.com/</div>
-                    <div className={styles.landingContainer__getStarted_inpWrapper__url__S}>buymecryp.to/</div>
+                <div
+                  className={styles.landingContainer__getStarted__inpWrapper}
+                >
+                  <div
+                    className={
+                      styles.landingContainer__getStarted__inpWrapper__url
+                    }
+                  >
+                    <div
+                      className={
+                        styles.landingContainer__getStarted_inpWrapper__url__L
+                      }
+                    >
+                      buymecrypto.com/
+                    </div>
+                    <div
+                      className={
+                        styles.landingContainer__getStarted_inpWrapper__url__S
+                      }
+                    >
+                      buymecryp.to/
+                    </div>
                   </div>
-                  {/* <input className={styles.landingContainer__getStarted__inpWrapper__inp} type="text" placeholder="yourname" /> */}
-
                   <div
                     ref={inputRef}
                     className={cn(
                       styles.landingContainer__getStarted__inpWrapper__inp,
                       { [styles.inputFocused]: isInputInFocus }
-                    )} contentEditable='true'
+                    )}
+                    contentEditable="true"
                     onFocus={() => handleInputFocus()}
-                    onBlur={() => handleInputBlur()}></div>
+                    onBlur={() => handleInputBlur()}
+                  ></div>
                 </div>
 
-                <div className={styles.landingContainer__getStarted__btnWrapper}>
+                <div
+                  className={styles.landingContainer__getStarted__btnWrapper}
+                >
                   <button onClick={() => handleStartMyPageSubmit()}>
                     <span>Start my page</span>
                     {createElement(
@@ -92,15 +116,14 @@ export default function Index() {
                         height: 28,
                       },
                       null
-                    )
-                    }
+                    )}
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </section>
-      </HomeLayout >
+      </HomeLayout>
     );
   }
 }
