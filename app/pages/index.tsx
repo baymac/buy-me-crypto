@@ -42,7 +42,7 @@ export default function Index() {
   if (loading || session) {
     return (
       <div className={rootStyles.absolute_center}>
-        <PieLoading></PieLoading>
+        <PieLoading />
       </div>
     );
   }
