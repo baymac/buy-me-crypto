@@ -74,10 +74,6 @@
   font-weight: bold;
 }
 
-.landingContainer__getStarted_inpWrapper__url__L {
-  display: none;
-}
-
 .landingContainer__getStarted__inpWrapper__inp {
   background-color: var(--landing-input-bg-color);
   border: none;
@@ -165,16 +161,6 @@
   .landingContainer__getStarted__btnWrapper {
     min-width: 200px;
     margin-left: 1rem;
-  }
-}
-
-@media (min-width: 800px) {
-  .landingContainer__getStarted_inpWrapper__url__L {
-    display: block;
-  }
-
-  .landingContainer__getStarted_inpWrapper__url__S {
-    display: none;
   }
 }
 

@@ -77,13 +77,6 @@ export default function Index() {
                 >
                   <div
                     className={
-                      styles.landingContainer__getStarted_inpWrapper__url__L
-                    }
-                  >
-                    buymecrypto.com/
-                  </div>
-                  <div
-                    className={
                       styles.landingContainer__getStarted_inpWrapper__url__S
                     }
                   >
