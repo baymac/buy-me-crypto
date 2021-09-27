@@ -1,9 +1,14 @@
-import { UilHome, UilSignOutAlt, UilSignInAlt } from '@iconscout/react-unicons';
+import { 
+  UilHome,
+  UilSignOutAlt,
+  UilSignInAlt,
+  UilHeart,
+  UilEye  } from '@iconscout/react-unicons';
 import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createElement } from 'react';
+import { createElement, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
@@ -33,8 +38,43 @@ export default function NavBarLinks() {
 
   const [session, loading] = useSession();
 
+  useEffect(()=>{
+    if(session){
+      navItems.push(  {
+        label : 'Supporters',
+        icon : UilHeart ,
+        path : '/supporters',
+        selector : 'supporters'
+      })
+
+      navItems.push({
+        label : 'Page Preview',
+        icon : UilEye,
+        path : '/',
+        selector : 'preview'
+      })
+    }
+
+    return () => {
+      if(session && navItems.length>1){
+        navItems.pop();
+        navItems.pop();
+      }
+    }
+
+  },[session])
+
   return (
     <>
+
+      {session && (
+          <div className={styles.infoContainer}>
+              <img className={styles.infoContainer__avatar} src={session.user.image} alt="User avatar" />
+              <h4 className={styles.infoContainer__name}> {session.user.name}</h4>
+              <p className={styles.infoContainer__email}>{session.user.email}</p>
+          </div>
+      )}
+
       <div className={cn(styles.nav__list)}>
         {navItems.map((navItem) => (
           <Link href={`${navItem.path}`} key={navItem.label}>
@@ -57,6 +97,7 @@ export default function NavBarLinks() {
             </a>
           </Link>
         ))}
+
         {session && (
           <a
             className={cn(styles.nav__item, styles.signout_nav_item)}
@@ -77,6 +118,7 @@ export default function NavBarLinks() {
             </span>
           </a>
         )}
+
         {!session && (
           <a
             className={cn(styles.nav__item, styles.signout_nav_item)}
@@ -97,6 +139,7 @@ export default function NavBarLinks() {
             </span>
           </a>
         )}
+        
       </div>
     </>
   );

@@ -6,6 +6,8 @@ import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
+import Sidebar from '../components/Sidebar/Sidebar'
+import DashboardForms from '../components/DashboardForms/DashboardForms'
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -34,9 +36,13 @@ export default function Home() {
               styles.about__container
             )}
           >
-            <div>home</div>
-            {session && <div>{`${session.user.name}`}</div>}
-            {session && <div>{`${session.user.email}`}</div>}
+              <div className={styles.wrapper}>
+                  {/* <div className={styles.pageHeading}>
+                      <h1 >Dashboard</h1>
+                  </div> */}
+                  <Sidebar />
+                  <DashboardForms />
+              </div>
           </div>
         </section>
       </HomeLayout>
