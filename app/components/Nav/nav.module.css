@@ -22,7 +22,8 @@
 .nav__toggle,
 .nav__changeTheme,
 .nav__logo_button,
-.nav__signout {
+.nav__signout,
+.nav__signin {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,37 +55,36 @@
   padding: 0;
 }
 
-.nav__changeTheme:hover,
-.nav__logo_button:hover,
-.nav__signout:hover {
+.nav__changeTheme:hover {
   border: 1px solid var(--nav-items-hover-color);
 }
 
 .nav__logo,
 .nav__toggle,
 .nav__changeTheme,
-.nav__signout {
+.nav__signout,
+.nav_signin {
   color: var(--nav-items-color);
   font-weight: var(--font-medium);
 }
 
 .nav__changeTheme:hover,
 .nav__toggle:hover,
-.nav__close:hover,
-.nav__signout:hover {
+.nav__close:hover {
   color: var(--nav-items-hover-color);
 }
 
 .nav__toggle,
 .nav__changeTheme,
-.nav__signout {
+.nav__signout,
+.nav__signin {
   font-size: 1.1rem;
   cursor: pointer;
 }
 
 .nav__logo {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -112,13 +112,33 @@
 
 .nav__toggle,
 .nav__changeTheme,
-.skeleton_loader_container,
-.nav__signout {
+.skeleton_loader_container {
   padding: 3px;
 }
 
-.nav__signout {
+.nav__signout,
+.nav__signin {
   margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--nav-items-select-color);
+  font-weight: var(--font-medium);
+  font-size: var(--h4-font-size);
+  color: var(--inverted-bw);
+}
+
+.nav__signout__text,
+.nav__signin__text {
+  margin: 0 5px;
+}
+
+.nav__signout > svg,
+.nav__signin > svg {
+  transition: 0.3s transform ease-in-out;
+}
+
+.nav__signout:hover > svg
+/* .nav__signin:hover > svg*/ {
+  transform: translateX(10px);
 }
 
 @media screen and (max-width: 600px) {
@@ -147,7 +167,8 @@
     top: 0;
   }
 
-  .nav__signout {
+  .nav__signout,
+  .nav__signin {
     display: none;
   }
 }

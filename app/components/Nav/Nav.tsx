@@ -3,7 +3,6 @@ import {
   UilArrowLeft,
   UilMoon,
   UilMultiply,
-  UilSignInAlt,
   UilSignOutAlt,
   UilSun,
 } from '@iconscout/react-unicons';
@@ -17,7 +16,6 @@ import { useAppContext } from '../../context/AppContextProvider';
 import rootStyles from '../../styles/root.module.css';
 import Logo from '../Logo/Logo';
 import styles from './nav.module.css';
-import NavLinkBigScreen from './NavLinkBigScreen';
 import NavLinkMobile from './NavLinkMobile';
 
 export default function Nav() {
@@ -36,15 +34,16 @@ export default function Nav() {
       <header className={styles.header}>
         <nav className={cn(styles.nav, rootStyles.container)}>
           {!router.pathname.startsWith('/posts') && (
-            <Link href="/" passHref>
-              <button
+            <Link href="/">
+              <Logo />
+              {/* <button
                 className={styles.nav__logo_button}
                 aria-label="logo-button"
               >
                 <div className={styles.nav__logo}>
                   <Logo />
                 </div>
-              </button>
+              </button> */}
             </Link>
           )}
           {router.pathname.startsWith('/posts') && (
@@ -59,7 +58,7 @@ export default function Nav() {
               </button>
             </Link>
           )}
-          <NavLinkBigScreen />
+          {/* <NavLinkBigScreen /> */}
           <div className={styles.nav__btns}>
             {mounted &&
               createElement(
@@ -118,42 +117,51 @@ export default function Nav() {
                 'button',
                 {
                   className: cn(styles.nav__signout),
-                  onClick: async () => {
+                  onClick: () => {
                     signOut();
                   },
                   'aria-label': 'sign-out-button',
                   title: 'Sign out',
                 },
-                createElement(
-                  UilSignOutAlt,
-                  {
-                    id: 'sign-out-icon',
-                    width: 28,
-                    height: 28,
-                  },
-                  null
-                )
+                [
+                  createElement(
+                    'span',
+                    {
+                      className: cn(styles.nav__signout__text),
+                    },
+                    'Log Out'
+                  ),
+                  createElement(
+                    UilSignOutAlt,
+                    {
+                      id: 'sign-out-icon',
+                      width: 28,
+                      height: 28,
+                    },
+                    null
+                  ),
+                ]
               )}
             {!session &&
               createElement(
                 'button',
                 {
-                  className: cn(styles.nav__signout),
-                  onClick: async () => {
+                  className: cn(styles.nav__signin),
+                  onClick: () => {
                     router.push('/login');
                   },
-                  'aria-label': 'sign-out-button',
+                  'aria-label': 'sign-in-button',
                   title: 'Sign in',
                 },
-                createElement(
-                  UilSignInAlt,
-                  {
-                    id: 'sign-in-icon',
-                    width: 28,
-                    height: 28,
-                  },
-                  null
-                )
+                [
+                  createElement(
+                    'span',
+                    {
+                      className: cn(styles.nav__signin__text),
+                    },
+                    'Log In'
+                  ),
+                ]
               )}
           </div>
         </nav>

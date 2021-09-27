@@ -33,7 +33,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           {/* Meta */}
-          <meta name="description" content="Bad cops creation of Cred Jack" />
+          <meta name="description" content="Buy me crypto" />
           <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
         </Head>
         <body>

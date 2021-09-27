@@ -75,13 +75,17 @@
   --button-hover-color: hsl(0, 0%, 90%);
   --button-color: var(--first-color);
   --button-color-disabled: hsl(230, 70%, 90%);
-
+  /* color for landing page input */
+  --landing-input-bg-color: hsl(0, 0%, 93%);
+  --landing-input-text-color: hsl(248, 5%, 65%);
+  --landing-input-url-color: hsl(243, 48%, 9%);
   /*========== Font and typography ==========*/
   --body-font: 'Inter', sans-serif;
 
   --big-screen-width: 1300px;
 
   /* .5rem = 8px, 1rem = 16px, 1.5rem = 24px ... */
+  --xtra-big-font-size: 5rem;
   --big-font-size: 2.5rem;
   --h1-font-size: 2.25rem;
   --h2-font-size: 2rem;
@@ -89,6 +93,9 @@
   --normal-font-size: 0.938rem;
   --small-font-size: 0.813rem;
   --smaller-font-size: 0.75rem;
+
+  --nav-logo-size: 1.5rem;
+  --landing-input-text-size: 1.25rem;
 
   /*========== Font weight ==========*/
   --font-medium: 500;

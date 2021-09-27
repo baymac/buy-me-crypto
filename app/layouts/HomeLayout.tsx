@@ -7,7 +7,7 @@ export default function HomeLayout({ children }) {
   return (
     <div className={styles.root}>
       <Head>
-        <title>Cred Jack</title>
+        <title>Buy Me Crypto</title>
       </Head>
       <Nav />
       {children}

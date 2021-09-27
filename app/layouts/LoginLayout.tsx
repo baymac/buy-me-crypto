@@ -9,7 +9,7 @@ export default function LoginLayout({ children }) {
   return (
     <>
       <Head>
-        <title>Cred Jack</title>
+        <title>Buy Me Crypto</title>
       </Head>
       <div className={styles.center}>
         <div className={styles.container}>{children}</div>

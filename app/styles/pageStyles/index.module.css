@@ -4,9 +4,11 @@
   margin: 4rem auto;
 }
 
-@media (min-width: 600px) {
-  .about__container {
-    grid-template-columns: 1fr 200px;
-    grid-column-gap: 2rem;
-  }
+.landingContainer {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
