@@ -3,7 +3,7 @@ import styles from '../DashboardForms/DashboardForms.module.css'
 import Form from '../FormGenerator/FormGenerator'
 import InputList from '../InputList/InputList'
 
-export interface FormInputField {
+export interface IFormInputField {
     label: string;
     isRequired : boolean;
     type: string;
@@ -15,7 +15,7 @@ const handleOnSubmit = (data) =>{
     console.log(data);
 }
 
-const pageInfoForm : FormInputField[] = [
+const pageInfoForm : IFormInputField[] = [
     {
         label : "Page name",
         isRequired : true,
@@ -45,48 +45,6 @@ const pageInfoForm : FormInputField[] = [
         isInput : false
     }
 ]
-
-// const socialMediaForm : Form = {
-//     inputArray:[
-//         {
-//             label: "Youtube URL",
-//             isRequired: false,
-//             type: 'text',
-//             registerName : 'youtube',
-//             isInput : true
-//         },
-//         {
-//             label: "Twitch URL",
-//             isRequired: false,
-//             type: 'text',
-//             registerName : 'twitch',
-//             isInput : true
-//         },
-//         {
-//             label: "Instagram URL",
-//             isRequired: false,
-//             type: 'text',
-//             registerName : 'instagram',
-//             isInput : true
-//         },
-//         {
-//             label: "Twitter URL",
-//             isRequired: false,
-//             type: 'text',
-//             registerName : 'youtube',
-//             isInput : true
-//         },
-//         {
-//             label: "Personal Blog",
-//             isRequired: false,
-//             type: 'text',
-//             registerName : 'youtube',
-//             isInput : true
-//         }
-//     ],
-//     handleOnSubmit: handleOnSubmit
-// }
-
 
 
 const DashboardForms = () => {

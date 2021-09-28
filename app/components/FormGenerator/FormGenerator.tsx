@@ -1,16 +1,23 @@
 import React,{createElement, useState} from 'react'
-import {FormInputField } from '../DashboardForms/DashboardForms'
+import {IFormInputField } from '../DashboardForms/DashboardForms'
 import styles from './FormGenerator.module.css'
 import { useForm } from "react-hook-form"
-import {UilPlus} from '@iconscout/react-unicons';
+import {UilPlus, UilMinus} from '@iconscout/react-unicons';
 import cn from 'classnames'
 
-const FromGenerator = ( {formInfo , handleOnSubmit}  ) => {
+interface IFormGeneratorProps {
+    formInfo : IFormInputField[],
+    handleOnSubmit : any
+}
+
+const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
     const [socialUrlList, setSocialUrlList] = useState<string[]>(["Youtube","Twitch","Instagram","Twitter","Personal Blog"]);
     const [socialAddedList, setSocialAddedList ] = useState<string[]>([])
+    const [socialSelected , setSocialSelected ] = useState<boolean>(false)
+
 
     const handleSocialUrlClick =(e)=>{
         e.preventDefault();
@@ -19,8 +26,19 @@ const FromGenerator = ( {formInfo , handleOnSubmit}  ) => {
 
     const handleSocialDropdownChange = (e)=>{
         setSocialAddedList([...socialAddedList,e.target.value])
-        setSocialUrlList(socialUrlList.filter(url => url != e.target.value))
+        setSocialUrlList(socialUrlList.filter(url => url !== e.target.value))
         setAddSocialUrl(false);
+    }
+
+    const handleMinusDropdown = (e) => {
+        e.preventDefault()
+        setAddSocialUrl(false)
+    }
+
+    const handleMinusSocialInput = (e , social : string) => {
+        e.preventDefault();
+        setSocialAddedList(socialAddedList.filter(url => url !== social))
+        setSocialUrlList([...socialUrlList,social])
     }
 
     return (
@@ -50,33 +68,65 @@ const FromGenerator = ( {formInfo , handleOnSubmit}  ) => {
                         </div>    
                     )
                 })}
-                {socialAddedList.length >= 1 && (
+
+                {(socialAddedList.length >= 1) && (
                     <div>
                         {socialAddedList.map((social)=>{
                             return(
                                 <div key={social} className={styles.inputBox}>
                                     <label className={styles.inputBox__label}>{`${social} URL`}</label>
-                                    <div className={styles.inputBox__wrapper}>
+                                    <div className={cn(styles.inputMinusBox__wrapper)}>
                                         <input type={'text'} className={styles.inputBox__wrapper__input} {...register(social, {required : false})} />
-                                        <p className={styles.inputBox__wrapper__error}>{errors[social] && errors }</p>
+                                        <button onClick={(e)=>handleMinusSocialInput(e,social)} className={cn(styles.btn,styles.inputMinusBtn)}>
+                                            {createElement(
+                                                UilMinus,
+                                                {
+                                                    width:28,
+                                                    height:28
+                                                },
+                                                null
+                                            )}
+                                        </button>
                                     </div>
+
                                 </div> 
                             )
                         })}
                     </div>
                 )}
-                <div>
-                    {addSocialUrl && (
-                        <select className={styles.socialDropdown} onChange={handleSocialDropdownChange}>
-                            <option> Select </option>
-                            {socialUrlList.map((url)=>{
-                                return(
-                                    <option>{url}</option>
-                                )
-                            })}
-                        </select>
-                    )}
-                </div>
+
+                {addSocialUrl && (
+                    <div className={styles.inputBox}>
+                        {addSocialUrl && (
+                            <div className={styles.socialDropdown__wrapper}>
+                                <select className={styles.socialDropdown} onChange={handleSocialDropdownChange}>
+                                    <option> Select </option>
+                                    {socialUrlList.map((url)=>{
+                                        return(
+                                            <option>{url}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                        )}
+                        {/* <label className={styles.inputBox__label}>{`${social} URL`}</label> */}
+                        <div className={styles.inputMinusBox__wrapper}>
+                            <input disabled type={'text'} className={styles.inputBox__wrapper__input}  />
+                            <button onClick={handleMinusDropdown} className={cn(styles.btn,styles.inputMinusBtn)}>
+                                        {createElement(
+                                            UilMinus,
+                                            {
+                                                width:28,
+                                                height:28
+                                            },
+                                            null
+                                        )}
+                            </button>
+                        </div>
+                    </div> 
+                )}
+
+                
                 {!addSocialUrl && socialUrlList.length >0 && (
                     <button onClick={handleSocialUrlClick} className={cn(styles.btn,styles.socialBtn)}>
                         {createElement(

@@ -79,6 +79,8 @@
   border: none;
   outline: none;
   cursor: pointer;
+  margin-bottom: var(--mb-1);
+  color: var(--inverted-bw);
 }
 
 .socialBtn > svg {
@@ -95,10 +97,26 @@
   padding: var(--mb-0-75);
   font-size: var(--normal-font-size);
   width: 180px;
-  margin-bottom: var(--mb-1);
   background-color: var(--landing-input-bg-color);
   border: 1px solid var(--footer-border-color);
   border-radius: 10px;
+}
+
+.socialDropdown__wrapper {
+  flex-basis: 30%;
+  margin-right: 2rem;
+  margin-bottom: 1rem;
+}
+
+.inputMinusBox__wrapper {
+  flex-basis: 70%;
+  display: flex;
+}
+
+.inputMinusBtn {
+  width: 50px;
+  margin-left: 1rem;
+  margin-bottom: 0;
 }
 
 @media (min-width: 800px) {
@@ -112,6 +130,9 @@
   }
 
   .inputBox__label {
+    margin-bottom: 0;
+  }
+  .socialDropdown__wrapper {
     margin-bottom: 0;
   }
 }
