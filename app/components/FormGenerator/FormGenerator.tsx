@@ -12,7 +12,7 @@ interface IFormGeneratorProps {
 
 const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => {
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit,unregister, watch, formState: { errors } } = useForm();
     const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
     const [socialUrlList, setSocialUrlList] = useState<string[]>(["Youtube","Twitch","Instagram","Twitter","Personal Blog"]);
     const [socialAddedList, setSocialAddedList ] = useState<string[]>([])
@@ -37,6 +37,7 @@ const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => 
 
     const handleMinusSocialInput = (e , social : string) => {
         e.preventDefault();
+        unregister(social);
         setSocialAddedList(socialAddedList.filter(url => url !== social))
         setSocialUrlList([...socialUrlList,social])
     }
@@ -73,7 +74,7 @@ const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => 
                     <div>
                         {socialAddedList.map((social)=>{
                             return(
-                                <div key={social} className={styles.inputBox}>
+                                <div id={social} key={social} className={styles.inputBox}>
                                     <label className={styles.inputBox__label}>{`${social} URL`}</label>
                                     <div className={cn(styles.inputMinusBox__wrapper)}>
                                         <input type={'text'} className={styles.inputBox__wrapper__input} {...register(social, {required : false})} />
