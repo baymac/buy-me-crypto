@@ -73,16 +73,12 @@
 }
 
 .btn {
-  padding: var(--mb-0-75);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
   border: none;
   outline: none;
   cursor: pointer;
-  margin-bottom: 1rem;
-  width: 180px;
 }
 
 .socialBtn > svg {
@@ -92,6 +88,17 @@
 .btn > span {
   line-height: 28px;
   font-size: var(--normal-font-size);
+}
+
+.socialDropdown,
+.btn {
+  padding: var(--mb-0-75);
+  font-size: var(--normal-font-size);
+  width: 180px;
+  margin-bottom: var(--mb-1);
+  background-color: var(--landing-input-bg-color);
+  border: 1px solid var(--footer-border-color);
+  border-radius: 10px;
 }
 
 @media (min-width: 800px) {

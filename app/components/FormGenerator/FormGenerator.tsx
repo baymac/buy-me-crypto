@@ -67,7 +67,7 @@ const FromGenerator = ( {formInfo , handleOnSubmit}  ) => {
                 )}
                 <div>
                     {addSocialUrl && (
-                        <select onChange={handleSocialDropdownChange}>
+                        <select className={styles.socialDropdown} onChange={handleSocialDropdownChange}>
                             <option> Select </option>
                             {socialUrlList.map((url)=>{
                                 return(
