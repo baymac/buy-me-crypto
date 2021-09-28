@@ -80,6 +80,10 @@
   --landing-input-text-color: hsl(248, 5%, 65%);
   --landing-input-url-color: hsl(243, 48%, 9%);
 
+  /* color for forms */
+  --form-background-color: hsl(0, 0%, 100%);
+  --input-hover-border-color: black;
+  --input-text-color: var(--text-color);
   /*========== Font and typography ==========*/
   --body-font: 'Inter', sans-serif;
 
@@ -164,6 +168,9 @@
   --button-hover-color: hsl(0, 0%, 20%);
   --button-color: var(--first-color);
   --button-color-disabled: hsl(0, 0%, 60%);
+  --form-background-color: var(--nav-items-select-color);
+  --input-hover-border-color: var(--nav-items-hover-color);
+  --input-text-color: hsl(230, 8%, 45%);
 }
 
 /*========== Button Dark/Light ==========*/
