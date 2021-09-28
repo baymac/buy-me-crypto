@@ -81,14 +81,11 @@
   }
 
   .nav__mobile_menu {
-    width: 250px;
+    width: 100vw;
+    height: calc(100vh - var(--header-height));
     position: absolute;
     overflow-y: auto;
     background-color: var(--body-color);
-    top: -5px;
-    right: 16px;
-    box-shadow: 0 1px 7px rgb(0 0 0 / 20%);
-    border-radius: 10px;
   }
 
   .nav__icon {

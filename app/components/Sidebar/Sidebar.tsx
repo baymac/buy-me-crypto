@@ -1,10 +1,11 @@
-import {createElement} from 'react'
-import styles from '../Sidebar/Sidebar.module.css'
-import {useSession} from 'next-auth/client'
 import { 
     UilHome,
     UilHeart,
-    UilEye  } from '@iconscout/react-unicons';
+    UilEye,
+    UilSetting  } from '@iconscout/react-unicons';
+import {createElement} from 'react'
+import styles from '../Sidebar/Sidebar.module.css'
+import {useSession} from 'next-auth/client'
 import Link from 'next/link';
 import cn from 'classnames'
 import useNavSelection from '../../hooks/useNavSelection';
@@ -35,6 +36,12 @@ const sidebarItems: SidebarItem[] = [
         icon : UilEye,
         path : '/',
         selector : 'preview'
+    },
+    {
+        label : 'Settings',
+        icon : UilSetting,
+        path : '/settings',
+        selector : 'settings'
     }
   ];
   

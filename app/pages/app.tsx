@@ -37,11 +37,8 @@ export default function Home() {
             )}
           >
               <div className={styles.wrapper}>
-                  {/* <div className={styles.pageHeading}>
-                      <h1 >Dashboard</h1>
-                  </div> */}
                   <Sidebar />
-                  <DashboardForms />
+                  {/* <DashboardForms /> */}
               </div>
           </div>
         </section>

@@ -16,7 +16,6 @@ const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => 
     const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
     const [socialUrlList, setSocialUrlList] = useState<string[]>(["Youtube","Twitch","Instagram","Twitter","Personal Blog"]);
     const [socialAddedList, setSocialAddedList ] = useState<string[]>([])
-    const [socialSelected , setSocialSelected ] = useState<boolean>(false)
 
 
     const handleSocialUrlClick =(e)=>{
@@ -110,7 +109,6 @@ const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => 
                                 </select>
                             </div>
                         )}
-                        {/* <label className={styles.inputBox__label}>{`${social} URL`}</label> */}
                         <div className={styles.inputMinusBox__wrapper}>
                             <input disabled type={'text'} className={styles.inputBox__wrapper__input}  />
                             <button onClick={handleMinusDropdown} className={cn(styles.btn,styles.inputMinusBtn)}>
