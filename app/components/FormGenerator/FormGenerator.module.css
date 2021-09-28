@@ -72,6 +72,28 @@
   font-size: var(--smaller-font-size);
 }
 
+.btn {
+  padding: var(--mb-0-75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  width: 180px;
+}
+
+.socialBtn > svg {
+  margin-right: 5px;
+}
+
+.btn > span {
+  line-height: 28px;
+  font-size: var(--normal-font-size);
+}
+
 @media (min-width: 800px) {
   .formWrapper {
     padding: var(--mb-2) var(--mb-2) var(--mb-3);

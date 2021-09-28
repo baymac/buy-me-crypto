@@ -2,8 +2,6 @@ import React,{useState,createElement,useRef,createRef} from 'react'
 import styles from '../DashboardForms/DashboardForms.module.css'
 import Form from '../FormGenerator/FormGenerator'
 import InputList from '../InputList/InputList'
-import {UilPlus} from '@iconscout/react-unicons';
-import cn from 'classnames'
 
 export interface FormInputField {
     label: string;
