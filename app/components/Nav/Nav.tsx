@@ -132,15 +132,6 @@ export default function Nav() {
                     },
                     'Log Out'
                   ),
-                  createElement(
-                    UilSignOutAlt,
-                    {
-                      id: 'sign-out-icon',
-                      width: 28,
-                      height: 28,
-                    },
-                    null
-                  ),
                 ]
               )}
             {!session &&

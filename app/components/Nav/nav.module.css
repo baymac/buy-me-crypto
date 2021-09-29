@@ -138,15 +138,6 @@
   margin: 0 5px;
 }
 
-.nav__signout > svg,
-.nav__signin > svg {
-  transition: 0.3s transform ease-in-out;
-}
-
-.nav__signout:hover > svg {
-  transform: translateX(10px);
-}
-
 @media screen and (max-width: 600px) {
   .nav__btns {
     gap: 1rem;
