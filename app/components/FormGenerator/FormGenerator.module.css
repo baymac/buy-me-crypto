@@ -128,6 +128,13 @@
   color: red;
 }
 
+.saveBtn {
+  background-color: var(--button-color);
+  color: var(--default-bw);
+  font-weight: var(--font-semi-bold);
+  letter-spacing: 1px;
+}
+
 @media (min-width: 800px) {
   .formWrapper {
     padding: var(--mb-2) var(--mb-2) var(--mb-3);

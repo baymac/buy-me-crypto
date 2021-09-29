@@ -139,7 +139,7 @@ const FromGenerator = ( {formInfo , handleOnSubmit} : IFormGeneratorProps  ) => 
                         <span>Add Social URLs</span>
                     </button>
                 )}
-                <button className={cn(styles.btn)}>
+                <button className={cn(styles.btn,styles.saveBtn)}>
                         <span>Save Options</span>
                 </button>
             </form>
