@@ -39,13 +39,13 @@
   white-space: nowrap;
   overflow: hidden;
   line-height: normal;
-  color: var(--landing-input-text-color);
+  color: var(--landing-input-url-color);
 }
 
 .getStarted__inpWrapper__inp::before {
   content: 'yourname';
   position: absolute;
-  color: #a4a3ab;
+  color: var(--landing-input-url-color);
   cursor: text;
   left: 1px;
 }
@@ -114,6 +114,6 @@
     color: transparent;
   }
   50% {
-    color: #a4a3ab;
+    color: var(--landing-input-url-color);
   }
 }

@@ -55,6 +55,9 @@
   color: var(--input-text-color);
 }
 
+.inputBox__wrapper__input {
+  height: 54px;
+}
 .textBox__wrapper__input {
   min-height: 150px;
   resize: none;
@@ -117,18 +120,22 @@
   height: 100%;
   height: 54px;
   border-radius: 5px;
+  color: var(--input-text-color);
 }
 
 .inputMinusBox__wrapper {
   flex-basis: 70%;
   display: flex;
+  align-items: center;
 }
 
 .inputMinusBtn {
-  width: 50px;
+  width: 40px;
+  height: 40px;
   margin-left: 1rem;
   margin-bottom: 0;
   color: red;
+  border-radius: 50%;
 }
 
 .saveBtn {
