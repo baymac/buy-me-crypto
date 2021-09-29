@@ -1,8 +1,8 @@
 import React,{useState,createElement,useRef,createRef} from 'react'
 import styles from '../DashboardForms/DashboardForms.module.css'
 import Form from '../FormGenerator/FormGenerator'
-import InputList from '../InputList/InputList'
-
+import firebase from '../../firebase/clientApp'
+import {useSession} from 'next-auth/client'
 export interface IFormInputField {
     label: string;
     isRequired : boolean;
@@ -11,9 +11,7 @@ export interface IFormInputField {
     registerName : string;
 }
 
-const handleOnSubmit = (data) =>{
-    console.log(data);
-}
+
 
 const pageInfoForm : IFormInputField[] = [
     {
@@ -48,7 +46,9 @@ const pageInfoForm : IFormInputField[] = [
 
 
 const DashboardForms = () => {
-
+    const handleOnSubmit = async (data) =>{
+        console.log(data);
+    }
     return (
         <div className={styles.Container} >
             <Form formInfo={pageInfoForm} handleOnSubmit={handleOnSubmit} />

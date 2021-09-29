@@ -14,10 +14,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
+    if (!session && !loading) {
       router.push('/');
     }
   }, [session]);
+
+  console.log(session)
 
   if (loading || !session) {
     return (
@@ -38,7 +40,7 @@ export default function Home() {
           >
               <div className={styles.wrapper}>
                   <Sidebar />
-                  <DashboardForms />
+                  <DashboardForms/>
               </div>
           </div>
         </section>

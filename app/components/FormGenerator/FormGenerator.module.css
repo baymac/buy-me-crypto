@@ -29,7 +29,10 @@
   margin-bottom: var(--mb-1);
 }
 
-.textBox__label,
+.textBox__label {
+  margin-bottom: var(--mb-1);
+}
+
 .textBox__wrapper {
   margin-bottom: var(--mb-1-5);
 }
