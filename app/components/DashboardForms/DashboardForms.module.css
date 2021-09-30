@@ -2,10 +2,6 @@
   width: 100%;
 }
 
-/* .socialBtn:hover {
-  color: var(--nav-items-hover-color);
-} */
-
 @media (min-width: 800px) {
   .Container {
     margin-left: calc(1rem + 230px);
