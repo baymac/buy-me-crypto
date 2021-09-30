@@ -1,16 +1,16 @@
 import {
-  UilHome,
-  UilSignOutAlt,
-  UilSignInAlt,
-  UilHeart,
   UilEye,
+  UilHome,
   UilSetting,
+  UilSignInAlt,
+  UilSignOutAlt,
+  UilUsersAlt,
 } from '@iconscout/react-unicons';
 import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createElement, useEffect } from 'react';
+import { createElement } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
@@ -39,10 +39,10 @@ export const sidebarItems: INavItem[] = [
     selector: 'home',
   },
   {
-    label: 'Supporters',
-    icon: UilHeart,
-    path: '/supporters',
-    selector: 'supporters',
+    label: 'Fans',
+    icon: UilUsersAlt,
+    path: '/fans',
+    selector: 'fans',
   },
   {
     label: 'Page Preview',

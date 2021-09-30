@@ -14,10 +14,10 @@ const Sidebar = () => {
   useEffect(() => {
     if (router.asPath === '/app') {
       setSelectedMenu('home');
-    } else if (router.asPath === '/supporters') {
-      setSelectedMenu('supporters');
+    } else if (router.asPath === '/fans') {
+      setSelectedMenu('fans');
     } else if (router.asPath === '/preview') {
-      setSelectedMenu('supporters');
+      setSelectedMenu('preview');
     } else if (router.asPath === '/settings') {
       setSelectedMenu('settings');
     }
