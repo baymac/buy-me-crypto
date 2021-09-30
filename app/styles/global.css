@@ -76,9 +76,9 @@
   --button-color: var(--first-color);
   --button-color-disabled: hsl(230, 70%, 90%);
   /* color for landing page input */
-  --landing-input-bg-color: hsl(0, 0%, 93%);
-  --landing-input-text-color: hsl(248, 5%, 65%);
-  --landing-input-url-color: hsl(243, 48%, 9%);
+  --landing-input-bg-color: hsl(0, 0%, 88%);
+  --landing-input-text-color: hsl(0, 0%, 50%);
+  --landing-input-url-color: hsl(0, 0%, 12%);
 
   /* color for forms */
   --form-background-color: hsl(0, 0%, 100%);
@@ -171,7 +171,9 @@
   --form-background-color: var(--nav-items-select-color);
   --input-hover-border-color: var(--nav-items-hover-color);
   --input-text-color: var(--title-color);
-  --landing-input-bg-color: var(--button-color-disabled);
+  --landing-input-url-color: hsl(0, 0%, 100%);
+  --landing-input-text-color: hsl(0, 0%, 65%);
+  --landing-input-bg-color: hsl(0, 0%, 23%);
 }
 
 /*========== Button Dark/Light ==========*/
