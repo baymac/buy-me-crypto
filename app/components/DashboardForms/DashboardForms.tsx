@@ -92,7 +92,7 @@ const DashboardForms = () => {
   };
 
   return (
-    <div className={styles.Container}>
+    <div className={styles.container}>
       <Form
         formInfo={pageInfoForm}
         handleOnSubmit={handleOnSubmit}

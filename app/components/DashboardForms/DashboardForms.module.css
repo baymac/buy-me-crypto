@@ -1,9 +1,9 @@
-.Container {
+.container {
   width: 100%;
 }
 
 @media (min-width: 600px) {
-  .Container {
+  .container {
     margin-left: calc(1rem + 230px);
   }
 }
