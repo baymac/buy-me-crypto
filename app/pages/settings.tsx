@@ -8,16 +8,11 @@ import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import Sidebar from '../components/Sidebar/Sidebar';
 import DashboardForms from '../components/DashboardForms/DashboardForms';
+import useSessionRedirect from '../hooks/useSessionRedirect';
 
 export default function Home() {
   const [session, loading] = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session && !loading) {
-      router.push('/');
-    }
-  }, [session]);
+  useSessionRedirect('/', true);
 
   if (loading || !session) {
     return (
