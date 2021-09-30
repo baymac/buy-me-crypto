@@ -1,49 +1,10 @@
-import {
-  UilHome,
-  UilHeart,
-  UilEye,
-  UilSetting,
-} from '@iconscout/react-unicons';
-import { createElement } from 'react';
-import styles from './sidebar.module.css';
+import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
-import cn from 'classnames';
+import { createElement } from 'react';
 import useNavSelection from '../../hooks/useNavSelection';
-
-export interface SidebarItem {
-  label: string;
-  path: string;
-  selector: string;
-  icon: any;
-}
-
-const sidebarItems: SidebarItem[] = [
-  {
-    label: 'Home',
-    icon: UilHome,
-    path: '/',
-    selector: 'home',
-  },
-  {
-    label: 'Supporters',
-    icon: UilHeart,
-    path: '/supporters',
-    selector: 'supporters',
-  },
-  {
-    label: 'Page Preview',
-    icon: UilEye,
-    path: '/',
-    selector: 'preview',
-  },
-  {
-    label: 'Settings',
-    icon: UilSetting,
-    path: '/settings',
-    selector: 'settings',
-  },
-];
+import { sidebarItems } from '../Nav/NavbarLinks';
+import styles from './sidebar.module.css';
 
 const Sidebar = () => {
   const [selectedMenu] = useNavSelection();
