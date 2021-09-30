@@ -58,14 +58,14 @@
     padding: 0.8rem 1rem;
   }
 
+  .sidebarList__item:hover .sidebarList__item__link {
+    color: var(--side-bar-items-hover-color);
+  }
+
   .sidebarList__item__link {
     color: var(--text-color);
     font-weight: var(--font-medium);
     font-size: var(--normal-font-size);
-  }
-
-  .sidebarList__item__link:hover {
-    color: var(--side-bar-items-hover-color);
   }
 
   .sidebarList__item_selected {

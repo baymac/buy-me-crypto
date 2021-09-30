@@ -22,7 +22,7 @@ const Sidebar = () => {
         <h4 className={styles.userInfo__name}>{session.user.name}</h4>
       </div>
       <ul className={styles.sidebarList}>
-        {sidebarItems.map((item, index) => {
+        {sidebarItems.map((item) => {
           return (
             <Link href={`${item.path}`} key={item.label}>
               <a
