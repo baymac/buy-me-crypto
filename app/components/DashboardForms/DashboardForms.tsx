@@ -1,4 +1,4 @@
-import { UilMinus, UilPlus, UilMinusCircle } from '@iconscout/react-unicons';
+import { UilMinusCircle, UilPlus } from '@iconscout/react-unicons';
 import cn from 'classnames';
 import React, { createElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
