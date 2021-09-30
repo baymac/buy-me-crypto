@@ -68,6 +68,7 @@
   /* Color for logo, buttons, menu (only big screen) */
   --nav-items-color: hsl(0, 0%, 100%);
   --nav-items-hover-color: hsl(230, 90%, 92%);
+  --side-bar-items-hover-color: var(--first-color);
   --error-color: hsl(350, 100%, 56%);
   --footer-border-color: hsl(0, 0%, 70%);
   --nav-items-select-color: var(--first-color-lighter);
@@ -76,9 +77,14 @@
   --button-color: var(--first-color);
   --button-color-disabled: hsl(230, 70%, 90%);
   /* color for landing page input */
-  --landing-input-bg-color: hsl(0, 0%, 93%);
-  --landing-input-text-color: hsl(248, 5%, 65%);
-  --landing-input-url-color: hsl(243, 48%, 9%);
+  --landing-input-bg-color: hsl(0, 0%, 88%);
+  --landing-input-text-color: hsl(0, 0%, 50%);
+  --landing-input-url-color: hsl(0, 0%, 12%);
+
+  /* color for forms */
+  --form-background-color: hsl(0, 0%, 100%);
+  --input-hover-border-color: black;
+  --input-text-color: var(--text-color);
   /*========== Font and typography ==========*/
   --body-font: 'Inter', sans-serif;
 
@@ -93,7 +99,6 @@
   --normal-font-size: 0.938rem;
   --small-font-size: 0.813rem;
   --smaller-font-size: 0.75rem;
-
   --nav-logo-size: 1.5rem;
   --landing-input-text-size: 1.25rem;
 
@@ -157,6 +162,7 @@
   --inverted-bw: hsl(0, 0%, 100%);
   --nav-items-color: hsl(0, 0%, 100%);
   --nav-items-hover-color: hsl(210, 90%, 92%);
+  --side-bar-items-hover-color: hsl(210, 60%, 70%);
   --error-color: hsl(350, 79%, 59%);
   --footer-border-color: hsl(0, 0%, 40%);
   --nav-items-select-color: hsl(0, 0%, 20%);
@@ -164,6 +170,12 @@
   --button-hover-color: hsl(0, 0%, 20%);
   --button-color: var(--first-color);
   --button-color-disabled: hsl(0, 0%, 60%);
+  --form-background-color: var(--nav-items-select-color);
+  --input-hover-border-color: var(--nav-items-hover-color);
+  --input-text-color: var(--title-color);
+  --landing-input-url-color: hsl(0, 0%, 100%);
+  --landing-input-text-color: hsl(0, 0%, 65%);
+  --landing-input-bg-color: hsl(0, 0%, 23%);
 }
 
 /*========== Button Dark/Light ==========*/

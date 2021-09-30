@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .container {
+    margin-left: calc(1rem + 230px);
+  }
+}

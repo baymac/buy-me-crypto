@@ -1,23 +1,17 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React, {  useEffect } from 'react';
+import React from 'react';
+import GettingStarted from '../components/GettingStarted/GettingStarted';
+import Headline from '../components/Headline/Headline';
 import PieLoading from '../components/PieLoading/PieLoading';
+import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/index.module.css';
 import rootStyles from '../styles/root.module.css';
-import Headline from '../components/Headline/Headline'
-import GettingStarted from '../components/GettingStarted/GettingStarted'
 
 export default function Index() {
   const [session, loading] = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      router.push('/app');
-    }
-  }, [session]);
+  useSessionRedirect('/app', false);
 
   if (loading || session) {
     return (
@@ -39,7 +33,7 @@ export default function Index() {
         >
           <div className={styles.landingContainer}>
             <Headline />
-            <GettingStarted/>
+            <GettingStarted />
           </div>
         </div>
       </section>

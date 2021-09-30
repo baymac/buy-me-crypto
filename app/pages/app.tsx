@@ -1,21 +1,16 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import PieLoading from '../components/PieLoading/PieLoading';
+import Sidebar from '../components/Sidebar/Sidebar';
+import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 
 export default function Home() {
   const [session, loading] = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      router.push('/');
-    }
-  }, [session]);
+  useSessionRedirect('/', true);
 
   if (loading || !session) {
     return (
@@ -34,9 +29,9 @@ export default function Home() {
               styles.about__container
             )}
           >
-            <div>home</div>
-            {session && <div>{`${session.user.name}`}</div>}
-            {session && <div>{`${session.user.email}`}</div>}
+            <div className={styles.wrapper}>
+              <Sidebar />
+            </div>
           </div>
         </section>
       </HomeLayout>

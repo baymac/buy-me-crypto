@@ -37,6 +37,12 @@
   }
 
   .container {
+    padding: 0 3rem;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .container {
     padding: 0 6rem;
   }
 }

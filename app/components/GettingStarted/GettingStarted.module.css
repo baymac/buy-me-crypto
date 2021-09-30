@@ -22,11 +22,10 @@
   height: 60px;
 }
 
-.getStarted__inpWrapper__url > div {
+.getStarted__inpWrapper__url {
   font-size: 1.25rem;
   line-height: 65px;
   color: var(--landing-input-url-color);
-  font-weight: bold;
 }
 
 .getStarted__inpWrapper__inp {
@@ -39,13 +38,13 @@
   white-space: nowrap;
   overflow: hidden;
   line-height: normal;
-  color: var(--landing-input-text-color);
+  color: var(--landing-input-url-color);
 }
 
 .getStarted__inpWrapper__inp::before {
   content: 'yourname';
   position: absolute;
-  color: #a4a3ab;
+  color: var(--landing-input-text-color);
   cursor: text;
   left: 1px;
 }
@@ -81,7 +80,6 @@
 
 .getStarted__btnWrapper > button > span {
   margin-right: 5px;
-  font-weight: var(--font-semi-bold);
 }
 
 .getStarted__btnWrapper > button > svg {
@@ -114,6 +112,6 @@
     color: transparent;
   }
   50% {
-    color: #a4a3ab;
+    color: var(--landing-input-text-color);
   }
 }

@@ -42,6 +42,7 @@ export default function Nav() {
               >
                 <div className={styles.nav__logo}>
                   <Logo />
+                  <div className={styles.nav__logo__name}>Buy Me Crypto</div>
                 </div>
               </button> */}
             </Link>
@@ -130,15 +131,6 @@ export default function Nav() {
                       className: cn(styles.nav__signout__text),
                     },
                     'Log Out'
-                  ),
-                  createElement(
-                    UilSignOutAlt,
-                    {
-                      id: 'sign-out-icon',
-                      width: 28,
-                      height: 28,
-                    },
-                    null
                   ),
                 ]
               )}

@@ -1,4 +1,11 @@
-import { UilHome, UilSignOutAlt, UilSignInAlt } from '@iconscout/react-unicons';
+import {
+  UilEye,
+  UilHome,
+  UilSetting,
+  UilSignInAlt,
+  UilSignOutAlt,
+  UilUsersAlt,
+} from '@iconscout/react-unicons';
 import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
@@ -24,6 +31,33 @@ const navItems: INavItem[] = [
   },
 ];
 
+export const sidebarItems: INavItem[] = [
+  {
+    label: 'Home',
+    icon: UilHome,
+    path: '/',
+    selector: 'home',
+  },
+  {
+    label: 'Fans',
+    icon: UilUsersAlt,
+    path: '/fans',
+    selector: 'fans',
+  },
+  {
+    label: 'Page Preview',
+    icon: UilEye,
+    path: '/',
+    selector: 'preview',
+  },
+  {
+    label: 'Settings',
+    icon: UilSetting,
+    path: '/settings',
+    selector: 'settings',
+  },
+];
+
 export default function NavBarLinks() {
   const { setNavBarOpen } = useAppContext();
 
@@ -35,8 +69,20 @@ export default function NavBarLinks() {
 
   return (
     <>
+      {session && (
+        <div className={styles.infoContainer}>
+          <img
+            className={styles.infoContainer__avatar}
+            src={session.user.image}
+            alt="User avatar"
+          />
+          <h4 className={styles.infoContainer__name}> {session.user.name}</h4>
+          <p className={styles.infoContainer__email}>{session.user.email}</p>
+        </div>
+      )}
+
       <div className={cn(styles.nav__list)}>
-        {navItems.map((navItem) => (
+        {(!session ? navItems : sidebarItems).map((navItem) => (
           <Link href={`${navItem.path}`} key={navItem.label}>
             <a
               className={cn(styles.nav__item, {
@@ -57,11 +103,13 @@ export default function NavBarLinks() {
             </a>
           </Link>
         ))}
+
         {session && (
           <a
             className={cn(styles.nav__item, styles.signout_nav_item)}
             onClick={() => {
               signOut();
+              router.push('/');
             }}
             tabIndex={0}
           >
@@ -77,6 +125,7 @@ export default function NavBarLinks() {
             </span>
           </a>
         )}
+
         {!session && (
           <a
             className={cn(styles.nav__item, styles.signout_nav_item)}
