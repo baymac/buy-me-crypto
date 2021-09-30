@@ -55,7 +55,7 @@
   .sidebarList__item {
     padding: var(--mb-1);
     cursor: pointer;
-    padding: 0.4rem 1rem;
+    padding: 0.8rem 1rem;
   }
 
   .sidebarList__item__link {
