@@ -68,6 +68,7 @@
   /* Color for logo, buttons, menu (only big screen) */
   --nav-items-color: hsl(0, 0%, 100%);
   --nav-items-hover-color: hsl(230, 90%, 92%);
+  --side-bar-items-hover-color: var(--first-color);
   --error-color: hsl(350, 100%, 56%);
   --footer-border-color: hsl(0, 0%, 70%);
   --nav-items-select-color: var(--first-color-lighter);
@@ -161,6 +162,7 @@
   --inverted-bw: hsl(0, 0%, 100%);
   --nav-items-color: hsl(0, 0%, 100%);
   --nav-items-hover-color: hsl(210, 90%, 92%);
+  --side-bar-items-hover-color: var(--nav-items-hover-color);
   --error-color: hsl(350, 79%, 59%);
   --footer-border-color: hsl(0, 0%, 40%);
   --nav-items-select-color: hsl(0, 0%, 20%);

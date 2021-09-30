@@ -65,7 +65,7 @@
   }
 
   .sidebarList__item__link:hover {
-    color: var(--nav-items-hover-color);
+    color: var(--side-bar-items-hover-color);
   }
 
   .sidebarList__item_selected {
