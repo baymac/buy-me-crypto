@@ -1,13 +1,27 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
-import { createElement } from 'react';
-import useNavSelection from '../../hooks/useNavSelection';
+import { useRouter } from 'next/router';
+import { createElement, useEffect, useState } from 'react';
 import { sidebarItems } from '../Nav/NavbarLinks';
 import styles from '../Sidebar/Sidebar.module.css';
 
 const Sidebar = () => {
-  const [selectedMenu] = useNavSelection();
+  const [selectedMenu, setSelectedMenu] = useState('home');
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.asPath === '/app') {
+      setSelectedMenu('home');
+    } else if (router.asPath === '/supporters') {
+      setSelectedMenu('supporters');
+    } else if (router.asPath === '/preview') {
+      setSelectedMenu('supporters');
+    } else if (router.asPath === '/settings') {
+      setSelectedMenu('settings');
+    }
+  }, [router]);
 
   const [session, loading] = useSession();
 
