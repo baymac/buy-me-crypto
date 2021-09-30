@@ -1,18 +1,12 @@
-import React, {
-  createElement,
-  useState,
-  ReactElement,
-  Children,
-  ReactChildren,
-} from 'react';
+import cn from 'classnames';
+import React, { ReactElement } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import styles from './FormGenerator.module.css';
-import cn from 'classnames';
 
 interface IFormGeneratorProps {
   formInfo: IFormInputField[];
   handleOnSubmit: any;
-  children: ReactChildren;
+  children: ReactElement;
   handleSubmit: any;
   errors: any;
   register: any;
@@ -22,11 +16,11 @@ interface IFormGeneratorProps {
 const FromGenerator = ({
   formInfo,
   handleOnSubmit,
-  children,
   handleSubmit,
   errors,
   register,
   submitBtnText,
+  children,
 }: IFormGeneratorProps) => {
   return (
     <div className={styles.formWrapper}>
