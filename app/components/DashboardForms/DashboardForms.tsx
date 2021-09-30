@@ -1,4 +1,4 @@
-import { UilMinus, UilPlus } from '@iconscout/react-unicons';
+import { UilMinus, UilPlus, UilMinusCircle } from '@iconscout/react-unicons';
 import cn from 'classnames';
 import React, { createElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -113,7 +113,7 @@ const DashboardForms = () => {
                   >
                     <label
                       className={inputStyles.inputBox__label}
-                    >{`${social} URL`}</label>
+                    >{`${social}`}</label>
                     <div className={cn(inputStyles.inputMinusBox__wrapper)}>
                       <input
                         type={'text'}
@@ -122,16 +122,13 @@ const DashboardForms = () => {
                       />
                       <button
                         onClick={(e) => handleMinusSocialInput(e, social)}
-                        className={cn(
-                          inputStyles.btn,
-                          inputStyles.inputMinusBtn
-                        )}
+                        className={cn(inputStyles.inputMinusBtn)}
                       >
                         {createElement(
-                          UilMinus,
+                          UilMinusCircle,
                           {
-                            width: 28,
-                            height: 28,
+                            width: 24,
+                            height: 24,
                           },
                           null
                         )}
@@ -166,13 +163,13 @@ const DashboardForms = () => {
                 />
                 <button
                   onClick={handleMinusDropdown}
-                  className={cn(inputStyles.btn, inputStyles.inputMinusBtn)}
+                  className={cn(inputStyles.inputMinusBtn)}
                 >
                   {createElement(
-                    UilMinus,
+                    UilMinusCircle,
                     {
-                      width: 28,
-                      height: 28,
+                      width: 24,
+                      height: 24,
                     },
                     null
                   )}
@@ -194,7 +191,7 @@ const DashboardForms = () => {
                 },
                 null
               )}
-              <span>Add Social URLs</span>
+              <span>Add Link</span>
             </button>
           )}
         </>

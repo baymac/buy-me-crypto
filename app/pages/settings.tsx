@@ -6,8 +6,8 @@ import PieLoading from '../components/PieLoading/PieLoading';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
-import Sidebar from '../components/Sidebar/Sidebar'
-import DashboardForms from '../components/DashboardForms/DashboardForms'
+import Sidebar from '../components/Sidebar/Sidebar';
+import DashboardForms from '../components/DashboardForms/DashboardForms';
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -18,8 +18,6 @@ export default function Home() {
       router.push('/');
     }
   }, [session]);
-
-  console.log(session)
 
   if (loading || !session) {
     return (
@@ -38,10 +36,10 @@ export default function Home() {
               styles.about__container
             )}
           >
-              <div className={styles.wrapper}>
-                  <Sidebar />
-                  <DashboardForms/>
-              </div>
+            <div className={styles.wrapper}>
+              <Sidebar />
+              <DashboardForms />
+            </div>
           </div>
         </section>
       </HomeLayout>
