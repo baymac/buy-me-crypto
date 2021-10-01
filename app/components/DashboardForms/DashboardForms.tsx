@@ -5,6 +5,9 @@ import { useForm } from 'react-hook-form';
 import styles from '../DashboardForms/DashboardForms.module.css';
 import Form from '../FormGenerator/FormGenerator';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
+import fetchJson from '../../lib/fetchJson';
+import { useSession } from 'next-auth/client';
+
 
 export interface IFormInputField {
   label: string;
@@ -20,13 +23,6 @@ const pageInfoForm: IFormInputField[] = [
     isRequired: true,
     type: 'text',
     registerName: 'pageName',
-    isInput: true,
-  },
-  {
-    label: 'What are you creating',
-    isRequired: true,
-    type: 'text',
-    registerName: 'creating',
     isInput: true,
   },
   {
@@ -53,8 +49,20 @@ const DashboardForms = () => {
     formState: { errors },
   } = useForm();
 
+  const [session,loading]  = useSession();
+
   const handleOnSubmit = async (data) => {
-    console.log(data);
+    data['userId'] = session.user.id;
+
+    const resData = await fetchJson('/api/updateUserInfo',{
+      method : "POST",
+      body :   JSON.stringify(data),
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    console.log(resData);
   };
 
   const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
