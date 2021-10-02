@@ -1,7 +1,86 @@
-
+import { useSession } from 'next-auth/client';
+import fetchJson from '../lib/fetchJson';
+import styles from '../styles/pageStyles/finishSignup.module.css'
+import PieLoading from '../components/PieLoading/PieLoading'
+import useSessionRedirect from '../hooks/useSessionRedirect';
+import { useRouter } from 'next/router';
 
 export default function finishSignup(){
-    return (
-        <h1> This is the finish signup page</h1>
-    )
+
+    const [session,loading]  = useSession()
+    const router = useRouter();
+
+    useSessionRedirect('/',true)
+
+    const handleFanCreation = async (e)=>{
+        e.preventDefault();
+        const body = {
+            userId : session.user.id,
+            userLevel : 1
+        }
+
+        let result = await fetchJson('/api/addUserMetaData',{
+            method : "POST",
+            body :   JSON.stringify(body),
+            headers : {
+              'Content-Type': 'application/json'
+            }
+        })
+
+        if(!result.error){
+            router.push('/app')
+        }
+    }
+
+
+    const handleCreatorCreation = async (e) =>{
+        e.preventDefault();
+        const bodyMetaData = {
+            userId : session.user.id,
+            userLevel : 2
+        }
+        const bodyPageInfo = {
+            userId : session.user.id
+        }
+
+        let resultMetaData = await fetchJson('/api/addUserMetaData',{
+            method : "POST",
+            body :   JSON.stringify(bodyMetaData),
+            headers : {
+              'Content-Type': 'application/json'
+            }
+        })
+
+        if(!resultMetaData.error){
+            let resultPageInfo = await fetchJson('/api/addPageInfo',{
+                method : "POST",
+                body :   JSON.stringify(bodyPageInfo),
+                headers : {
+                  'Content-Type': 'application/json'
+                }
+            })
+
+            if(!resultPageInfo.error){
+                router.push('/app')
+            }
+        }
+
+    }
+
+    if(loading || !session){
+        return (
+            <PieLoading />
+        )
+    }
+    else {
+        return (
+            <div className={styles.wrapper}>
+                <h1> Are you a Creator ?</h1>
+                <div className={styles.btnWrapper}>
+                    <button onClick={handleCreatorCreation} className={styles.btnWrapper_btn}>Yes, I am a Creater</button>
+                    <button onClick={handleFanCreation} className={styles.btnWrapper_btn}>No, I am here to become a fan</button>
+                </div>
+            </div>
+        )
+    }
 }
