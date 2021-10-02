@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import styles from './FormGenerator.module.css';
 
@@ -12,6 +12,7 @@ interface IFormGeneratorProps {
   register: any;
   submitBtnText: string;
   initialData : any;
+  setValue : any 
 }
 
 const FromGenerator = ({
@@ -22,8 +23,18 @@ const FromGenerator = ({
   register,
   submitBtnText,
   children,
-  initialData
+  initialData,
+  setValue
 }: IFormGeneratorProps) => {
+
+  useEffect(() => {
+    if(initialData.hasOwnProperty('pageInfo')){
+      setValue('pageName' , initialData.pageInfo.pageName)
+      setValue('pageHeadline' , initialData.pageInfo.pageHeadline)
+      setValue('aboutPage' , initialData.pageInfo.aboutPage)
+    }
+  },[initialData])
+
   return (
     <div className={styles.formWrapper}>
       <form onSubmit={handleSubmit(handleOnSubmit)}>
@@ -45,7 +56,6 @@ const FromGenerator = ({
                       {...register(input.registerName, {
                         required: input.isRequired,
                       })}
-                      value={initialData.hasOwnProperty('pageInfo') ? initialData.pageInfo[input.registerName] : " "}
                     />
                   </div>
                 </div>
@@ -62,7 +72,6 @@ const FromGenerator = ({
                     {...register(input.registerName, {
                       required: input.isRequired,
                     })}
-                    value={initialData.hasOwnProperty('pageInfo') ? initialData.pageInfo[input.registerName] : " "}
                   />
                   <p className={styles.inputBox__wrapper__error}>
                     {errors[input.registerName]?.type === 'required' &&

@@ -48,6 +48,7 @@ const DashboardForms = () => {
     register,
     handleSubmit,
     unregister,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -95,9 +96,7 @@ const DashboardForms = () => {
   },[session])
 
 
-  const isEmpty = (str : string) : boolean =>{
-    return (!str || str.length ===0)
-  }
+
 
 
   const handleOnSubmit = async (data) => {
@@ -115,12 +114,20 @@ const DashboardForms = () => {
     
   };
 
+////////////////////////////////////////////////////////////////
+  // function capitalizeFirstLetter(string) : string {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
 
-  function capitalizeFirstLetter(string) : string {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  // const addToSocialUrlList = (socialUrl) => {
+  //   setSocialAddedList([...socialAddedList, socialUrl]);
+  //   setSocialUrlList(socialUrlList.filter((url) => url.toLowerCase() !== socialUrl));
+  // }
 
-
+  // const isEmpty = (str : string) : boolean =>{
+  //   return (!str || str.length ===0)
+  // }
+////////////////////////////////////////////////////////////////
 
   const handleSocialUrlClick = (e) => {
     e.preventDefault();
@@ -133,10 +140,7 @@ const DashboardForms = () => {
     setAddSocialUrl(false);
   };
 
-  const addToSocialUrlList = (socialUrl) => {
-    setSocialAddedList([...socialAddedList, socialUrl]);
-    setSocialUrlList(socialUrlList.filter((url) => url.toLowerCase() !== socialUrl));
-  }
+
 
   const handleMinusDropdown = (e) => {
     e.preventDefault();
@@ -168,6 +172,7 @@ const DashboardForms = () => {
             errors={errors}
             submitBtnText={'Save Options'}
             initialData = {initialData}
+            setValue = {setValue}
           >
             <>
               {socialAddedList.length >= 1 && (
