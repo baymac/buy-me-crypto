@@ -9,6 +9,7 @@ import rootStyles from '../styles/root.module.css';
 import Sidebar from '../components/Sidebar/Sidebar';
 import DashboardForms from '../components/DashboardForms/DashboardForms';
 import useSessionRedirect from '../hooks/useSessionRedirect';
+import fetchJson from '../lib/fetchJson'
 
 export default function Home() {
   const [session, loading] = useSession();

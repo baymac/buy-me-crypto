@@ -11,6 +11,7 @@ interface IFormGeneratorProps {
   errors: any;
   register: any;
   submitBtnText: string;
+  initialData : any;
 }
 
 const FromGenerator = ({
@@ -21,12 +22,15 @@ const FromGenerator = ({
   register,
   submitBtnText,
   children,
+  initialData
 }: IFormGeneratorProps) => {
   return (
     <div className={styles.formWrapper}>
       <form onSubmit={handleSubmit(handleOnSubmit)}>
+        
         {formInfo &&
           formInfo.map((input, index) => {
+
             if (!input.isInput) {
               return (
                 <div key={index} className={styles.textBox}>
@@ -41,6 +45,7 @@ const FromGenerator = ({
                       {...register(input.registerName, {
                         required: input.isRequired,
                       })}
+                      value={initialData.hasOwnProperty('pageInfo') ? initialData.pageInfo[input.registerName] : " "}
                     />
                   </div>
                 </div>
@@ -57,6 +62,7 @@ const FromGenerator = ({
                     {...register(input.registerName, {
                       required: input.isRequired,
                     })}
+                    value={initialData.hasOwnProperty('pageInfo') ? initialData.pageInfo[input.registerName] : " "}
                   />
                   <p className={styles.inputBox__wrapper__error}>
                     {errors[input.registerName]?.type === 'required' &&

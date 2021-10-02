@@ -1,13 +1,15 @@
 import { UilMinusCircle, UilPlus } from '@iconscout/react-unicons';
 import cn from 'classnames';
-import React, { createElement, useState } from 'react';
+import React, { createElement, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '../DashboardForms/DashboardForms.module.css';
 import Form from '../FormGenerator/FormGenerator';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
 import fetchJson from '../../lib/fetchJson';
 import { useSession } from 'next-auth/client';
-
+import PieLoading from '../PieLoading/PieLoading'
+import rootStyles from '../../styles/root.module.css'
+import { copyFileSync } from 'fs';
 
 export interface IFormInputField {
   label: string;
@@ -29,14 +31,14 @@ const pageInfoForm: IFormInputField[] = [
     label: 'Page Headline',
     isRequired: true,
     type: 'text',
-    registerName: 'headline',
+    registerName: 'pageHeadline',
     isInput: true,
   },
   {
     label: 'About the Page',
     isRequired: true,
     type: 'text',
-    registerName: 'about',
+    registerName: 'aboutPage',
     isInput: false,
   },
 ];
@@ -50,21 +52,8 @@ const DashboardForms = () => {
   } = useForm();
 
   const [session,loading]  = useSession();
-
-  const handleOnSubmit = async (data) => {
-    data['userId'] = session.user.id;
-
-    const resData = await fetchJson('/api/updateUserInfo',{
-      method : "POST",
-      body :   JSON.stringify(data),
-      headers : {
-        'Content-Type': 'application/json'
-      }
-    })
-    
-    console.log(resData);
-  };
-
+  const [initialData, setInitialData ] = useState({})
+  const [gotData, setGotData] = useState(false)
   const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
   const [socialUrlList, setSocialUrlList] = useState<string[]>([
     'Youtube',
@@ -76,6 +65,63 @@ const DashboardForms = () => {
 
   const [socialAddedList, setSocialAddedList] = useState<string[]>([]);
 
+
+  useEffect(() => {
+
+    const body = {
+      userId : session.user.id
+    }
+
+   fetchJson('/api/getPageInfo',{
+      method : "POST",
+      body :   JSON.stringify(body),
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data)=>{
+      setInitialData(data);
+      setGotData(true)
+      // console.log(data)
+      // for( let x in data.pageInfo.Links){
+      //   if( !isEmpty(data.pageInfo.Links[x]) ){
+
+      //     setSocialAddedList([...socialAddedList,x])
+          
+      //   }
+      // }
+    })
+                  
+  },[session])
+
+
+  const isEmpty = (str : string) : boolean =>{
+    return (!str || str.length ===0)
+  }
+
+
+  const handleOnSubmit = async (data) => {
+
+    console.log(data)
+    data['userId'] = session.user.id;
+
+    const resData = await fetchJson('/api/updatePageInfo',{
+      method : "POST",
+      body :   JSON.stringify(data),
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+  };
+
+
+  function capitalizeFirstLetter(string) : string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+
+
   const handleSocialUrlClick = (e) => {
     e.preventDefault();
     setAddSocialUrl(true);
@@ -86,6 +132,11 @@ const DashboardForms = () => {
     setSocialUrlList(socialUrlList.filter((url) => url !== e.target.value));
     setAddSocialUrl(false);
   };
+
+  const addToSocialUrlList = (socialUrl) => {
+    setSocialAddedList([...socialAddedList, socialUrl]);
+    setSocialUrlList(socialUrlList.filter((url) => url.toLowerCase() !== socialUrl));
+  }
 
   const handleMinusDropdown = (e) => {
     e.preventDefault();
@@ -99,113 +150,123 @@ const DashboardForms = () => {
     setSocialUrlList([...socialUrlList, social]);
   };
 
-  return (
-    <div className={styles.container}>
-      <Form
-        formInfo={pageInfoForm}
-        handleOnSubmit={handleOnSubmit}
-        handleSubmit={handleSubmit}
-        register={register}
-        errors={errors}
-        submitBtnText={'Save Options'}
-      >
-        <>
-          {socialAddedList.length >= 1 && (
-            <div>
-              {socialAddedList.map((social) => {
-                return (
-                  <div
-                    id={social}
-                    key={social}
-                    className={inputStyles.inputBox}
-                  >
-                    <label
-                      className={inputStyles.inputBox__label}
-                    >{`${social}`}</label>
-                    <div className={cn(inputStyles.inputMinusBox__wrapper)}>
-                      <input
-                        type={'text'}
-                        className={inputStyles.inputBox__wrapper__input}
-                        {...register(social, { required: false })}
-                      />
-                      <button
-                        onClick={(e) => handleMinusSocialInput(e, social)}
-                        className={cn(inputStyles.inputMinusBtn)}
+  if ((loading || !session) && !gotData) {
+    return (
+      <div className={rootStyles.absolute_center}>
+        <PieLoading></PieLoading>
+      </div>
+    );
+  }
+  else {
+    return (
+        <div className={styles.container}>
+          <Form
+            formInfo={pageInfoForm}
+            handleOnSubmit={handleOnSubmit}
+            handleSubmit={handleSubmit}
+            register={register}
+            errors={errors}
+            submitBtnText={'Save Options'}
+            initialData = {initialData}
+          >
+            <>
+              {socialAddedList.length >= 1 && (
+                <div>
+                  {socialAddedList.map((social) => {
+                    return (
+                      <div
+                        id={social}
+                        key={social}
+                        className={inputStyles.inputBox}
                       >
-                        {createElement(
-                          UilMinusCircle,
-                          {
-                            width: 24,
-                            height: 24,
-                          },
-                          null
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {addSocialUrl && (
-            <div className={inputStyles.inputBox}>
-              {addSocialUrl && (
-                <div className={inputStyles.socialDropdown__wrapper}>
-                  <select
-                    className={inputStyles.socialDropdown}
-                    onChange={handleSocialDropdownChange}
-                  >
-                    <option> Select </option>
-                    {socialUrlList.map((url) => {
-                      return <option>{url}</option>;
-                    })}
-                  </select>
+                        <label
+                          className={inputStyles.inputBox__label}
+                        >{`${social}`}</label>
+                        <div className={cn(inputStyles.inputMinusBox__wrapper)}>
+                          <input
+                            type={'text'}
+                            className={inputStyles.inputBox__wrapper__input}
+                            {...register(social.toLowerCase(), { required: false })}
+                          />
+                          <button
+                            onClick={(e) => handleMinusSocialInput(e, social)}
+                            className={cn(inputStyles.inputMinusBtn)}
+                          >
+                            {createElement(
+                              UilMinusCircle,
+                              {
+                                width: 24,
+                                height: 24,
+                              },
+                              null
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
-              <div className={inputStyles.inputMinusBox__wrapper}>
-                <input
-                  disabled
-                  type={'text'}
-                  className={inputStyles.inputBox__wrapper__input}
-                />
+
+              {addSocialUrl && (
+                <div className={inputStyles.inputBox}>
+                  {addSocialUrl && (
+                    <div className={inputStyles.socialDropdown__wrapper}>
+                      <select
+                        className={inputStyles.socialDropdown}
+                        onChange={handleSocialDropdownChange}
+                      >
+                        <option> Select </option>
+                        {socialUrlList.map((url) => {
+                          return <option key={url}>{url}</option>;
+                        })}
+                      </select>
+                    </div>
+                  )}
+                  <div className={inputStyles.inputMinusBox__wrapper}>
+                    <input
+                      disabled
+                      type={'text'}
+                      className={inputStyles.inputBox__wrapper__input}
+                    />
+                    <button
+                      onClick={handleMinusDropdown}
+                      className={cn(inputStyles.inputMinusBtn)}
+                    >
+                      {createElement(
+                        UilMinusCircle,
+                        {
+                          width: 24,
+                          height: 24,
+                        },
+                        null
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!addSocialUrl && socialUrlList.length > 0 && (
                 <button
-                  onClick={handleMinusDropdown}
-                  className={cn(inputStyles.inputMinusBtn)}
+                  onClick={handleSocialUrlClick}
+                  className={cn(inputStyles.btn, inputStyles.socialBtn)}
                 >
                   {createElement(
-                    UilMinusCircle,
+                    UilPlus,
                     {
-                      width: 24,
-                      height: 24,
+                      width: 28,
+                      height: 28,
                     },
                     null
                   )}
+                  <span>Add Link</span>
                 </button>
-              </div>
-            </div>
-          )}
-
-          {!addSocialUrl && socialUrlList.length > 0 && (
-            <button
-              onClick={handleSocialUrlClick}
-              className={cn(inputStyles.btn, inputStyles.socialBtn)}
-            >
-              {createElement(
-                UilPlus,
-                {
-                  width: 28,
-                  height: 28,
-                },
-                null
               )}
-              <span>Add Link</span>
-            </button>
-          )}
-        </>
-      </Form>
-    </div>
-  );
-};
+            </>
+          </Form>
+        </div>
+      );
+  }
+}
 
 export default DashboardForms;
