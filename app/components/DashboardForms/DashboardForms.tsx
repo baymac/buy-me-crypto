@@ -53,8 +53,7 @@ const DashboardForms = () => {
   } = useForm();
 
   const [session,loading]  = useSession();
-  const [initialData, setInitialData ] = useState({})
-  const [gotData, setGotData] = useState(false)
+  const [initialData, setInitialData ] = useState(null)
   const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
   const [socialUrlList, setSocialUrlList] = useState<string[]>([
     'Youtube',
@@ -82,20 +81,25 @@ const DashboardForms = () => {
     })
     .then((data)=>{
       setInitialData(data);
-      setGotData(true)
-      // console.log(data)
-      // for( let x in data.pageInfo.Links){
-      //   if( !isEmpty(data.pageInfo.Links[x]) ){
-
-      //     setSocialAddedList([...socialAddedList,x])
-          
-      //   }
-      // }
+      console.log(data)
+      const arr = []
+      for( let x in data.pageInfo.Links){
+        if( !isEmpty(data.pageInfo.Links[x]) && socialUrlList.includes(capitalizeFirstLetter(x))){
+          arr.push(capitalizeFirstLetter(x))          
+        }
+      }
+      setSocialAddedList(arr)
+      setSocialUrlList(socialUrlList.filter((url) => !arr.includes(url)) )
+      return {arr,data};
+    })
+    .then(({arr,data})=>{
+      arr.forEach(url => {
+        console.log(data.pageInfo.Links[url.toLowerCase()])
+        setValue(url.toLowerCase(),data.pageInfo.Links[url.toLowerCase()])
+      });
     })
                   
   },[session])
-
-
 
 
 
@@ -115,18 +119,18 @@ const DashboardForms = () => {
   };
 
 ////////////////////////////////////////////////////////////////
-  // function capitalizeFirstLetter(string) : string {
-  //   return string.charAt(0).toUpperCase() + string.slice(1);
-  // }
+  function capitalizeFirstLetter(string) : string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   // const addToSocialUrlList = (socialUrl) => {
   //   setSocialAddedList([...socialAddedList, socialUrl]);
   //   setSocialUrlList(socialUrlList.filter((url) => url.toLowerCase() !== socialUrl));
   // }
 
-  // const isEmpty = (str : string) : boolean =>{
-  //   return (!str || str.length ===0)
-  // }
+  const isEmpty = (str : string) : boolean =>{
+    return (!str || str.length ===0)
+  }
 ////////////////////////////////////////////////////////////////
 
   const handleSocialUrlClick = (e) => {
@@ -154,7 +158,7 @@ const DashboardForms = () => {
     setSocialUrlList([...socialUrlList, social]);
   };
 
-  if ((loading || !session) && !gotData) {
+  if ((loading || !session) || !initialData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
@@ -170,7 +174,7 @@ const DashboardForms = () => {
             handleSubmit={handleSubmit}
             register={register}
             errors={errors}
-            submitBtnText={'Save Options'}
+            submitBtnText={'Publish Page'}
             initialData = {initialData}
             setValue = {setValue}
           >

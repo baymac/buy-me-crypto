@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import firebase from '../../firebase/clientApp';
 import getUserMetaData from '../../lib/getUserMetadata'
 
 
