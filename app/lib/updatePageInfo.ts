@@ -33,21 +33,64 @@ export default async function updatePageInfo (userId,body){
                         .update({
                             ...body
                         })
-                        .then(() =>{
-                            console.log('successful')
-                            return {
-                                error : false,
-                                message: 'user info has been updated'
-                            }
-                        })
-                        .catch((error) => {
-                            return {
-                                error : true,
-                                message : 'user could not be update ' + error.message
-                            }
-                        })
 
-            return result
+            console.log('updation done')
+
+            const updatedPageInfo = await db
+                            .collection('pageInfo')
+                            .doc(userId)
+                            .get()
+                            .then((querySnapshot) => {
+                                if(!querySnapshot.exists)
+                                {
+                                    return null;
+                                }
+                                return {...querySnapshot.data()}
+                            })
+            
+            console.log('update pageInfo')
+            console.log(updatedPageInfo)
+
+            let profileCompleted : boolean = true;
+        
+            for(let x in updatedPageInfo){
+                console.log(x)
+
+                if(!updatedPageInfo[x] || updatedPageInfo[x].length === 0){
+                    profileCompleted = false
+                }
+            }
+
+
+            if(profileCompleted){
+                console.log('second loop running')
+                for(let x in updatedPageInfo.Links){
+                    if(!updatedPageInfo || updatedPageInfo.Links[x].length === 0){
+                        console.log(x)
+                        profileCompleted = false
+                    }
+                }
+            }
+
+
+            if(profileCompleted){
+                await db.collection('userMetaData')
+                .doc(userId)
+                .update({
+                    profileCompleted: true,
+                })
+                .then(()=>{
+                    console.log('profile status changed')
+                })
+                .catch((error)=>{
+                    console.log('eror' + error.message)
+                })
+            }
+
+            return {
+                error: false,
+                message: 'Page Info updated successfully'
+            }
         }
         else {
             return {
