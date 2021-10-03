@@ -34,7 +34,6 @@ export default async function updatePageInfo (userId,body){
                             ...body
                         })
 
-            console.log('updation done')
 
             const updatedPageInfo = await db
                             .collection('pageInfo')
@@ -48,22 +47,16 @@ export default async function updatePageInfo (userId,body){
                                 return {...querySnapshot.data()}
                             })
             
-            console.log('update pageInfo')
-            console.log(updatedPageInfo)
 
             let profileCompleted : boolean = true;
         
             for(let x in updatedPageInfo){
-                console.log(x)
-
                 if(!updatedPageInfo[x] || updatedPageInfo[x].length === 0){
                     profileCompleted = false
                 }
             }
 
-
             if(profileCompleted){
-                console.log('second loop running')
                 for(let x in updatedPageInfo.Links){
                     if(!updatedPageInfo || updatedPageInfo.Links[x].length === 0){
                         console.log(x)
@@ -71,7 +64,6 @@ export default async function updatePageInfo (userId,body){
                     }
                 }
             }
-
 
             if(profileCompleted){
                 await db.collection('userMetaData')

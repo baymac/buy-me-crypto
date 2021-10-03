@@ -10,48 +10,13 @@ import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import { useRouter } from 'next/router';
 import AlertBanner from '../components/AlertBanner/AlertBanner'
+import useFinishSingupRedirect from '../hooks/useFinishSingupRedirect'
 
 export default function Home() {
   const [session, loading] = useSession();
-  const [gotMetaData, setGotMetaData] = useState<boolean>(false);
-  const [isProfileCompleted, setProfileCompleted ] = useState<boolean>(false)
   const router = useRouter();
 
-  useEffect(()=>{
-    if(!loading)
-    {
-      if(session){
-
-        console.log(session)
-        const body = {
-          userId : session.user.id
-        }
-        fetchJson('/api/getUserMetaData',{
-          method : "POST",
-          body :   JSON.stringify(body),
-          headers : {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((data)=>{
-          if(!data.hasOwnProperty('metaData')){
-            router.push('/finishSignup')
-          }
-          return data
-        })
-        .then((data)=>{
-          setGotMetaData(true)
-          if(data.metaData.profileCompleted){
-            setProfileCompleted(true)
-          }
-        })
-        .catch((err)=>{
-          console.log("Some error has been occured " + err.message)
-        })
-      }
-    }
-  },[session,loading])
-
+  let [gotMetaData,isProfileCompleted] = useFinishSingupRedirect()
   useSessionRedirect('/', true);
 
   if ((loading || !session) || !gotMetaData) {
