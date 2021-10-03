@@ -88,20 +88,19 @@ const DashboardForms = () => {
           arr.push(capitalizeFirstLetter(x))          
         }
       }
-      setSocialAddedList(arr)
+      setSocialAddedList([...socialAddedList,...arr])
       setSocialUrlList(socialUrlList.filter((url) => !arr.includes(url)) )
       return {arr,data};
     })
     .then(({arr,data})=>{
       arr.forEach(url => {
-        console.log(data.pageInfo.Links[url.toLowerCase()])
         setValue(url.toLowerCase(),data.pageInfo.Links[url.toLowerCase()])
       });
     })
                   
   },[session])
 
-
+  console.log(socialAddedList) 
 
   const handleOnSubmit = async (data) => {
 
