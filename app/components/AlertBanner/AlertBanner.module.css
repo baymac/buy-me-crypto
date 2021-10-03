@@ -1,0 +1,14 @@
+.wrapper{
+    padding : var(--mb-0-75);
+    display : flex;
+    align-items : center;
+    border: 1px solid var(--alert-border-color);
+    border-radius : 5px;
+    background-color: var(--alert-bg-color);
+    color : var(--alert-text-color);
+}
+
+.wrapper > svg {
+    margin-right : var(--mb-0-5);
+    color : var(--alert-border-color)
+}

@@ -9,11 +9,12 @@ import fetchJson from '../lib/fetchJson';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import { useRouter } from 'next/router';
-
+import AlertBanner from '../components/AlertBanner/AlertBanner'
 
 export default function Home() {
   const [session, loading] = useSession();
   const [gotMetaData, setGotMetaData] = useState<boolean>(false);
+  const [isProfileCompleted, setProfileCompleted ] = useState<boolean>(false)
   const router = useRouter();
 
   useEffect(()=>{
@@ -36,9 +37,13 @@ export default function Home() {
           if(!data.hasOwnProperty('metaData')){
             router.push('/finishSignup')
           }
+          return data
         })
-        .then(()=>{
+        .then((data)=>{
           setGotMetaData(true)
+          if(data.metaData.profileCompleted){
+            setProfileCompleted(true)
+          }
         })
         .catch((err)=>{
           console.log("Some error has been occured " + err.message)
@@ -68,6 +73,9 @@ export default function Home() {
           >
             <div className={styles.wrapper}>
               <Sidebar />
+              <div className={styles.wrapper__contianer}>
+                 {!isProfileCompleted ?  <AlertBanner> Your profile is not completed  </AlertBanner> : null}
+              </div>
             </div>
           </div>
         </section>
