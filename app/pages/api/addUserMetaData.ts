@@ -8,10 +8,10 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
+  const { userId, userLevel } = req.body;
 
   try {
-    console.log(req.body);
-    const result = await addUserMetaData(req.body.userId, req.body.userLevel);
+    const result = await addUserMetaData(userId, userLevel);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
