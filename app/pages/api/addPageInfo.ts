@@ -8,10 +8,9 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
-
+  const { userId } = req.body;
   try {
-    console.log(req.body);
-    const result = await addPageInfo(req.body.userId);
+    const result = await addPageInfo(userId);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
