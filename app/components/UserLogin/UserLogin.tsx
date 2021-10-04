@@ -18,7 +18,7 @@ const UserLogin = ({
             signIn(provider.id, {
               callbackUrl: `${getHttpProtocol(process.env.NODE_ENV)}${
                 process.env.VERCEL_URL
-              }/app`,
+              }/home`,
             })
           }
         >

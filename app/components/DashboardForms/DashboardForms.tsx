@@ -80,9 +80,9 @@ const DashboardForms = () => {
       .then((data) => {
         setInitialData(data);
         const arr = [];
-        for (let x in data.pageInfo.Links) {
+        for (let x in data.pageInfo.links) {
           if (
-            !isEmpty(data.pageInfo.Links[x]) &&
+            !isEmpty(data.pageInfo.links[x]) &&
             socialUrlList.includes(capitalizeFirstLetter(x))
           ) {
             arr.push(capitalizeFirstLetter(x));
@@ -94,7 +94,7 @@ const DashboardForms = () => {
       })
       .then(({ arr, data }) => {
         arr.forEach((url) => {
-          setValue(url.toLowerCase(), data.pageInfo.Links[url.toLowerCase()]);
+          setValue(url.toLowerCase(), data.pageInfo.links[url.toLowerCase()]);
         });
       });
   }, [session]);
