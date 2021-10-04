@@ -47,7 +47,7 @@
   .sidebarList {
     display: flex;
     flex-direction: column;
-    padding: 0 var(--mb-1) 0 var(--mb-1-5);
+    padding: 0 var(--mb-1) 0 0;
     column-gap: 2rem;
     margin-top: var(--mb-1);
   }
