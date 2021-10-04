@@ -11,8 +11,8 @@ interface IFormGeneratorProps {
   errors: any;
   register: any;
   submitBtnText: string;
-  initialData : any;
-  setValue : any 
+  initialData: any;
+  setValue: any;
 }
 
 const FromGenerator = ({
@@ -24,24 +24,21 @@ const FromGenerator = ({
   submitBtnText,
   children,
   initialData,
-  setValue
+  setValue,
 }: IFormGeneratorProps) => {
-
   useEffect(() => {
-    if(initialData.hasOwnProperty('pageInfo')){
-      setValue('pageName' , initialData.pageInfo.pageName)
-      setValue('pageHeadline' , initialData.pageInfo.pageHeadline)
-      setValue('aboutPage' , initialData.pageInfo.aboutPage)
+    if (initialData.hasOwnProperty('pageInfo')) {
+      setValue('pageName', initialData.pageInfo.pageName);
+      setValue('pageHeadline', initialData.pageInfo.pageHeadline);
+      setValue('aboutPage', initialData.pageInfo.aboutPage);
     }
-  },[initialData])
+  }, [initialData]);
 
   return (
     <div className={styles.formWrapper}>
       <form onSubmit={handleSubmit(handleOnSubmit)}>
-        
         {formInfo &&
           formInfo.map((input, index) => {
-
             if (!input.isInput) {
               return (
                 <div key={index} className={styles.textBox}>

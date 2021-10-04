@@ -9,16 +9,16 @@ import rootStyles from '../styles/root.module.css';
 import Sidebar from '../components/Sidebar/Sidebar';
 import DashboardForms from '../components/DashboardForms/DashboardForms';
 import useSessionRedirect from '../hooks/useSessionRedirect';
-import fetchJson from '../lib/fetchJson'
-import useFinishSingupRedirect from '../hooks/useFinishSingupRedirect'
+import fetchJson from '../lib/fetchJson';
+import useFinishSingupRedirect from '../hooks/useFinishSingupRedirect';
 
 export default function Home() {
   const [session, loading] = useSession();
 
-  let [gotMetaData] = useFinishSingupRedirect()
+  let [gotMetaData] = useFinishSingupRedirect();
   useSessionRedirect('/', true);
 
-  if ((loading || !session) || !gotMetaData) {
+  if (loading || !session || !gotMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>

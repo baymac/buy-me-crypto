@@ -1,100 +1,91 @@
-import firebase from '../firebase/clientApp'
- 
+import firebase from '../firebase/clientApp';
+
 const db = firebase.firestore();
 
-export default async function updatePageInfo (userId,body){
-
-
-
-    try{
-        const userInfo = await db
-                    .collection('pageInfo')
-                    .doc(userId)
-                    .get()
-                    .then((querySnapshot) => {
-                        if(!querySnapshot.exists)
-                        {
-                            return null;
-                        }
-                        return {...querySnapshot.data()}
-                    })
-
-        if(userInfo){
-
-            for( let  x in body.Links){
-                if(body.Links[x] === "" && userInfo.Links.hasOwnProperty(x)){
-                    body.Links[x] = userInfo.Links[x]
-                }
-            }
-
-            const result = await db 
-                        .collection('pageInfo')
-                        .doc(userId)
-                        .update({
-                            ...body
-                        })
-
-
-            const updatedPageInfo = await db
-                            .collection('pageInfo')
-                            .doc(userId)
-                            .get()
-                            .then((querySnapshot) => {
-                                if(!querySnapshot.exists)
-                                {
-                                    return null;
-                                }
-                                return {...querySnapshot.data()}
-                            })
-            
-
-            let profileCompleted : boolean = true;
-        
-            for(let x in updatedPageInfo){
-                if(!updatedPageInfo[x] || updatedPageInfo[x].length === 0){
-                    profileCompleted = false
-                }
-            }
-
-            if(profileCompleted){
-                for(let x in updatedPageInfo.Links){
-                    if(!updatedPageInfo || updatedPageInfo.Links[x].length === 0){
-                        console.log(x)
-                        profileCompleted = false
-                    }
-                }
-            }
-
-            if(profileCompleted){
-                await db.collection('userMetaData')
-                .doc(userId)
-                .update({
-                    profileCompleted: true,
-                })
-                .then(()=>{
-                    console.log('profile status changed')
-                })
-                .catch((error)=>{
-                    console.log('eror' + error.message)
-                })
-            }
-
-            return {
-                error: false,
-                message: 'Page Info updated successfully'
-            }
+export default async function updatePageInfo(userId, body) {
+  try {
+    const userInfo = await db
+      .collection('pageInfo')
+      .doc(userId)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.exists) {
+          return null;
         }
-        else {
-            return {
-                error: true,
-                message : 'The user is not a creator'
-            }
+        return { ...querySnapshot.data() };
+      });
+
+    if (userInfo) {
+      for (let x in body.Links) {
+        if (body.Links[x] === '' && userInfo.Links.hasOwnProperty(x)) {
+          body.Links[x] = userInfo.Links[x];
         }
+      }
+
+      const result = await db
+        .collection('pageInfo')
+        .doc(userId)
+        .update({
+          ...body,
+        });
+
+      const updatedPageInfo = await db
+        .collection('pageInfo')
+        .doc(userId)
+        .get()
+        .then((querySnapshot) => {
+          if (!querySnapshot.exists) {
+            return null;
+          }
+          return { ...querySnapshot.data() };
+        });
+
+      let profileCompleted: boolean = true;
+
+      for (let x in updatedPageInfo) {
+        if (!updatedPageInfo[x] || updatedPageInfo[x].length === 0) {
+          profileCompleted = false;
+        }
+      }
+
+      if (profileCompleted) {
+        for (let x in updatedPageInfo.Links) {
+          if (!updatedPageInfo || updatedPageInfo.Links[x].length === 0) {
+            console.log(x);
+            profileCompleted = false;
+          }
+        }
+      }
+
+      if (profileCompleted) {
+        await db
+          .collection('userMetaData')
+          .doc(userId)
+          .update({
+            profileCompleted: true,
+          })
+          .then(() => {
+            console.log('profile status changed');
+          })
+          .catch((error) => {
+            console.log('eror' + error.message);
+          });
+      }
+
+      return {
+        error: false,
+        message: 'Page Info updated successfully',
+      };
+    } else {
+      return {
+        error: true,
+        message: 'The user is not a creator',
+      };
     }
-    catch(error){
-        return {
-            error : true,
-            message : 'Some error occured ' + error.message
-        }
-    }
+  } catch (error) {
+    return {
+      error: true,
+      message: 'Some error occured ' + error.message,
+    };
+  }
 }

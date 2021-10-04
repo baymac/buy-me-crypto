@@ -12,7 +12,6 @@
   grid-template-rows: 100px repeat(2, 1fr);
 }
 
-
 @media screen and (min-width: 410px) {
   .center {
     max-width: 400px;

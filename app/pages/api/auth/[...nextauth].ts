@@ -22,10 +22,10 @@ export default NextAuth({
   ],
   adapter: FirebaseAdapter(firestore),
   callbacks: {
-    async session(session, user){
+    async session(session, user) {
       session.user['youtube'] = user.youtube;
       session.user['id'] = user.id;
-      return session
-    }
-  }
+      return session;
+    },
+  },
 });

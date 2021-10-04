@@ -7,7 +7,7 @@
 .wrapper {
   display: flex;
   position: relative;
-  width : 100%;
+  width: 100%;
 }
 
 .pageHeading {
@@ -20,9 +20,9 @@
   width: fit-content;
 }
 
-.wrapper__contianer{
-  margin-left :  calc(230px + 1rem );
-  padding : 2rem ;
+.wrapper__contianer {
+  margin-left: calc(230px + 1rem);
+  padding: 2rem;
 }
 
 @media (min-width: 600px) {
