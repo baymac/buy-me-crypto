@@ -79,7 +79,6 @@ const DashboardForms = () => {
     })
       .then((data) => {
         setInitialData(data);
-        console.log(data);
         const arr = [];
         for (let x in data.pageInfo.Links) {
           if (
@@ -100,10 +99,7 @@ const DashboardForms = () => {
       });
   }, [session]);
 
-  console.log(socialAddedList);
-
   const handleOnSubmit = async (data) => {
-    console.log(data);
     data['userId'] = session.userId;
 
     const resData = await fetchJson('/api/updatePageInfo', {

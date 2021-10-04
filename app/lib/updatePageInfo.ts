@@ -51,7 +51,6 @@ export default async function updatePageInfo(userId, body) {
       if (profileCompleted) {
         for (let x in updatedPageInfo.Links) {
           if (!updatedPageInfo || updatedPageInfo.Links[x].length === 0) {
-            console.log(x);
             profileCompleted = false;
           }
         }

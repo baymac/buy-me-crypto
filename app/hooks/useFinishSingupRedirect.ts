@@ -13,7 +13,6 @@ export default function useNavSelection() {
   useEffect(() => {
     if (!loading) {
       if (session) {
-        console.log(session);
         const body = {
           userId: session.userId,
         };
