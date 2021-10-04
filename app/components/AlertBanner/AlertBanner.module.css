@@ -12,3 +12,9 @@
   margin-right: var(--mb-0-5);
   color: var(--alert-border-color);
 }
+
+.wrapper a{
+  font-weight: bolder;
+  color : var(--alert-text-color);
+  text-decoration: underline;
+}

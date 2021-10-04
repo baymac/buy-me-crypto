@@ -9,6 +9,7 @@ import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
+import Link from 'next/link'
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -35,9 +36,9 @@ export default function Home() {
           >
             <div className={styles.wrapper}>
               <Sidebar />
-              <div className={styles.wrapper__contianer}>
+              <div className={styles.wrapper__container}>
                 {!isProfileCompleted ? (
-                  <AlertBanner> Your profile is not completed </AlertBanner>
+                  <AlertBanner> Your page is currently incomplete. <Link href='/settings'>Click here</Link> to complete profile and start attracting fans </AlertBanner>
                 ) : null}
               </div>
             </div>

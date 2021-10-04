@@ -20,15 +20,20 @@
   width: fit-content;
 }
 
-.wrapper__contianer {
-  margin-left: calc(230px + 1rem);
-  padding: 2rem;
+.wrapper__container {
+  width : 100%;
+
 }
 
 @media (min-width: 600px) {
   .about__container {
     grid-template-columns: 1fr;
     grid-column-gap: 2rem;
+  }
+
+  .wrapper__container{
+    margin-left: calc(230px + 1rem);
+    padding: 2rem;
   }
 }
 

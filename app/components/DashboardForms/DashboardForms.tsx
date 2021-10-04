@@ -117,9 +117,7 @@ const DashboardForms = () => {
     }
   };
 
-  console.log(subLoading)
 
-  ////////////////////////////////////////////////////////////////
   function capitalizeFirstLetter(string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -127,7 +125,6 @@ const DashboardForms = () => {
   const isEmpty = (str: string): boolean => {
     return !str || str.length === 0;
   };
-  ////////////////////////////////////////////////////////////////
 
   const handleSocialUrlClick = (e) => {
     e.preventDefault();
