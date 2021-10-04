@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import fetchJson from '../lib/fetchJson'
+import fetchJson from '../lib/fetchJson';
 
 export default function useSessionRedirect(
   path: string,

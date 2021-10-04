@@ -85,9 +85,9 @@
   --form-background-color: hsl(0, 0%, 100%);
   --input-hover-border-color: black;
   --input-text-color: var(--text-color);
-  --alert-bg-color : hsl(35, 100%, 95%);
-  --alert-border-color : hsl( 36, 100% , 55% );
-  --alert-text-color : var(--text-color);
+  --alert-bg-color: hsl(35, 100%, 95%);
+  --alert-border-color: hsl(36, 100%, 55%);
+  --alert-text-color: var(--text-color);
   /*========== Font and typography ==========*/
   --body-font: 'Inter', sans-serif;
 
@@ -179,8 +179,8 @@
   --landing-input-url-color: hsl(0, 0%, 100%);
   --landing-input-text-color: hsl(0, 0%, 65%);
   --landing-input-bg-color: hsl(0, 0%, 23%);
-  --alert-bg-color : hsl(37 , 56%, 6%);
-  --alert-text-color : hsl(36, 100% , 85%)
+  --alert-bg-color: hsl(37, 56%, 6%);
+  --alert-text-color: hsl(36, 100%, 85%);
 }
 
 /*========== Button Dark/Light ==========*/
