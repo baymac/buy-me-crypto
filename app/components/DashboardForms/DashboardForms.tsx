@@ -67,7 +67,7 @@ const DashboardForms = () => {
 
   useEffect(() => {
     const body = {
-      userId: session.user.id,
+      userId: session.userId,
     };
 
     fetchJson('/api/getPageInfo', {
@@ -104,7 +104,7 @@ const DashboardForms = () => {
 
   const handleOnSubmit = async (data) => {
     console.log(data);
-    data['userId'] = session.user.id;
+    data['userId'] = session.userId;
 
     const resData = await fetchJson('/api/updatePageInfo', {
       method: 'POST',

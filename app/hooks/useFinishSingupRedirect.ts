@@ -15,7 +15,7 @@ export default function useNavSelection() {
       if (session) {
         console.log(session);
         const body = {
-          userId: session.user.id,
+          userId: session.userId,
         };
         fetchJson('/api/getUserMetaData', {
           method: 'POST',

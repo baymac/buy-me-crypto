@@ -15,7 +15,7 @@ export default function finishSignup() {
   const handleFanCreation = async (e) => {
     e.preventDefault();
     const body = {
-      userId: session.user.id,
+      userId: session.userId,
       userLevel: 1,
     };
 
@@ -35,11 +35,11 @@ export default function finishSignup() {
   const handleCreatorCreation = async (e) => {
     e.preventDefault();
     const bodyMetaData = {
-      userId: session.user.id,
+      userId: session.userId,
       userLevel: 2,
     };
     const bodyPageInfo = {
-      userId: session.user.id,
+      userId: session.userId,
     };
 
     let resultMetaData = await fetchJson('/api/addUserMetaData', {
