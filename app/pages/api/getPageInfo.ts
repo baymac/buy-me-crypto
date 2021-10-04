@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import firebase from '../../firebase/clientApp';
 import getPageInfo from '../../lib/getPageInfo';
 
 export default async function handler(
@@ -16,7 +15,7 @@ export default async function handler(
   } catch (error) {
     res.status(200).json({
       error: true,
-      message: 'Some error occurres' + error.message,
+      message: 'Some error occurred' + error.message,
     });
   }
 }
