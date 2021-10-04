@@ -43,6 +43,45 @@ const pageInfoForm: IFormInputField[] = [
   },
 ];
 
+const intialSocialUrlList : IFormInputField[] = [
+  {
+    label: 'Youtube',
+    isRequired: false,
+    type: 'text',
+    registerName: 'youtube',
+    isInput: true,
+  },
+  {
+    label: 'Twitch',
+    isRequired: false,
+    type: 'text',
+    registerName: 'twitch',
+    isInput: true,
+  },
+  {
+    label: 'Twitter',
+    isRequired: false,
+    type: 'text',
+    registerName: 'twitter',
+    isInput: true,
+  },
+  {
+    label: 'Instagram',
+    isRequired: false,
+    type: 'text',
+    registerName: 'instagram',
+    isInput: true,
+  },
+  {
+    label: 'Personal Blog',
+    isRequired: false,
+    type: 'text',
+    registerName: 'personalBlog',
+    isInput: true,
+  },
+
+]
+
 const DashboardForms = () => {
   const {
     register,
@@ -55,15 +94,9 @@ const DashboardForms = () => {
   const [session, loading] = useSession();
   const [initialData, setInitialData] = useState(null);
   const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
-  const [socialUrlList, setSocialUrlList] = useState<string[]>([
-    'Youtube',
-    'Twitch',
-    'Instagram',
-    'Twitter',
-    'Personal Blog',
-  ]);
+  const [socialUrlList, setSocialUrlList] = useState<IFormInputField[]>(intialSocialUrlList);
 
-  const [socialAddedList, setSocialAddedList] = useState<string[]>([]);
+  const [socialAddedList, setSocialAddedList] = useState<IFormInputField[]>([]);
   const [subLoading, setSubLoading ] = useState<boolean>(false);
 
   useEffect(() => {
@@ -80,27 +113,29 @@ const DashboardForms = () => {
     })
       .then((data) => {
         setInitialData(data);
-        const arr = [];
+        const arr : IFormInputField[] = [];
         for (let x in data.pageInfo.links) {
           if (
             !isEmpty(data.pageInfo.links[x]) &&
-            socialUrlList.includes(capitalizeFirstLetter(x))
+            socialUrlList.some((social) => social.registerName === x)
           ) {
-            arr.push(capitalizeFirstLetter(x));
+            const presentSocial : IFormInputField = socialUrlList.find((social) => social.registerName === x)
+            arr.push(presentSocial);
           }
         }
         setSocialAddedList([...socialAddedList, ...arr]);
-        setSocialUrlList(socialUrlList.filter((url) => !arr.includes(url)));
+        setSocialUrlList(socialUrlList.filter((url) => !arr.some((ele)=> ele.registerName === url.registerName)));
         return { arr, data };
       })
       .then(({ arr, data }) => {
         arr.forEach((url) => {
-          setValue(url.toLowerCase(), data.pageInfo.links[url.toLowerCase()]);
+          setValue(url.registerName, data.pageInfo.links[url.registerName]);
         });
       });
   }, [session]);
 
   const handleOnSubmit = async (data) => {
+    console.log(data)
     setSubLoading(true)
     data['userId'] = session.userId;
 
@@ -132,8 +167,9 @@ const DashboardForms = () => {
   };
 
   const handleSocialDropdownChange = (e) => {
-    setSocialAddedList([...socialAddedList, e.target.value]);
-    setSocialUrlList(socialUrlList.filter((url) => url !== e.target.value));
+    const selectedSocial : IFormInputField = socialUrlList.find((social) => social.label === e.target.value)
+    setSocialAddedList([...socialAddedList, selectedSocial]);
+    setSocialUrlList(socialUrlList.filter((url) => url.label !== e.target.value));
     setAddSocialUrl(false);
   };
 
@@ -142,12 +178,13 @@ const DashboardForms = () => {
     setAddSocialUrl(false);
   };
 
-  const handleMinusSocialInput = (e, social: string) => {
+  const handleMinusSocialInput = (e, social: IFormInputField) => {
     e.preventDefault();
-    unregister(social);
-    setSocialAddedList(socialAddedList.filter((url) => url !== social));
+    unregister(social.registerName);
+    setSocialAddedList(socialAddedList.filter((url) => url.registerName !== social.registerName));
     setSocialUrlList([...socialUrlList, social]);
   };
+
 
   if (loading || !session || !initialData) {
     return (
@@ -175,18 +212,18 @@ const DashboardForms = () => {
                 {socialAddedList.map((social) => {
                   return (
                     <div
-                      id={social}
-                      key={social}
+                      id={social.label}
+                      key={social.label}
                       className={inputStyles.inputBox}
                     >
                       <label
                         className={inputStyles.inputBox__label}
-                      >{`${social}`}</label>
+                      >{`${social.label}`}</label>
                       <div className={cn(inputStyles.inputMinusBox__wrapper)}>
                         <input
                           type={'text'}
                           className={inputStyles.inputBox__wrapper__input}
-                          {...register(social.toLowerCase(), {
+                          {...register(social.registerName, {
                             required: false,
                           })}
                         />
@@ -220,7 +257,7 @@ const DashboardForms = () => {
                     >
                       <option> Select </option>
                       {socialUrlList.map((url) => {
-                        return <option key={url}>{url}</option>;
+                        return <option key={url.registerName}>{url.label}</option>;
                       })}
                     </select>
                   </div>

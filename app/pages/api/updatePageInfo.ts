@@ -16,7 +16,7 @@ export default async function updateUserInfo(
     instagram,
     twitter,
     twitch,
-    personalblog,
+    personalBlog,
     userId,
   } = req.body;
   try {
@@ -29,7 +29,7 @@ export default async function updateUserInfo(
         instagram: instagram ?? '',
         twitter: twitter ?? '',
         twitch: twitch ?? '',
-        personalBlog: personalblog ?? '',
+        personalBlog: personalBlog ?? '',
       },
     };
     const result = await updatePageInfo(userId, body);
