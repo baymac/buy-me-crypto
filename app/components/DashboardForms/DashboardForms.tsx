@@ -64,6 +64,7 @@ const DashboardForms = () => {
   ]);
 
   const [socialAddedList, setSocialAddedList] = useState<string[]>([]);
+  const [subLoading, setSubLoading ] = useState<boolean>(false);
 
   useEffect(() => {
     const body = {
@@ -100,6 +101,7 @@ const DashboardForms = () => {
   }, [session]);
 
   const handleOnSubmit = async (data) => {
+    setSubLoading(true)
     data['userId'] = session.userId;
 
     const resData = await fetchJson('/api/updatePageInfo', {
@@ -109,17 +111,18 @@ const DashboardForms = () => {
         'Content-Type': 'application/json',
       },
     });
+
+    if(!resData.error){
+      setSubLoading(false)
+    }
   };
+
+  console.log(subLoading)
 
   ////////////////////////////////////////////////////////////////
   function capitalizeFirstLetter(string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
-  // const addToSocialUrlList = (socialUrl) => {
-  //   setSocialAddedList([...socialAddedList, socialUrl]);
-  //   setSocialUrlList(socialUrlList.filter((url) => url.toLowerCase() !== socialUrl));
-  // }
 
   const isEmpty = (str: string): boolean => {
     return !str || str.length === 0;
@@ -167,6 +170,7 @@ const DashboardForms = () => {
           submitBtnText={'Publish Page'}
           initialData={initialData}
           setValue={setValue}
+          subLoading={subLoading}
         >
           <>
             {socialAddedList.length >= 1 && (

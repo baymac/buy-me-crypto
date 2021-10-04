@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import React, { ReactElement, useEffect } from 'react';
+import ButtonLoading from '../ButtonLoading/ButtonLoading';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import styles from './FormGenerator.module.css';
 
@@ -13,6 +14,7 @@ interface IFormGeneratorProps {
   submitBtnText: string;
   initialData: any;
   setValue: any;
+  subLoading : boolean;
 }
 
 const FormGenerator = ({
@@ -25,6 +27,7 @@ const FormGenerator = ({
   children,
   initialData,
   setValue,
+  subLoading
 }: IFormGeneratorProps) => {
   useEffect(() => {
     if (initialData.hasOwnProperty('pageInfo')) {
@@ -78,8 +81,8 @@ const FormGenerator = ({
           );
         })}
         {children}
-        <button className={cn(styles.btn, styles.saveBtn)}>
-          <span>{submitBtnText}</span>
+        <button className={cn(styles.btn, styles.saveBtn)} disabled={subLoading}>
+          {subLoading ? <ButtonLoading /> : <span>{submitBtnText}</span>}
         </button>
       </form>
     </div>
