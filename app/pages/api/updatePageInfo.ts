@@ -1,6 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import firebase from '../../firebase/clientApp';
-// import {getDoc} from 'firebase/firestore'
 import updatePageInfo from '../../lib/updatePageInfo';
 
 export default async function updateUserInfo(
@@ -10,30 +8,34 @@ export default async function updateUserInfo(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
-
+  const {
+    aboutPage,
+    pageName,
+    pageHeadline,
+    youtube,
+    instagram,
+    twitter,
+    twitch,
+    personalblog,
+    userId,
+  } = req.body;
   try {
     const body = {
-      aboutPage: req.body.aboutPage,
-      pageName: req.body.pageName,
-      pageHeadline: req.body.pageHeadline,
-      Links: {
-        youtube: req.body.hasOwnProperty('youtube') ? req.body.youtube : '',
-        instagram: req.body.hasOwnProperty('instagram')
-          ? req.body.instagram
-          : '',
-        twitter: req.body.hasOwnProperty('twitter') ? req.body.twitter : '',
-        twitch: req.body.hasOwnProperty('twitch') ? req.body.twitch : '',
-        personalBlog: req.body.hasOwnProperty('personal blog')
-          ? req.body['personal blog']
-          : '',
+      aboutPage,
+      pageName,
+      pageHeadline,
+      links: {
+        youtube: youtube ?? '',
+        instagram: instagram ?? '',
+        twitter: twitter ?? '',
+        twitch: twitch ?? '',
+        personalBlog: personalblog ?? '',
       },
     };
-
-    const result = await updatePageInfo(req.body.userId, body);
-
+    const result = await updatePageInfo(userId, body);
     res.status(200).json({
       error: false,
-      message: 'Updation successful',
+      message: result.message,
     });
   } catch (error) {
     res.status(200).json({
