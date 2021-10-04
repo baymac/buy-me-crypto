@@ -1,28 +1,25 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import AlertBanner from '../components/AlertBanner/AlertBanner';
 import PieLoading from '../components/PieLoading/PieLoading';
 import Sidebar from '../components/Sidebar/Sidebar';
+import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
-import fetchJson from '../lib/fetchJson';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
-import { useRouter } from 'next/router';
-import AlertBanner from '../components/AlertBanner/AlertBanner';
-import useFinishSingupRedirect from '../hooks/useFinishSingupRedirect';
 
 export default function Home() {
   const [session, loading] = useSession();
-  const router = useRouter();
-
-  let [gotMetaData, isProfileCompleted] = useFinishSingupRedirect();
   useSessionRedirect('/', true);
 
-  if (loading || !session || !gotMetaData) {
+  let [hasMetaData, isProfileCompleted] = useFinishSignupRedirect();
+
+  if (loading || !hasMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
-        <PieLoading></PieLoading>
+        <PieLoading />
       </div>
     );
   } else {

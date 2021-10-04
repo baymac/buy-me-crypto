@@ -1,24 +1,22 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
+import DashboardForms from '../components/DashboardForms/DashboardForms';
 import PieLoading from '../components/PieLoading/PieLoading';
+import Sidebar from '../components/Sidebar/Sidebar';
+import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
+import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
-import Sidebar from '../components/Sidebar/Sidebar';
-import DashboardForms from '../components/DashboardForms/DashboardForms';
-import useSessionRedirect from '../hooks/useSessionRedirect';
-import fetchJson from '../lib/fetchJson';
-import useFinishSingupRedirect from '../hooks/useFinishSingupRedirect';
 
 export default function Home() {
   const [session, loading] = useSession();
 
-  let [gotMetaData] = useFinishSingupRedirect();
+  const [hasMetaData] = useFinishSignupRedirect();
   useSessionRedirect('/', true);
 
-  if (loading || !session || !gotMetaData) {
+  if (loading || !hasMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
