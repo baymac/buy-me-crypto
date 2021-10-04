@@ -44,7 +44,9 @@ const FormGenerator = ({
           if (!input.isInput) {
             return (
               <div key={index} className={styles.textBox}>
-                <label className={styles.textBox__label}>{input.label}</label>
+                <label className={cn(styles.textBox__label,{
+                  [styles.label_required] : input.isRequired,
+                })}>{input.label}</label>
                 <div className={styles.textBox__wrapper}>
                   <p className={styles.textBox__wrapper__error}>
                     {errors[input.registerName]?.type === 'required' &&
@@ -63,7 +65,9 @@ const FormGenerator = ({
 
           return (
             <div key={index} className={styles.inputBox}>
-              <label className={styles.inputBox__label}>{input.label}</label>
+              <label className={cn(styles.inputBox__label,{
+                [styles.label_required] : input.isRequired,
+              })}>{input.label}</label>
               <div className={styles.inputBox__wrapper}>
                 <input
                   type={input.type}
