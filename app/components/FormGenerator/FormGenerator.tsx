@@ -30,12 +30,14 @@ const FormGenerator = ({
   subLoading
 }: IFormGeneratorProps) => {
   useEffect(() => {
-    if (initialData.hasOwnProperty('pageInfo')) {
-      setValue('pageName', initialData.pageInfo.pageName);
-      setValue('pageHeadline', initialData.pageInfo.pageHeadline);
-      setValue('aboutPage', initialData.pageInfo.aboutPage);
+    if (initialData.data) {
+      setValue('pageName', initialData.data.pageName);
+      setValue('pageHeadline', initialData.data.pageHeadline);
+      setValue('aboutPage', initialData.data.aboutPage);
     }
   }, [initialData]);
+
+  console.log(initialData.data.pageName)
 
   return (
     <div className={styles.formWrapper}>

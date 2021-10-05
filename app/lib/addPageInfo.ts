@@ -1,8 +1,29 @@
 import firebase from '../firebase/clientApp';
-
+import {IGenericAPIResponse} from './utils'
 const db = firebase.firestore();
 
-export default async function addPageInfo(userId) {
+export interface IAddPageInfoRequest {
+  userId : string 
+}
+
+export interface IPageInfo{
+  pageName : string ; 
+  aboutPage : string ;
+  pageHeadline : string ;
+  links : {
+    youtube : string ; 
+    instagram : string ;
+    twitter : string ;
+    twitch : string ; 
+    personalBlog : string ;
+  }
+}
+
+export interface IAddPageInfoResponse extends IGenericAPIResponse{
+  data : null | IPageInfo
+}
+
+export default async function addPageInfo( {userId} : IAddPageInfoRequest) : Promise<IAddPageInfoResponse> {
   try {
     const pageInfo = await db
       .collection('pageInfo')
@@ -23,7 +44,7 @@ export default async function addPageInfo(userId) {
           pageName: '',
           aboutPage: '',
           pageHeadline: '',
-          Links: {
+          links: {
             youtube: '',
             instagram: '',
             twitter: '',
@@ -32,20 +53,25 @@ export default async function addPageInfo(userId) {
           },
         });
 
+      console.log(result)
+
       return {
         error: false,
         message: 'PageInfo Created Successfully',
+        data : null
       };
     } else {
       return {
         error: true,
         message: 'page info already exits',
+        data : null
       };
     }
   } catch (error) {
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
+      data : null
     };
   }
 }

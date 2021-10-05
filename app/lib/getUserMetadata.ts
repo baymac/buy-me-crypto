@@ -1,8 +1,17 @@
 import firebase from '../firebase/clientApp';
+import { IUserMetaData } from './addUserMetaData';
+import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
 
 const db = firebase.firestore();
 
-export default async function getUserMetaData(userId) {
+export interface IGetUserMetaDataRequest extends IGenericAPIRequest {}
+
+export interface IGetUserMetaDataResponse extends IGenericAPIResponse {
+  data : null | IUserMetaData
+}
+
+//Having problem when declaring return types as Promise<IGetUserMetaDataResponse>
+export default async function getUserMetaData({userId} : IGenericAPIRequest )  {
   try {
     const metaData = await db
       .collection('userMetaData')
@@ -18,18 +27,20 @@ export default async function getUserMetaData(userId) {
     if (metaData) {
       return {
         error: false,
-        metaData: metaData,
+        data : metaData,
         message: 'user metaData found',
       };
     } else {
       return {
         error: true,
+        data: null,
         message: 'meta Data not found',
       };
     }
   } catch (error) {
     return {
       error: true,
+      data : null,
       message: ' Some error occured while fetching metaData ' + error.message,
     };
   }

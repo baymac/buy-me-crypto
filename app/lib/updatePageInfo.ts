@@ -1,8 +1,15 @@
 import firebase from '../firebase/clientApp';
+import { IPageInfo } from './addPageInfo';
+import { IGenericAPIResponse } from './utils';
 
 const db = firebase.firestore();
 
-export default async function updatePageInfo(userId, body) {
+export interface IUpdatePageInfoRequest {
+  userId : string ,
+  body : IPageInfo
+}
+
+export default async function updatePageInfo({userId, body} : IUpdatePageInfoRequest ) : Promise<IGenericAPIResponse> {
   try {
     const userInfo = await db
       .collection('pageInfo')
@@ -16,9 +23,9 @@ export default async function updatePageInfo(userId, body) {
       });
 
     if (userInfo) {
-      for (let x in body.Links) {
-        if (body.Links[x] === '' && userInfo.Links.hasOwnProperty(x)) {
-          body.Links[x] = userInfo.Links[x];
+      for (let x in body.links) {
+        if (body.links[x] === '' && userInfo.links.hasOwnProperty(x)) {
+          body.links[x] = userInfo.links[x];
         }
       }
 
@@ -49,8 +56,8 @@ export default async function updatePageInfo(userId, body) {
       }
 
       if (profileCompleted) {
-        for (let x in updatedPageInfo.Links) {
-          if (!updatedPageInfo || updatedPageInfo.Links[x].length === 0) {
+        for (let x in updatedPageInfo.links) {
+          if (!updatedPageInfo || updatedPageInfo.links[x].length === 0) {
             profileCompleted = false;
           }
         }

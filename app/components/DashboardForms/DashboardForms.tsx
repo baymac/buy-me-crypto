@@ -111,12 +111,12 @@ const DashboardForms = () => {
         'Content-Type': 'application/json',
       },
     })
-      .then((data) => {
-        setInitialData(data);
+      .then((pageInfo) => {
+        setInitialData(pageInfo);
         const arr : IFormInputField[] = [];
-        for (let x in data.pageInfo.links) {
+        for (let x in pageInfo.data.links) {
           if (
-            !isEmpty(data.pageInfo.links[x]) &&
+            !isEmpty(pageInfo.data.links[x]) &&
             socialUrlList.some((social) => social.registerName === x)
           ) {
             const presentSocial : IFormInputField = socialUrlList.find((social) => social.registerName === x)
@@ -125,11 +125,11 @@ const DashboardForms = () => {
         }
         setSocialAddedList([...socialAddedList, ...arr]);
         setSocialUrlList(socialUrlList.filter((url) => !arr.some((ele)=> ele.registerName === url.registerName)));
-        return { arr, data };
+        return { arr, pageInfo };
       })
-      .then(({ arr, data }) => {
+      .then(({ arr, pageInfo }) => {
         arr.forEach((url) => {
-          setValue(url.registerName, data.pageInfo.links[url.registerName]);
+          setValue(url.registerName, pageInfo.data.links[url.registerName]);
         });
       });
   }, [session]);
@@ -151,11 +151,6 @@ const DashboardForms = () => {
       setSubLoading(false)
     }
   };
-
-
-  function capitalizeFirstLetter(string): string {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 
   const isEmpty = (str: string): boolean => {
     return !str || str.length === 0;

@@ -22,15 +22,15 @@ export default function useFinishSignupRedirect() {
           'Content-Type': 'application/json',
         },
       })
-        .then((data) => {
-          if (!data.hasOwnProperty('metaData')) {
+        .then((metaData) => {
+          if (!metaData.data) {
             router.push('/finishSignup');
           }
-          return data;
+          return metaData;
         })
-        .then((data) => {
+        .then((metaData) => {
           setHasMetaData(true);
-          if (data.metaData.profileCompleted) {
+          if (metaData.data.profileCompleted) {
             setIsProfileCompleted(true);
           }
         })

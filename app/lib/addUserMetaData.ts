@@ -1,8 +1,23 @@
 import firebase from '../firebase/clientApp';
+import { IGenericAPIResponse } from './utils';
 
 const db = firebase.firestore();
 
-export default async function addUserMetaData(userId, userLevel) {
+export interface IAddUserMetaDataRequest{
+  userId : string;
+  userLevel : number;
+}
+
+export interface IUserMetaData{
+  userLevel : number; 
+  profileCompleted: boolean;
+}
+
+export interface IAddUserMetaDataResponse extends IGenericAPIResponse{
+  data : null | IUserMetaData;
+}
+
+export default async function addUserMetaData({userId, userLevel} : IAddUserMetaDataRequest) : Promise<IAddUserMetaDataResponse> {
   try {
     const metaData = await db
       .collection('userMetaData')
@@ -16,7 +31,10 @@ export default async function addUserMetaData(userId, userLevel) {
       });
 
     if (!metaData) {
-      const result = await db.collection('userMetaData').doc(userId).set({
+      const result = await db
+      .collection('userMetaData')
+      .doc(userId)
+      .set({
         userLevel: userLevel,
         profileCompleted: false,
       });
@@ -24,17 +42,20 @@ export default async function addUserMetaData(userId, userLevel) {
       return {
         error: false,
         message: 'userMetaData Created Successfully',
+        data : null
       };
     } else {
       return {
         error: true,
         message: 'user Meta Data already exits',
+        data : null
       };
     }
   } catch (error) {
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
+      data : null
     };
   }
 }
