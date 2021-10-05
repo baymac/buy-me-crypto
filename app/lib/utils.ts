@@ -8,6 +8,10 @@ export interface IGenericAPIResponse {
   message: string;
 }
 
+export interface IGenericAPIRequest {
+  userId: string;
+}
+
 export const getAccountFromLocalStorage = (key: string): Account => {
   const base64Keypair = window.localStorage.getItem(key);
   if (base64Keypair) {

@@ -3,7 +3,6 @@ import {
   UilArrowLeft,
   UilMoon,
   UilMultiply,
-  UilSignOutAlt,
   UilSun,
 } from '@iconscout/react-unicons';
 import cn from 'classnames';

@@ -6,7 +6,7 @@
   .sidebarContainer {
     display: block;
     grid-area: sidebar;
-    width: 230px;
+    width: calc(230px - 1rem);
     /* height: 400px; */
     background-color: var(--body-color);
     position: fixed;
@@ -47,7 +47,7 @@
   .sidebarList {
     display: flex;
     flex-direction: column;
-    padding: 0 var(--mb-1) 0 var(--mb-1-5);
+    padding: 0 var(--mb-1) 0 0;
     column-gap: 2rem;
     margin-top: var(--mb-1);
   }

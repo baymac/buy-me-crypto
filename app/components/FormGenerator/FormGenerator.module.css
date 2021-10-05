@@ -33,6 +33,11 @@
   margin-bottom: var(--mb-1);
 }
 
+.label_required:after {
+  content: ' *';
+  color: var(--text-color);
+}
+
 .textBox__wrapper {
   margin-bottom: var(--mb-1-5);
 }
