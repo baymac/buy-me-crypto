@@ -3,21 +3,24 @@ import { IGenericAPIResponse } from './utils';
 
 const db = firebase.firestore();
 
-export interface IAddUserMetaDataRequest{
-  userId : string;
-  userLevel : number;
+export interface IAddUserMetaDataRequest {
+  userId: string;
+  userLevel: number;
 }
 
-export interface IUserMetaData{
-  userLevel : number; 
+export interface IUserMetaData {
+  userLevel: number;
   profileCompleted: boolean;
 }
 
-export interface IAddUserMetaDataResponse extends IGenericAPIResponse{
-  data : null | IUserMetaData;
+export interface IAddUserMetaDataResponse extends IGenericAPIResponse {
+  data: null | IUserMetaData;
 }
 
-export default async function addUserMetaData({userId, userLevel} : IAddUserMetaDataRequest) : Promise<IAddUserMetaDataResponse> {
+export default async function addUserMetaData({
+  userId,
+  userLevel,
+}: IAddUserMetaDataRequest): Promise<IAddUserMetaDataResponse> {
   try {
     const metaData = await db
       .collection('userMetaData')
@@ -31,10 +34,7 @@ export default async function addUserMetaData({userId, userLevel} : IAddUserMeta
       });
 
     if (!metaData) {
-      const result = await db
-      .collection('userMetaData')
-      .doc(userId)
-      .set({
+      const result = await db.collection('userMetaData').doc(userId).set({
         userLevel: userLevel,
         profileCompleted: false,
       });
@@ -42,20 +42,20 @@ export default async function addUserMetaData({userId, userLevel} : IAddUserMeta
       return {
         error: false,
         message: 'userMetaData Created Successfully',
-        data : null
+        data: null,
       };
     } else {
       return {
         error: true,
         message: 'user Meta Data already exits',
-        data : null
+        data: null,
       };
     }
   } catch (error) {
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
-      data : null
+      data: null,
     };
   }
 }

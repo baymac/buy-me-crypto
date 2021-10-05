@@ -9,7 +9,7 @@ export interface IGenericAPIResponse {
 }
 
 export interface IGenericAPIRequest {
-  userId : string 
+  userId: string;
 }
 
 export const getAccountFromLocalStorage = (key: string): Account => {

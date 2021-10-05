@@ -34,7 +34,7 @@
 }
 
 .label_required:after {
-  content:" *";
+  content: ' *';
   color: var(--text-color);
 }
 

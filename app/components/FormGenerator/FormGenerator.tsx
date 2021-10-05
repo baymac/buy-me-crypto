@@ -14,7 +14,7 @@ interface IFormGeneratorProps {
   submitBtnText: string;
   initialData: any;
   setValue: any;
-  subLoading : boolean;
+  subLoading: boolean;
 }
 
 const FormGenerator = ({
@@ -27,7 +27,7 @@ const FormGenerator = ({
   children,
   initialData,
   setValue,
-  subLoading
+  subLoading,
 }: IFormGeneratorProps) => {
   useEffect(() => {
     if (initialData.data) {
@@ -37,7 +37,7 @@ const FormGenerator = ({
     }
   }, [initialData]);
 
-  console.log(initialData.data.pageName)
+  console.log(initialData.data.pageName);
 
   return (
     <div className={styles.formWrapper}>
@@ -46,9 +46,13 @@ const FormGenerator = ({
           if (!input.isInput) {
             return (
               <div key={index} className={styles.textBox}>
-                <label className={cn(styles.textBox__label,{
-                  [styles.label_required] : input.isRequired,
-                })}>{input.label}</label>
+                <label
+                  className={cn(styles.textBox__label, {
+                    [styles.label_required]: input.isRequired,
+                  })}
+                >
+                  {input.label}
+                </label>
                 <div className={styles.textBox__wrapper}>
                   <p className={styles.textBox__wrapper__error}>
                     {errors[input.registerName]?.type === 'required' &&
@@ -67,9 +71,13 @@ const FormGenerator = ({
 
           return (
             <div key={index} className={styles.inputBox}>
-              <label className={cn(styles.inputBox__label,{
-                [styles.label_required] : input.isRequired,
-              })}>{input.label}</label>
+              <label
+                className={cn(styles.inputBox__label, {
+                  [styles.label_required]: input.isRequired,
+                })}
+              >
+                {input.label}
+              </label>
               <div className={styles.inputBox__wrapper}>
                 <input
                   type={input.type}
@@ -87,7 +95,10 @@ const FormGenerator = ({
           );
         })}
         {children}
-        <button className={cn(styles.btn, styles.saveBtn)} disabled={subLoading}>
+        <button
+          className={cn(styles.btn, styles.saveBtn)}
+          disabled={subLoading}
+        >
           {subLoading ? <ButtonLoading /> : <span>{submitBtnText}</span>}
         </button>
       </form>

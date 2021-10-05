@@ -5,11 +5,14 @@ import { IGenericAPIResponse } from './utils';
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest {
-  userId : string ,
-  body : IPageInfo
+  userId: string;
+  body: IPageInfo;
 }
 
-export default async function updatePageInfo({userId, body} : IUpdatePageInfoRequest ) : Promise<IGenericAPIResponse> {
+export default async function updatePageInfo({
+  userId,
+  body,
+}: IUpdatePageInfoRequest): Promise<IGenericAPIResponse> {
   try {
     const userInfo = await db
       .collection('pageInfo')

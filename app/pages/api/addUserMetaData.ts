@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IAddUserMetaDataRequest, IAddUserMetaDataResponse } from '../../lib/addUserMetaData';
+import {
+  IAddUserMetaDataRequest,
+  IAddUserMetaDataResponse,
+} from '../../lib/addUserMetaData';
 import addUserMetaData from '../../lib/addUserMetaData';
 
 export default async function handler(
@@ -10,12 +13,12 @@ export default async function handler(
     res.status(200).json({ message: 'Wrong req method' });
   }
   const { userId, userLevel } = req.body;
-  const body : IAddUserMetaDataRequest = {
+  const body: IAddUserMetaDataRequest = {
     userId,
-    userLevel : userLevel
-  }
+    userLevel: userLevel,
+  };
   try {
-    const result : IAddUserMetaDataResponse = await addUserMetaData(body);
+    const result: IAddUserMetaDataResponse = await addUserMetaData(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({

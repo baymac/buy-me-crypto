@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import updatePageInfo, { IUpdatePageInfoRequest } from '../../lib/updatePageInfo';
+import updatePageInfo, {
+  IUpdatePageInfoRequest,
+} from '../../lib/updatePageInfo';
 
 export default async function updateUserInfo(
   req: NextApiRequest,
@@ -20,9 +22,9 @@ export default async function updateUserInfo(
     userId,
   } = req.body;
   try {
-    const reqBody : IUpdatePageInfoRequest = {
+    const reqBody: IUpdatePageInfoRequest = {
       userId,
-      body : {
+      body: {
         aboutPage,
         pageName,
         pageHeadline,
@@ -33,8 +35,7 @@ export default async function updateUserInfo(
           twitch: twitch ?? '',
           personalBlog: personalBlog ?? '',
         },
-      }
-
+      },
     };
     const result = await updatePageInfo(reqBody);
     res.status(200).json({

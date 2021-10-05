@@ -13,8 +13,8 @@
   color: var(--alert-border-color);
 }
 
-.wrapper a{
+.wrapper a {
   font-weight: bolder;
-  color : var(--alert-text-color);
+  color: var(--alert-text-color);
   text-decoration: underline;
 }

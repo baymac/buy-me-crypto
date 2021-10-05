@@ -43,7 +43,7 @@ const pageInfoForm: IFormInputField[] = [
   },
 ];
 
-const intialSocialUrlList : IFormInputField[] = [
+const intialSocialUrlList: IFormInputField[] = [
   {
     label: 'Youtube',
     isRequired: false,
@@ -79,8 +79,7 @@ const intialSocialUrlList : IFormInputField[] = [
     registerName: 'personalBlog',
     isInput: true,
   },
-
-]
+];
 
 const DashboardForms = () => {
   const {
@@ -94,10 +93,11 @@ const DashboardForms = () => {
   const [session, loading] = useSession();
   const [initialData, setInitialData] = useState(null);
   const [addSocialUrl, setAddSocialUrl] = useState<boolean>(false);
-  const [socialUrlList, setSocialUrlList] = useState<IFormInputField[]>(intialSocialUrlList);
+  const [socialUrlList, setSocialUrlList] =
+    useState<IFormInputField[]>(intialSocialUrlList);
 
   const [socialAddedList, setSocialAddedList] = useState<IFormInputField[]>([]);
-  const [subLoading, setSubLoading ] = useState<boolean>(false);
+  const [subLoading, setSubLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const body = {
@@ -113,18 +113,24 @@ const DashboardForms = () => {
     })
       .then((pageInfo) => {
         setInitialData(pageInfo);
-        const arr : IFormInputField[] = [];
+        const arr: IFormInputField[] = [];
         for (let x in pageInfo.data.links) {
           if (
             !isEmpty(pageInfo.data.links[x]) &&
             socialUrlList.some((social) => social.registerName === x)
           ) {
-            const presentSocial : IFormInputField = socialUrlList.find((social) => social.registerName === x)
+            const presentSocial: IFormInputField = socialUrlList.find(
+              (social) => social.registerName === x
+            );
             arr.push(presentSocial);
           }
         }
         setSocialAddedList([...socialAddedList, ...arr]);
-        setSocialUrlList(socialUrlList.filter((url) => !arr.some((ele)=> ele.registerName === url.registerName)));
+        setSocialUrlList(
+          socialUrlList.filter(
+            (url) => !arr.some((ele) => ele.registerName === url.registerName)
+          )
+        );
         return { arr, pageInfo };
       })
       .then(({ arr, pageInfo }) => {
@@ -135,8 +141,8 @@ const DashboardForms = () => {
   }, [session]);
 
   const handleOnSubmit = async (data) => {
-    console.log(data)
-    setSubLoading(true)
+    console.log(data);
+    setSubLoading(true);
     data['userId'] = session.userId;
 
     const resData = await fetchJson('/api/updatePageInfo', {
@@ -147,8 +153,8 @@ const DashboardForms = () => {
       },
     });
 
-    if(!resData.error){
-      setSubLoading(false)
+    if (!resData.error) {
+      setSubLoading(false);
     }
   };
 
@@ -162,9 +168,13 @@ const DashboardForms = () => {
   };
 
   const handleSocialDropdownChange = (e) => {
-    const selectedSocial : IFormInputField = socialUrlList.find((social) => social.label === e.target.value)
+    const selectedSocial: IFormInputField = socialUrlList.find(
+      (social) => social.label === e.target.value
+    );
     setSocialAddedList([...socialAddedList, selectedSocial]);
-    setSocialUrlList(socialUrlList.filter((url) => url.label !== e.target.value));
+    setSocialUrlList(
+      socialUrlList.filter((url) => url.label !== e.target.value)
+    );
     setAddSocialUrl(false);
   };
 
@@ -176,10 +186,11 @@ const DashboardForms = () => {
   const handleMinusSocialInput = (e, social: IFormInputField) => {
     e.preventDefault();
     unregister(social.registerName);
-    setSocialAddedList(socialAddedList.filter((url) => url.registerName !== social.registerName));
+    setSocialAddedList(
+      socialAddedList.filter((url) => url.registerName !== social.registerName)
+    );
     setSocialUrlList([...socialUrlList, social]);
   };
-
 
   if (loading || !session || !initialData) {
     return (
@@ -252,7 +263,9 @@ const DashboardForms = () => {
                     >
                       <option> Select </option>
                       {socialUrlList.map((url) => {
-                        return <option key={url.registerName}>{url.label}</option>;
+                        return (
+                          <option key={url.registerName}>{url.label}</option>
+                        );
                       })}
                     </select>
                   </div>
