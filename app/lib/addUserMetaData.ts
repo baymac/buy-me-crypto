@@ -1,10 +1,9 @@
 import firebase from '../firebase/clientApp';
-import { IGenericAPIResponse } from './utils';
+import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
 
 const db = firebase.firestore();
 
-export interface IAddUserMetaDataRequest {
-  userId: string;
+export interface IAddUserMetaDataRequest extends IGenericAPIRequest {
   userLevel: number;
 }
 
