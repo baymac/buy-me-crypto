@@ -49,7 +49,10 @@ export async function getServerSideProps(context){
       }
     }
 
-    if(session.userId === creator.id){
+    console.log('session user id is ' + session.userId)
+    console.log('creator id is ' + creator.data.id )
+
+    if(session.userId === creator.data.id){
       return {
         redirect: {
           destination : '/app'
@@ -81,7 +84,7 @@ export async function getServerSideProps(context){
     return {
         props : {
           creator : creator.data, 
-          creatorPageInfo : creatorPageInfo.data
+          creatorPageInfo : creatorPageInfo.data,
         }
     }
 }
@@ -116,7 +119,7 @@ const creatorPage = ({creator, creatorPageInfo}) => {
                       <h4 className={styles.wrapper__pageInfo__pageHeadline}>{creatorPageInfo.pageHeadline}</h4>
                       <p className={styles.wrapper__pageInfo__aboutPage}>{creatorPageInfo.aboutPage}</p>
                     </div>
-                    <SponsorForm creatorName={creator.username}/>
+                    <SponsorForm creatorName={creator.username} creatorId={creator.id} fanId={session.userId}/>
                 </div>
             </div>
           </section>

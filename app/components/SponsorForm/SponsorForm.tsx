@@ -4,8 +4,9 @@ import formStyles from '../FormGenerator/FormGenerator.module.css'
 import styles from './SponsorForm.module.css'
 import cn from 'classnames'
 import { useForm } from 'react-hook-form';
+import fetchJson from '../../lib/fetchJson'
 
-const SponsorForm = ({creatorName}) => {
+const SponsorForm = ({creatorName,creatorId,fanId}) => {
 
     const {
         register,
@@ -16,6 +17,7 @@ const SponsorForm = ({creatorName}) => {
     } = useForm();
 
     let [isSubscriptionPayment, setIsSubscriptionPayment ] = useState<boolean>(true)
+    const [subLoading, setSubLoading] = useState<boolean>(false);
 
     const handleTypeChange = (e)=>{
       if(e.target.value === 'Subscription'){
@@ -30,6 +32,45 @@ const SponsorForm = ({creatorName}) => {
 
     const handleOnSubmit = (data) =>{
         console.log(data)
+        setSubLoading(true)
+        let reqUrl;
+        let body ;
+        if(isSubscriptionPayment){
+            reqUrl = '/api/addSubscription'
+            body = {
+                rate : data.rate,
+            }
+        }
+        else{
+            reqUrl = '/api/addOneTime'
+            body ={
+                amount : data.amout,
+            }
+        }
+
+        body = {
+            ...body ,
+            note : data.note,
+            fan : fanId,
+            creator : creatorId
+        }
+
+        fetchJson(reqUrl,{
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        })
+        .then((res)=>{
+            setSubLoading(false)
+            setValue('rate',"")
+            setValue('amount',"")
+            setValue('note',"")
+        })
+        .catch((error)=>{
+            console.log(error.message)
+        })
     }
 
     return (
@@ -41,6 +82,7 @@ const SponsorForm = ({creatorName}) => {
                 errors={errors}
                 submitBtnText={'Sponsor'}
                 setValue={setValue}
+                subLoading={subLoading}
             >
                 <>
                     <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
@@ -86,7 +128,7 @@ const SponsorForm = ({creatorName}) => {
                         <div className={formStyles.textBox__wrapper}>
                         <textarea
                             className={formStyles.textBox__wrapper__input}
-                            {...register('Notes', {
+                            {...register('note', {
                                 required: false,
                             })}
                         />
