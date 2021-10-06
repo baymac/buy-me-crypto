@@ -150,7 +150,7 @@
 
 @media (min-width: 800px) {
   .formWrapper {
-    padding: var(--mb-2) var(--mb-2) var(--mb-3);
+    padding: var(--mb-2) var(--mb-1-5) var(--mb-3);
   }
 
   .inputBox {

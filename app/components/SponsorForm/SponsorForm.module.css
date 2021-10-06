@@ -1,0 +1,28 @@
+.wrapper__radioBox{
+    display : flex;
+    font-size : var(--h4-font-size)
+}
+
+.wrapper__radioBox > span:nth-child(1){
+    margin-right : var(--mb-1)
+}
+
+.inputBox__wrapper{
+    margin-right: var(--mb-1);
+}
+
+.heading{
+    margin-bottom : var(--mb-1)
+}
+
+.inputBox{
+    margin-bottom : var(--mb-1);
+    margin-top : 0
+}
+
+@media(min-width : 600px){
+    .wrapper{
+        flex-basis: 100%;
+        max-width : 350px;
+    }
+}

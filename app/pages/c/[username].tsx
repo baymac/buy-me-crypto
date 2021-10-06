@@ -1,19 +1,17 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {useSession} from 'next-auth/client'
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../../hooks/useSessionRedirect';
 import styles from '../../styles/pageStyles/creator.module.css'
 import rootStyles from '../../styles/root.module.css';
-import AlertBanner from '../../components/AlertBanner/AlertBanner';
 import PieLoading from '../../components/PieLoading/PieLoading';
 import HomeLayout from '../../layouts/HomeLayout';
 import cn from 'classnames';
-import Link from 'next/link'
-import Sidebar from '../../components/Sidebar/Sidebar'
 import fetchJson from '../../lib/fetchJson';
 import { IGetUserRequest } from '../../lib/getUser';
 import { IGetPageInfoRequest } from '../../lib/getPageInfo';
-
+import formStyles from '../../components/FormGenerator/FormGenerator.module.css'
+import SponsorForm from '../../components/SponsorForm/SponsorForm'
 
 export async function getServerSideProps(context){
 
@@ -70,9 +68,25 @@ export async function getServerSideProps(context){
 }
 
 const creatorPage = ({creator, creatorPageInfo}) => {
+  
     const [session, loading] = useSession();
     useSessionRedirect('/', true);
     let [hasMetaData, isProfileCompleted] = useFinishSignupRedirect();
+    let [isSubscriptionPayment, setIsSubscriptionPayment ] = useState<boolean>(true)
+
+    const handleTypeChange = (e)=>{
+      console.log('calling the function')
+      console.log(e.target.value)
+      if(e.target.value === 'Subscription'){
+        setIsSubscriptionPayment(true)
+      }
+      else{
+        setIsSubscriptionPayment(false)
+      }
+    }
+
+    console.log(isSubscriptionPayment)
+
     if (loading || !hasMetaData) {
       return (
         <div className={rootStyles.absolute_center}>
@@ -92,17 +106,13 @@ const creatorPage = ({creator, creatorPageInfo}) => {
             >
                 <div className={styles.wrapper}>
                     <div className={styles.wrapper__pageInfo}>
-                      <img src={creator.image} alt='creator avatar'/>
-                      <h2>{creator.username}</h2>
-                      <h4>{creatorPageInfo.pageHeadline}</h4>
-                      <p>{creatorPageInfo.aboutPage}</p>
+                      <img className={styles.wrapper__pageInfo__avatar} src={creator.image} alt='creator avatar'/>
+                      <h2 className={styles.wrapper__pageInfo__pageName}>{creator.username}</h2>
+                      <h4 className={styles.wrapper__pageInfo__pageHeadline}>{creatorPageInfo.pageHeadline}</h4>
+                      <p className={styles.wrapper__pageInfo__aboutPage}>{creatorPageInfo.aboutPage}</p>
                     </div>
-                    <div className={styles.wrapper__sponsor}>
-                      <h2>{`Sponsor ${creator.username}`}</h2>
-                      <button>
-                        sponsor
-                      </button>
-                    </div>
+                    
+                    <SponsorForm creatorName={creator.username}/>
                 </div>
             </div>
           </section>

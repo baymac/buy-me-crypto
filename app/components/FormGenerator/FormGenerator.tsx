@@ -5,16 +5,16 @@ import { IFormInputField } from '../DashboardForms/DashboardForms';
 import styles from './FormGenerator.module.css';
 
 interface IFormGeneratorProps {
-  formInfo: IFormInputField[];
+  formInfo?: IFormInputField[];
   handleOnSubmit: any;
-  children: ReactElement;
+  children?: ReactElement;
   handleSubmit: any;
   errors: any;
   register: any;
-  submitBtnText: string;
-  initialData: any;
-  setValue: any;
-  subLoading: boolean;
+  submitBtnText?: string;
+  initialData?: any;
+  setValue?: any;
+  subLoading?: boolean;
 }
 
 const FormGenerator = ({
@@ -30,14 +30,13 @@ const FormGenerator = ({
   subLoading,
 }: IFormGeneratorProps) => {
   useEffect(() => {
-    if (initialData.data) {
+    if (initialData && initialData.data) {
       setValue('pageName', initialData.data.pageName);
       setValue('pageHeadline', initialData.data.pageHeadline);
       setValue('aboutPage', initialData.data.aboutPage);
     }
   }, [initialData]);
 
-  console.log(initialData.data.pageName);
 
   return (
     <div className={styles.formWrapper}>
