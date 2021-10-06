@@ -41,6 +41,13 @@ const pageInfoForm: IFormInputField[] = [
     registerName: 'aboutPage',
     isInput: false,
   },
+  {
+    label : 'Solana Addres',
+    isRequired: true,
+    type : 'text',
+    registerName: 'solanaAddress',
+    isInput : true
+  }
 ];
 
 const intialSocialUrlList: IFormInputField[] = [

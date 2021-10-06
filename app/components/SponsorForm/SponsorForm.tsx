@@ -18,12 +18,12 @@ const SponsorForm = ({creatorName}) => {
     let [isSubscriptionPayment, setIsSubscriptionPayment ] = useState<boolean>(true)
 
     const handleTypeChange = (e)=>{
-      console.log('calling the function')
-      console.log(e.target.value)
       if(e.target.value === 'Subscription'){
+        unregister('amount')
         setIsSubscriptionPayment(true)
       }
       else{
+        unregister('rate')
         setIsSubscriptionPayment(false)
       }
     }
@@ -55,7 +55,9 @@ const SponsorForm = ({creatorName}) => {
                                 <div className={cn(formStyles.inputBox__wrapper,styles.inputBox__wrapper)}>
                                     <input
                                     type='number'
-                                    required
+                                    {...register('rate', {
+                                        required: true,
+                                      })}
                                     className={cn(formStyles.inputBox__wrapper__input,styles.numberInput)}
                                     />
                                 </div>
@@ -68,7 +70,9 @@ const SponsorForm = ({creatorName}) => {
                             <div className={cn(formStyles.inputBox__wrapper,styles.inputBox__wrapper)}>
                             <input
                                 type='number'
-                                required
+                                {...register('amount', {
+                                    required: true,
+                                })}
                                 className={cn(formStyles.inputBox__wrapper__input,styles.numberInput)}
                             />
                             </div>
@@ -82,6 +86,9 @@ const SponsorForm = ({creatorName}) => {
                         <div className={formStyles.textBox__wrapper}>
                         <textarea
                             className={formStyles.textBox__wrapper__input}
+                            {...register('Notes', {
+                                required: false,
+                            })}
                         />
                         </div>
                     </div>

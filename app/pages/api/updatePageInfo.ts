@@ -20,6 +20,7 @@ export default async function updateUserInfo(
     twitch,
     personalBlog,
     userId,
+    solanaAddress
   } = req.body;
   try {
     const reqBody: IUpdatePageInfoRequest = {
@@ -28,6 +29,7 @@ export default async function updateUserInfo(
         aboutPage,
         pageName,
         pageHeadline,
+        solanaAddress,
         links: {
           youtube: youtube ?? '',
           instagram: instagram ?? '',
