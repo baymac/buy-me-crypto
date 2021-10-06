@@ -31,10 +31,16 @@ const FormGenerator = ({
 }: IFormGeneratorProps) => {
   useEffect(() => {
     if (initialData && initialData.data) {
-      setValue('pageName', initialData.data.pageName);
-      setValue('pageHeadline', initialData.data.pageHeadline);
-      setValue('aboutPage', initialData.data.aboutPage);
-      setValue('solanaAddress', initialData.data.solanaAddress)
+      let {data} = initialData
+      for( let x in data){
+        if(typeof data[x] === 'object' && data[x] !== null){
+          continue;
+        }
+        else{
+          setValue(x, data[x]);
+        }
+      }
+
     }
   }, [initialData]);
 

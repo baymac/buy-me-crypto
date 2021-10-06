@@ -88,6 +88,16 @@ const intialSocialUrlList: IFormInputField[] = [
   },
 ];
 
+const fanUserNameList : IFormInputField[] = [
+  {
+    label : 'Username',
+    isRequired: true,
+    type : 'text',
+    registerName : 'username',
+    isInput: true
+  }
+]
+
 const DashboardForms = () => {
   const {
     register,
@@ -105,50 +115,85 @@ const DashboardForms = () => {
 
   const [socialAddedList, setSocialAddedList] = useState<IFormInputField[]>([]);
   const [subLoading, setSubLoading] = useState<boolean>(false);
-
-  useEffect(() => {
+  const [userMetaData, setUserMetaData] = useState(null);
+  
+  useEffect(()=>{
     const body = {
       userId: session.userId,
     };
 
-    fetchJson('/api/getPageInfo', {
+    fetchJson('/api/getUserMetaData', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((pageInfo) => {
-        console.log(pageInfo)
-        setInitialData(pageInfo);
-        const arr: IFormInputField[] = [];
-        for (let x in pageInfo.data.links) {
-          if (
-            !isEmpty(pageInfo.data.links[x]) &&
-            socialUrlList.some((social) => social.registerName === x)
-          ) {
-            const presentSocial: IFormInputField = socialUrlList.find(
-              (social) => social.registerName === x
-            );
-            arr.push(presentSocial);
-          }
-        }
-        setSocialAddedList([...socialAddedList, ...arr]);
-        setSocialUrlList(
-          socialUrlList.filter(
-            (url) => !arr.some((ele) => ele.registerName === url.registerName)
-          )
-        );
-        return { arr, pageInfo };
-      })
-      .then(({ arr, pageInfo }) => {
-        arr.forEach((url) => {
-          setValue(url.registerName, pageInfo.data.links[url.registerName]);
-        });
-      });
-  }, [session]);
+    .then((res)=>{
+      setUserMetaData(res.data)
+      if(res.data.userLevel===2){
+        fetchJson('/api/getPageInfo', {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((pageInfo) => {
+            const arr: IFormInputField[] = [];
+            if(pageInfo.data){
+              console.log(pageInfo)
+              setInitialData(pageInfo);
+              
+              for (let x in pageInfo.data.links) {
+                if (
+                  !isEmpty(pageInfo.data.links[x]) &&
+                  socialUrlList.some((social) => social.registerName === x)
+                ) {
+                  const presentSocial: IFormInputField = socialUrlList.find(
+                    (social) => social.registerName === x
+                  );
+                  arr.push(presentSocial);
+                }
+              }
+              setSocialAddedList([...socialAddedList, ...arr]);
+              setSocialUrlList(
+                socialUrlList.filter(
+                  (url) => !arr.some((ele) => ele.registerName === url.registerName)
+                )
+              );
+            }
+            return { arr, pageInfo };
+          })
+          .then(({ arr, pageInfo }) => {
+            arr.forEach((url) => {
+              setValue(url.registerName, pageInfo.data.links[url.registerName]);
+            });
+          });
+      }
+      else {
+        fetchJson('/api/getUserFromId', {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((data) => {
+          console.log('user meta data is 1 ')
+          console.log(data)
+          setInitialData(data)
+        })
+      }
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
 
-  const handleOnSubmit = async (data) => {
+  },[session])
+
+
+  const handleOnSubmitCreator = async (data) => {
     console.log(data);
     setSubLoading(true);
     data['userId'] = session.userId;
@@ -165,6 +210,23 @@ const DashboardForms = () => {
       setSubLoading(false);
     }
   };
+
+  const handleOnSubmitFan = async (data)=>{
+    setSubLoading(true);
+    data['userId'] = session.userId;
+
+    const resData = await fetchJson('/api/addUsername', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!resData.error) {
+      setSubLoading(false);
+    }
+  }
 
   const isEmpty = (str: string): boolean => {
     return !str || str.length === 0;
@@ -200,7 +262,7 @@ const DashboardForms = () => {
     setSocialUrlList([...socialUrlList, social]);
   };
 
-  if (loading || !session || !initialData) {
+  if (loading || !session || !initialData || !userMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
@@ -209,9 +271,23 @@ const DashboardForms = () => {
   } else {
     return (
       <div className={styles.container}>
+      {userMetaData.userLevel=== 1 && (
         <Form
+          formInfo={fanUserNameList}
+          handleOnSubmit={handleOnSubmitFan}
+          handleSubmit={handleSubmit}
+          register={register}
+          errors={errors}
+          submitBtnText={'Publish Page'}
+          initialData={initialData}
+          setValue={setValue}
+          subLoading={subLoading}
+        />
+      )}
+      {userMetaData.userLevel === 2 && (
+      <Form
           formInfo={pageInfoForm}
-          handleOnSubmit={handleOnSubmit}
+          handleOnSubmit={handleOnSubmitCreator}
           handleSubmit={handleSubmit}
           register={register}
           errors={errors}
@@ -319,6 +395,7 @@ const DashboardForms = () => {
             )}
           </>
         </Form>
+        )}
       </div>
     );
   }
