@@ -1,0 +1,29 @@
+.wrapper{
+    background-color: red;
+    width : 100%;
+    display : flex;
+    flex-direction: column;
+    padding-top : 2.5rem;
+}
+
+.wrapper__pageInfo{
+    background-color : blue;
+    flex-basis: 100%;
+}
+
+.wrapper__sponsor{
+    background-color: green;
+}
+
+@media(min-width : 600px){
+    .wrapper{
+        flex-direction : row;
+    }
+    .wrapper__sponsor{
+        flex-basis: 100%;
+        max-width : 300px;
+    }
+    .wrapper__pageInfo{
+        flex-basis: 100%;
+    }
+}
