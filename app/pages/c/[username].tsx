@@ -12,10 +12,21 @@ import { IGetUserRequest } from '../../lib/getUser';
 import { IGetPageInfoRequest } from '../../lib/getPageInfo';
 import formStyles from '../../components/FormGenerator/FormGenerator.module.css'
 import SponsorForm from '../../components/SponsorForm/SponsorForm'
+import { getSession } from 'next-auth/client';
 
 export async function getServerSideProps(context){
 
     const {params,req,res} = context;
+
+    const session = await getSession({req});
+
+    if(!session){
+      return {
+        redirect : {
+          destination : '/'
+        }
+      }
+    }
 
     const {username} = params
     const body : IGetUserRequest ={
@@ -34,6 +45,14 @@ export async function getServerSideProps(context){
       return {
         redirect :{
           destination : '/404'
+        }
+      }
+    }
+
+    if(session.userId === creator.id){
+      return {
+        redirect: {
+          destination : '/app'
         }
       }
     }
@@ -72,20 +91,6 @@ const creatorPage = ({creator, creatorPageInfo}) => {
     const [session, loading] = useSession();
     useSessionRedirect('/', true);
     let [hasMetaData, isProfileCompleted] = useFinishSignupRedirect();
-    let [isSubscriptionPayment, setIsSubscriptionPayment ] = useState<boolean>(true)
-
-    const handleTypeChange = (e)=>{
-      console.log('calling the function')
-      console.log(e.target.value)
-      if(e.target.value === 'Subscription'){
-        setIsSubscriptionPayment(true)
-      }
-      else{
-        setIsSubscriptionPayment(false)
-      }
-    }
-
-    console.log(isSubscriptionPayment)
 
     if (loading || !hasMetaData) {
       return (
@@ -111,7 +116,6 @@ const creatorPage = ({creator, creatorPageInfo}) => {
                       <h4 className={styles.wrapper__pageInfo__pageHeadline}>{creatorPageInfo.pageHeadline}</h4>
                       <p className={styles.wrapper__pageInfo__aboutPage}>{creatorPageInfo.aboutPage}</p>
                     </div>
-                    
                     <SponsorForm creatorName={creator.username}/>
                 </div>
             </div>

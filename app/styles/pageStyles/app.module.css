@@ -1,7 +1,7 @@
 .about__container {
   gap: 2rem;
   max-width: var(--big-screen-width);
-  margin: 0.75rem auto;
+  margin: 4rem auto 1rem;
 }
 
 .wrapper {
@@ -33,6 +33,10 @@
   .wrapper__container {
     margin-left: calc(230px + 1rem);
     padding: 2rem;
+  }
+
+  .about__container{
+    margin : 0.75rem auto;
   }
 }
 

@@ -119,6 +119,7 @@ const DashboardForms = () => {
       },
     })
       .then((pageInfo) => {
+        console.log(pageInfo)
         setInitialData(pageInfo);
         const arr: IFormInputField[] = [];
         for (let x in pageInfo.data.links) {

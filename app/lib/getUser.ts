@@ -1,5 +1,5 @@
 import firebase from '../firebase/clientApp';
-
+import userIfExists from './userIfExists'
 
 const db = firebase.firestore();
 
@@ -11,20 +11,7 @@ export interface IGetUserRequest {
 //Having problem when declaring return types as Promise<IGetcreatorMetaDataResponse>
 export default async function getCreatorInfo( { username} : IGetUserRequest) {
   try {
-    const user = await db
-      .collection('users')
-      .where('username', '==' , username)
-      .get()
-      .then((docSnaphostArr) =>{
-        let data = null
-        docSnaphostArr.forEach((doc) =>{
-          data = doc.data()
-          data.id = doc.id
-        })
-        return data
-      })
-
-
+    const user = await userIfExists(username)
     if (user) {
       return {
         error: false,

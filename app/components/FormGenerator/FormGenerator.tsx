@@ -34,6 +34,7 @@ const FormGenerator = ({
       setValue('pageName', initialData.data.pageName);
       setValue('pageHeadline', initialData.data.pageHeadline);
       setValue('aboutPage', initialData.data.aboutPage);
+      setValue('solanaAddress', initialData.data.solanaAddress)
     }
   }, [initialData]);
 
