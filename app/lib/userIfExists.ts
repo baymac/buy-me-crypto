@@ -5,8 +5,6 @@ const db = firebase.firestore();
 export default async function updatePageInfo(
     username : string
 ) {
-  try {
-
     const userExists = await db
             .collection('users')
             .where('username', '==' , username)
@@ -22,12 +20,4 @@ export default async function updatePageInfo(
             })
 
     return userExists;
-    
-  } catch (error) {
-    return {
-      error: true,
-      data : null,
-      message: 'Some error occured ' + error.message,
-    };
-  }
 }

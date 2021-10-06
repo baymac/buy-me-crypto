@@ -1,7 +1,9 @@
 import firebase from '../firebase/clientApp';
 import { IPageInfo } from './addPageInfo';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
-
+import userIfExists from './userIfExists'
+import addUserName from './addUsername'
+import { IAddUsernameRequest } from './addUsername';
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest extends IGenericAPIRequest {
@@ -13,6 +15,21 @@ export default async function updatePageInfo({
   body,
 }: IUpdatePageInfoRequest): Promise<IGenericAPIResponse> {
   try {
+
+    const updateUsernameBody : IAddUsernameRequest= { 
+      userId,
+      username : body.pageName
+    } 
+
+    const updateUsername = await addUserName(updateUsernameBody)
+
+    if(updateUsername.error){
+      return {
+        error : true,
+        message : updateUsername.message
+      }
+    }
+
     const userInfo = await db
       .collection('pageInfo')
       .doc(userId)

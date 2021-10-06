@@ -20,7 +20,7 @@ export default async function updatePageInfo({
 
     const userExists = await userIfExists(username);
 
-    if (!userExists) {
+    if (!userExists || (userExists && (userId === userExists.id) )  ) {
 
       const result = await db
         .collection('users')
