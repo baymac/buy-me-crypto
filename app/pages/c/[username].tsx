@@ -10,10 +10,8 @@ import cn from 'classnames';
 import fetchJson from '../../lib/fetchJson';
 import { IGetUserRequest } from '../../lib/getUser';
 import { IGetPageInfoRequest } from '../../lib/getPageInfo';
-import formStyles from '../../components/FormGenerator/FormGenerator.module.css';
 import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import { getSession } from 'next-auth/client';
-import { IGetActiveSubscriptionRequest } from '../../lib/getActiveSubscription';
 
 export async function getServerSideProps(context) {
   const { params, req, res } = context;
@@ -41,7 +39,6 @@ export async function getServerSideProps(context) {
   });
 
   if (!creator.data) {
-    console.log('no creator');
     return {
       redirect: {
         destination: '/404',
@@ -87,8 +84,6 @@ export async function getServerSideProps(context) {
       },
     }
   );
-
-  console.log(activeSubscriptions);
 
   if (!creatorPageInfo.data) {
     console.log('creatorPageinfo missgin');
@@ -149,7 +144,7 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
               </div>
               {!activeSubscription && (
                 <SponsorForm
-                  creatorName={creator.username}
+                  creatorName={'Creator'}
                   creatorId={creator.id}
                   fanId={session.userId}
                 />
@@ -158,7 +153,7 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
                 <div className={styles.wrapper__sponsor}>
                   <h2
                     className={styles.wrapper__sponsor__heading}
-                  >{`Sponsor ${creator.username}`}</h2>
+                  >{`Sponsor Creator`}</h2>
                   <h3>Active Subscriptions</h3>
                 </div>
               )}

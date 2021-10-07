@@ -48,7 +48,7 @@ const FanSettingForm = ({ initialData, userId }) => {
       handleSubmit={handleSubmit}
       register={register}
       errors={errors}
-      submitBtnText={'Publish Page'}
+      submitBtnText={'Save'}
       initialData={initialData}
       setValue={setValue}
       subLoading={subLoading}

@@ -42,7 +42,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
     } else {
       reqUrl = '/api/addOneTime';
       body = {
-        amount: data.amout,
+        amount: data.amount,
       };
     }
 
@@ -52,6 +52,9 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
       fan: fanId,
       creator: creatorId,
     };
+
+    console.log('sending req to ' + reqUrl)
+    console.log(body)
 
     fetchJson(reqUrl, {
       method: 'POST',

@@ -2,9 +2,8 @@
   width: 100%;
   background-color: var(--form-background-color);
   box-shadow: 0 0 2px var(--inverted-bw);
-  /* height: 400px; */
   border-radius: 0.5rem;
-  padding: var(--mb-2) var(--mb-1) var(--mb-3);
+  padding: var(--mb-2) var(--mb-1) var(--mb-0-75);
   margin-bottom: 2rem;
   border: 1px solid var(--footer-border-color);
 }
@@ -150,7 +149,7 @@
 
 @media (min-width: 800px) {
   .formWrapper {
-    padding: var(--mb-2) var(--mb-1-5) var(--mb-3);
+    padding: var(--mb-2) var(--mb-1-5) var(--mb-0-75);
   }
 
   .inputBox {
