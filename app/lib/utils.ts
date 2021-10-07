@@ -13,7 +13,7 @@ export interface IGenericAPIRequest {
 }
 
 export const getHostUrl = `${getHttpProtocol(process.env.NODE_ENV)}${
-  process.env.VERCEL_URL
+  process.env.HOST_URL
 }`;
 
 export const getAccountFromLocalStorage = (key: string): Account => {
