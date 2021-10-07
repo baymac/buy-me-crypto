@@ -42,7 +42,7 @@ const pageInfoForm: IFormInputField[] = [
     isInput: false,
   },
   {
-    label: 'Solana Addres',
+    label: 'Solana Address',
     isRequired: true,
     type: 'text',
     registerName: 'solanaAddress',
