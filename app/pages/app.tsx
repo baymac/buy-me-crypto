@@ -12,12 +12,12 @@ import rootStyles from '../styles/root.module.css';
 import Link from 'next/link';
 
 export default function Home() {
-  const [session, loading] = useSession();
+  const [_, loading] = useSession();
   useSessionRedirect('/', true);
 
-  let [hasMetaData, isProfileCompleted] = useFinishSignupRedirect();
+  const [userMetaData] = useFinishSignupRedirect();
 
-  if (loading || !hasMetaData) {
+  if (loading || !userMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
@@ -38,13 +38,22 @@ export default function Home() {
           <div className={styles.wrapper}>
             <Sidebar />
             <div className={styles.wrapper__container}>
-              {!isProfileCompleted ? (
+              {!userMetaData.profileCompleted && (
                 <AlertBanner>
-                  We need some info for your creator's page. Please complete
-                  your profile&nbsp;
-                  <Link href="/settings">here</Link>.
+                  {userMetaData.userLevel === 2 ? (
+                    <>
+                      We need some info for your creator's page. Please complete
+                      your profile&nbsp;
+                      <Link href="/settings">here</Link>.
+                    </>
+                  ) : (
+                    <>
+                      Please complete your profile&nbsp;
+                      <Link href="/settings">here</Link>.
+                    </>
+                  )}
                 </AlertBanner>
-              ) : null}
+              )}
             </div>
           </div>
         </div>

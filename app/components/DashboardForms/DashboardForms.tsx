@@ -57,8 +57,6 @@ const DashboardForms = () => {
               'Content-Type': 'application/json',
             },
           }).then((data) => {
-            console.log('user meta data is 1 ');
-            console.log(data);
             setInitialData(data);
           });
         }

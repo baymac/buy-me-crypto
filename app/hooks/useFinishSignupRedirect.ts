@@ -1,17 +1,18 @@
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IUserMetaData } from '../lib/addUserMetaData';
 import fetchJson from '../lib/fetchJson';
 
 export default function useFinishSignupRedirect() {
-  const [hasMetaData, setHasMetaData] = useState<boolean>(false);
-  const [isProfileCompleted, setIsProfileCompleted] = useState<boolean>(false);
+  const [userMetaData, setUserMetaData] = useState<IUserMetaData | null>(null);
   const router = useRouter();
 
   const [session, loading] = useSession();
 
   useEffect(() => {
-    if (!loading && session) {
+    if (session) {
+      console.log(session);
       const body = {
         userId: session.userId,
       };
@@ -26,17 +27,14 @@ export default function useFinishSignupRedirect() {
           if (!metaData.data) {
             router.push('/finishSignup');
           } else {
-            setHasMetaData(true);
-            if (metaData.data.profileCompleted) {
-              setIsProfileCompleted(true);
-            }
+            setUserMetaData(metaData.data);
           }
         })
         .catch((err) => {
           console.log('Some error has been occured ' + err.message);
         });
     }
-  }, [session, loading]);
+  }, [session]);
 
-  return [hasMetaData, isProfileCompleted];
+  return [userMetaData];
 }
