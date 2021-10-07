@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
+import Head from 'next/head';
 import React from 'react';
 import DashboardForms from '../components/DashboardForms/DashboardForms';
 import PieLoading from '../components/PieLoading/PieLoading';
@@ -11,12 +12,13 @@ import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 
 export default function Home() {
-  const [session, loading] = useSession();
+  const [_, loading] = useSession();
 
-  const [hasMetaData] = useFinishSignupRedirect();
+  const [userMetaData] = useFinishSignupRedirect();
+
   useSessionRedirect('/', true);
 
-  if (loading || !hasMetaData) {
+  if (loading || !userMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading></PieLoading>
@@ -25,6 +27,9 @@ export default function Home() {
   } else {
     return (
       <HomeLayout>
+        <Head>
+          <title>Settings | Buy Me Crypto</title>
+        </Head>
         <section className={cn(rootStyles.section)} id="about">
           <div
             className={cn(

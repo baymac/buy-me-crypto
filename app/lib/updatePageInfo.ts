@@ -1,7 +1,7 @@
 import firebase from '../firebase/clientApp';
 import { IPageInfo } from './addPageInfo';
+import addUserName, { IAddUsernameRequest } from './addUsername';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
-
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest extends IGenericAPIRequest {
@@ -13,6 +13,22 @@ export default async function updatePageInfo({
   body,
 }: IUpdatePageInfoRequest): Promise<IGenericAPIResponse> {
   try {
+    const updateUsernameBody: IAddUsernameRequest = {
+      userId,
+      username: body.pageName,
+    };
+
+    // Add page name as a username for creator
+    const updateUsernameRes = await addUserName(updateUsernameBody);
+
+    // throw error if username already exists
+    if (updateUsernameRes.error) {
+      return {
+        error: true,
+        message: updateUsernameRes.message,
+      };
+    }
+
     const userInfo = await db
       .collection('pageInfo')
       .doc(userId)
@@ -25,60 +41,32 @@ export default async function updatePageInfo({
       });
 
     if (userInfo) {
+      // adding remaining social fields (that are empty or not added by user) to body to maintain schema
       for (let x in body.links) {
         if (body.links[x] === '' && userInfo.links.hasOwnProperty(x)) {
-          body.links[x] = userInfo.links[x];
+          body.links[x] = '';
         }
       }
 
-      const result = await db
+      await db
         .collection('pageInfo')
         .doc(userId)
         .update({
           ...body,
         });
 
-      const updatedPageInfo = await db
-        .collection('pageInfo')
+      await db
+        .collection('userMetaData')
         .doc(userId)
-        .get()
-        .then((querySnapshot) => {
-          if (!querySnapshot.exists) {
-            return null;
-          }
-          return { ...querySnapshot.data() };
+        .update({
+          profileCompleted: true,
+        })
+        .then(() => {
+          console.log('profile status changed');
+        })
+        .catch((error) => {
+          console.log('eror' + error.message);
         });
-
-      let profileCompleted: boolean = true;
-
-      for (let x in updatedPageInfo) {
-        if (!updatedPageInfo[x] || updatedPageInfo[x].length === 0) {
-          profileCompleted = false;
-        }
-      }
-
-      if (profileCompleted) {
-        for (let x in updatedPageInfo.links) {
-          if (!updatedPageInfo || updatedPageInfo.links[x].length === 0) {
-            profileCompleted = false;
-          }
-        }
-      }
-
-      if (profileCompleted) {
-        await db
-          .collection('userMetaData')
-          .doc(userId)
-          .update({
-            profileCompleted: true,
-          })
-          .then(() => {
-            console.log('profile status changed');
-          })
-          .catch((error) => {
-            console.log('eror' + error.message);
-          });
-      }
 
       return {
         error: false,

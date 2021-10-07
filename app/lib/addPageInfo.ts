@@ -2,7 +2,7 @@ import firebase from '../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
 const db = firebase.firestore();
 
-export interface IAddPageInfoRequest extends IGenericAPIRequest{}
+export interface IAddPageInfoRequest extends IGenericAPIRequest {}
 
 export interface IPageInfo {
   pageName: string;
@@ -15,6 +15,7 @@ export interface IPageInfo {
     twitch: string;
     personalBlog: string;
   };
+  solanaAddress: string;
 }
 
 export interface IAddPageInfoResponse extends IGenericAPIResponse {
@@ -51,6 +52,7 @@ export default async function addPageInfo({
             twitch: '',
             personalBlog: '',
           },
+          solanaAddress: '',
         });
 
       console.log(result);

@@ -12,8 +12,6 @@ export default function useNavSelection() {
     if (session) {
       if (router.asPath === '/app') {
         setSelectedMenu('home');
-      } else if (router.asPath === '/fans') {
-        setSelectedMenu('fans');
       } else if (router.asPath === '/preview') {
         setSelectedMenu('preview');
       } else if (router.asPath === '/settings') {

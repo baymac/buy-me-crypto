@@ -34,16 +34,14 @@ export default function Nav() {
         <nav className={cn(styles.nav, rootStyles.container)}>
           {!router.pathname.startsWith('/posts') && (
             <Link href="/">
-              <Logo />
-              {/* <button
+              <button
                 className={styles.nav__logo_button}
                 aria-label="logo-button"
               >
                 <div className={styles.nav__logo}>
                   <Logo />
-                  <div className={styles.nav__logo__name}>Buy Me Crypto</div>
                 </div>
-              </button> */}
+              </button>
             </Link>
           )}
           {router.pathname.startsWith('/posts') && (

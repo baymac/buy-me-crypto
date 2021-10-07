@@ -7,10 +7,8 @@
     display: block;
     grid-area: sidebar;
     width: calc(230px - 1rem);
-    /* height: 400px; */
     background-color: var(--body-color);
     position: fixed;
-    padding-top: 2rem;
   }
 
   .userInfo {
