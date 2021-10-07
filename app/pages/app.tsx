@@ -11,7 +11,8 @@ import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import Link from 'next/link';
 import Head from 'next/head';
-
+import ActiveSubscriptionsTable from '../components/ActiveSubscriptionsTable/ActiveSubscriptionsTable'
+import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable'
 export default function Home() {
   const [_, loading] = useSession();
   useSessionRedirect('/', true);
@@ -58,6 +59,8 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
+              <ActiveSubscriptionsTable/>
+              <PastTransactionsTable/>
             </div>
           </div>
         </div>

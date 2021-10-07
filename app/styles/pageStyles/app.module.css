@@ -31,8 +31,8 @@
   }
 
   .wrapper__container {
-    margin-left: calc(230px + 1rem);
-    padding: 2rem;
+    margin-left: calc(230px + 0.5rem);
+    padding: 0 0 2rem;
   }
 
   .about__container {
