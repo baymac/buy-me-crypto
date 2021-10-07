@@ -53,8 +53,8 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
       creator: creatorId,
     };
 
-    console.log('sending req to ' + reqUrl)
-    console.log(body)
+    console.log('sending req to ' + reqUrl);
+    console.log(body);
 
     fetchJson(reqUrl, {
       method: 'POST',

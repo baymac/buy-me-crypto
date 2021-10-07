@@ -39,12 +39,6 @@ export const sidebarItems: INavItem[] = [
     selector: 'home',
   },
   {
-    label: 'Fans',
-    icon: UilUsersAlt,
-    path: '/fans',
-    selector: 'fans',
-  },
-  {
     label: 'Page Preview',
     icon: UilEye,
     path: '/',
