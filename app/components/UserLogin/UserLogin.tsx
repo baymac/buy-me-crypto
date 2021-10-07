@@ -17,8 +17,8 @@ const UserLogin = ({
           onClick={() =>
             signIn(provider.id, {
               callbackUrl: `${getHttpProtocol(process.env.NODE_ENV)}${
-                process.env.VERCEL_URL
-              }/home`,
+                process.env.HOST_URL
+              }/app`,
             })
           }
         >
