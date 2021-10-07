@@ -13,6 +13,7 @@ import { IGetPageInfoRequest } from '../../lib/getPageInfo';
 import formStyles from '../../components/FormGenerator/FormGenerator.module.css'
 import SponsorForm from '../../components/SponsorForm/SponsorForm'
 import { getSession } from 'next-auth/client';
+import {IGetActiveSubscriptionRequest} from '../../lib/getActiveSubscription'
 
 export async function getServerSideProps(context){
 
@@ -72,6 +73,19 @@ export async function getServerSideProps(context){
       },
     })
 
+    const activeSubscriptionBody ={
+      fan : session.userId,
+      creator : creator.id
+    }
+
+    const activeSubscriptions = await fetchJson('http://localhost:3000/api/getActiveSubscriptions',{
+      method: 'POST',
+      body: JSON.stringify(activeSubscriptionBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
     if(!creatorPageInfo.data){
       console.log('creatorPageinfo missgin')      
       return {
@@ -85,11 +99,12 @@ export async function getServerSideProps(context){
         props : {
           creator : creator.data, 
           creatorPageInfo : creatorPageInfo.data,
+          activeSubscription : activeSubscriptions
         }
     }
 }
 
-const creatorPage = ({creator, creatorPageInfo}) => {
+const creatorPage = ({creator, creatorPageInfo,activeSubscription}) => {
   
     const [session, loading] = useSession();
     useSessionRedirect('/', true);
@@ -119,7 +134,13 @@ const creatorPage = ({creator, creatorPageInfo}) => {
                       <h4 className={styles.wrapper__pageInfo__pageHeadline}>{creatorPageInfo.pageHeadline}</h4>
                       <p className={styles.wrapper__pageInfo__aboutPage}>{creatorPageInfo.aboutPage}</p>
                     </div>
-                    <SponsorForm creatorName={creator.username} creatorId={creator.id} fanId={session.userId}/>
+                    {!activeSubscription && <SponsorForm creatorName={creator.username} creatorId={creator.id} fanId={session.userId}/>}
+                    {activeSubscription && (
+                      <div className={styles.wrapper__sponsor}>
+                          <h2 className={styles.wrapper__sponsor__heading}>{`Sponsor ${creator.username}`}</h2>
+                          <h3>Active Subscriptions</h3>
+                      </div>  
+                      )}
                 </div>
             </div>
           </section>
