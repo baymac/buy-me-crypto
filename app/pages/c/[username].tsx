@@ -49,9 +49,6 @@ export async function getServerSideProps(context) {
     };
   }
 
-  console.log('session user id is ' + session.userId);
-  console.log('creator id is ' + creator.data.id);
-
   if (session.userId === creator.data.id) {
     return {
       redirect: {
@@ -77,7 +74,7 @@ export async function getServerSideProps(context) {
 
   const activeSubscriptionBody = {
     fan: session.userId,
-    creator: creator.id,
+    creator: creator.data.id,
   };
 
   const activeSubscriptions = await fetchJson(
@@ -90,6 +87,8 @@ export async function getServerSideProps(context) {
       },
     }
   );
+
+  console.log(activeSubscriptions)
 
   if (!creatorPageInfo.data) {
     console.log('creatorPageinfo missgin');
@@ -104,7 +103,7 @@ export async function getServerSideProps(context) {
     props: {
       creator: creator.data,
       creatorPageInfo: creatorPageInfo.data,
-      activeSubscription: activeSubscriptions,
+      activeSubscription: activeSubscriptions.data,
     },
   };
 }

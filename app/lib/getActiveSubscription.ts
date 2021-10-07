@@ -12,7 +12,7 @@ export interface IGetActiveSubscriptionRequest {
   creator: string;
 }
 
-export default async function addSubscription({
+export default async function getActiveSubscription({
   fan,
   creator,
 }: IGetActiveSubscriptionRequest) {
