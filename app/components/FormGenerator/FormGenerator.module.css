@@ -92,6 +92,7 @@
   cursor: pointer;
   margin-bottom: var(--mb-1);
   color: var(--inverted-bw);
+  height: 52px; /* Hard coding height to match height with text during loading */
 }
 
 .socialBtn > svg {

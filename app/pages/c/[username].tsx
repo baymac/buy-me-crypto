@@ -12,6 +12,8 @@ import { IGetUserRequest } from '../../lib/getUser';
 import { IGetPageInfoRequest } from '../../lib/getPageInfo';
 import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import { getSession } from 'next-auth/client';
+import Head from 'next/head';
+import { getHostUrl } from '../../lib/utils';
 
 export async function getServerSideProps(context) {
   const { params, req, res } = context;
@@ -30,7 +32,7 @@ export async function getServerSideProps(context) {
   const body: IGetUserRequest = {
     username,
   };
-  const creator = await fetchJson('http://localhost:3000/api/getUser', {
+  const creator = await fetchJson(`${getHostUrl}/api/getUser`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -58,16 +60,13 @@ export async function getServerSideProps(context) {
     userId: creator.data.id,
   };
 
-  const creatorPageInfo = await fetchJson(
-    'http://localhost:3000/api/getPageInfo',
-    {
-      method: 'POST',
-      body: JSON.stringify(pageInfoBody),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const creatorPageInfo = await fetchJson(`${getHostUrl}/api/getPageInfo`, {
+    method: 'POST',
+    body: JSON.stringify(pageInfoBody),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   const activeSubscriptionBody = {
     fan: session.userId,
@@ -75,7 +74,7 @@ export async function getServerSideProps(context) {
   };
 
   const activeSubscriptions = await fetchJson(
-    'http://localhost:3000/api/getActiveSubscriptions',
+    `${getHostUrl}/api/getActiveSubscriptions`,
     {
       method: 'POST',
       body: JSON.stringify(activeSubscriptionBody),
@@ -86,7 +85,6 @@ export async function getServerSideProps(context) {
   );
 
   if (!creatorPageInfo.data) {
-    console.log('creatorPageinfo missgin');
     return {
       redirect: {
         destination: '/404',
@@ -106,9 +104,9 @@ export async function getServerSideProps(context) {
 const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
-  let [hasMetaData, isProfileCompleted] = useFinishSignupRedirect();
+  const [userMetaData] = useFinishSignupRedirect();
 
-  if (loading || !hasMetaData) {
+  if (loading || !userMetaData) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
@@ -117,6 +115,9 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
   } else {
     return (
       <HomeLayout>
+        <Head>
+          <title>Sponsor | Buy Me Crypto</title>
+        </Head>
         <section className={cn(rootStyles.section)} id="about">
           <div
             className={cn(

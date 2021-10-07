@@ -34,7 +34,7 @@ class MyDocument extends Document {
           />
           {/* Meta */}
           <meta name="description" content="Buy me crypto" />
-          <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
+          <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
         </Head>
         <body>
           <Main />

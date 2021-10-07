@@ -10,6 +10,7 @@ import HomeLayout from '../layouts/HomeLayout';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function Home() {
   const [_, loading] = useSession();
@@ -27,6 +28,9 @@ export default function Home() {
 
   return (
     <HomeLayout>
+      <Head>
+        <title>Home | Buy Me Crypto</title>
+      </Head>
       <section className={cn(rootStyles.section)} id="about">
         <div
           className={cn(

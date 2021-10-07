@@ -12,6 +12,10 @@ export interface IGenericAPIRequest {
   userId: string;
 }
 
+export const getHostUrl = `${getHttpProtocol(process.env.NODE_ENV)}${
+  process.env.VERCEL_URL
+}`;
+
 export const getAccountFromLocalStorage = (key: string): Account => {
   const base64Keypair = window.localStorage.getItem(key);
   if (base64Keypair) {
