@@ -21,7 +21,6 @@
 
 .nav__toggle,
 .nav__changeTheme,
-.nav__logo_button,
 .nav__signout,
 .nav__signin {
   display: flex;
@@ -52,7 +51,12 @@
 }
 
 .nav__logo_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
   padding: 0;
+  border: none;
 }
 
 .nav__changeTheme:hover {
@@ -111,10 +115,6 @@
   to {
     background-position: 100% 0;
   }
-}
-
-.nav__logo_button {
-  padding: 5px;
 }
 
 .nav__toggle,
