@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { ClientSafeProvider, signIn } from 'next-auth/client';
 import React from 'react';
 import LoginLayout from '../../layouts/LoginLayout';
-import { getHttpProtocol } from '../../lib/utils';
+import { getHostUrl } from '../../lib/utils';
 import styles from './userlogin.module.css';
 
 const UserLogin = ({
@@ -16,9 +16,7 @@ const UserLogin = ({
         <button
           onClick={() =>
             signIn(provider.id, {
-              callbackUrl: `${getHttpProtocol(process.env.NODE_ENV)}${
-                process.env.HOST_URL
-              }/app`,
+              callbackUrl: `${getHostUrl}/app`,
             })
           }
         >
