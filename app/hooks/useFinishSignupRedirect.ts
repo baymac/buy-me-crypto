@@ -25,13 +25,11 @@ export default function useFinishSignupRedirect() {
         .then((metaData) => {
           if (!metaData.data) {
             router.push('/finishSignup');
-          }
-          return metaData;
-        })
-        .then((metaData) => {
-          setHasMetaData(true);
-          if (metaData.data.profileCompleted) {
-            setIsProfileCompleted(true);
+          } else {
+            setHasMetaData(true);
+            if (metaData.data.profileCompleted) {
+              setIsProfileCompleted(true);
+            }
           }
         })
         .catch((err) => {

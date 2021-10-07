@@ -23,33 +23,33 @@ export default function Home() {
         <PieLoading />
       </div>
     );
-  } else {
-    return (
-      <HomeLayout>
-        <section className={cn(rootStyles.section)} id="about">
-          <div
-            className={cn(
-              rootStyles.container,
-              rootStyles.grid,
-              styles.about__container
-            )}
-          >
-            <div className={styles.wrapper}>
-              <Sidebar />
-              <div className={styles.wrapper__container}>
-                {!isProfileCompleted ? (
-                  <AlertBanner>
-                    {' '}
-                    Your page is currently incomplete.{' '}
-                    <Link href="/settings">Click here</Link> to complete profile
-                    and start attracting fans{' '}
-                  </AlertBanner>
-                ) : null}
-              </div>
+  }
+
+  return (
+    <HomeLayout>
+      <section className={cn(rootStyles.section)} id="about">
+        <div
+          className={cn(
+            rootStyles.container,
+            rootStyles.grid,
+            styles.about__container
+          )}
+        >
+          <div className={styles.wrapper}>
+            <Sidebar />
+            <div className={styles.wrapper__container}>
+              {!isProfileCompleted ? (
+                <AlertBanner>
+                  {' '}
+                  Your page is currently incomplete.{' '}
+                  <Link href="/settings">Click here</Link> to complete profile
+                  and start attracting fans{' '}
+                </AlertBanner>
+              ) : null}
             </div>
           </div>
-        </section>
-      </HomeLayout>
-    );
-  }
+        </div>
+      </section>
+    </HomeLayout>
+  );
 }
