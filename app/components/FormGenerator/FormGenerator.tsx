@@ -29,6 +29,7 @@ const FormGenerator = ({
   setValue,
   subLoading,
 }: IFormGeneratorProps) => {
+
   useEffect(() => {
     if (initialData && initialData.data) {
       let {data} = initialData
@@ -43,7 +44,6 @@ const FormGenerator = ({
 
     }
   }, [initialData]);
-
 
   return (
     <div className={styles.formWrapper}>

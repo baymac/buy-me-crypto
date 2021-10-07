@@ -215,7 +215,7 @@ const DashboardForms = () => {
     setSubLoading(true);
     data['userId'] = session.userId;
 
-    const resData = await fetchJson('/api/addUsername', {
+    const resData = await fetchJson('/api/updateFanProfile', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
