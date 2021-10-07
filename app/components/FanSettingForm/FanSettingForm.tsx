@@ -1,63 +1,59 @@
-import Form from '../FormGenerator/FormGenerator'
-import { useState } from 'react'
+import Form from '../FormGenerator/FormGenerator';
+import { useState } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
 
 const fanUserNameList: IFormInputField[] = [
-    {
-      label: 'Username',
-      isRequired: true,
-      type: 'text',
-      registerName: 'username',
-      isInput: true,
-    },
+  {
+    label: 'Username',
+    isRequired: true,
+    type: 'text',
+    registerName: 'username',
+    isInput: true,
+  },
 ];
 
-const FanSettingForm = ({
-    initialData,
-    userId
-})=>{
+const FanSettingForm = ({ initialData, userId }) => {
+  const [subLoading, setSubLoading] = useState<boolean>(false);
 
-    const [subLoading,setSubLoading] = useState<boolean>(false)
+  const handleOnSubmitFan = async (data) => {
+    setSubLoading(true);
+    data['userId'] = userId;
 
-    const handleOnSubmitFan = async (data) => {
-        setSubLoading(true);
-        data['userId'] = userId;
-    
-        const resData = await fetchJson('/api/updateFanProfile', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-    
-        if (!resData.error) {
-          setSubLoading(false);
-        }
-    };
+    const resData = await fetchJson('/api/updateFanProfile', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-    } = useForm();
+    if (!resData.error) {
+      setSubLoading(false);
+    }
+  };
 
-    return( 
-        <Form
-              formInfo={fanUserNameList}
-              handleOnSubmit={handleOnSubmitFan}
-              handleSubmit={handleSubmit}
-              register={register}
-              errors={errors}
-              submitBtnText={'Publish Page'}
-              initialData={initialData}
-              setValue={setValue}
-              subLoading={subLoading}
-        />
-    )
-}
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-export default FanSettingForm
+  return (
+    <Form
+      formInfo={fanUserNameList}
+      handleOnSubmit={handleOnSubmitFan}
+      handleSubmit={handleSubmit}
+      register={register}
+      errors={errors}
+      submitBtnText={'Publish Page'}
+      initialData={initialData}
+      setValue={setValue}
+      subLoading={subLoading}
+    />
+  );
+};
+
+export default FanSettingForm;

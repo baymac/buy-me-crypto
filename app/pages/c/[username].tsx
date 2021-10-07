@@ -88,7 +88,7 @@ export async function getServerSideProps(context) {
     }
   );
 
-  console.log(activeSubscriptions)
+  console.log(activeSubscriptions);
 
   if (!creatorPageInfo.data) {
     console.log('creatorPageinfo missgin');

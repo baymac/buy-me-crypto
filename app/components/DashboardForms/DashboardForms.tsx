@@ -5,10 +5,9 @@ import fetchJson from '../../lib/fetchJson';
 import { useSession } from 'next-auth/client';
 import PieLoading from '../PieLoading/PieLoading';
 import rootStyles from '../../styles/root.module.css';
-import CreatorPageInfoForm from '../CreatorPageInfoForm/CreatorPageInfoForm'
+import CreatorPageInfoForm from '../CreatorPageInfoForm/CreatorPageInfoForm';
 import { copyFileSync } from 'fs';
-import FanSettingForm from '../FanSettingForm/FanSettingForm'
-
+import FanSettingForm from '../FanSettingForm/FanSettingForm';
 
 export interface IFormInputField {
   label: string;
@@ -19,7 +18,6 @@ export interface IFormInputField {
 }
 
 const DashboardForms = () => {
-
   const [session, loading] = useSession();
   const [initialData, setInitialData] = useState(null);
   const [userMetaData, setUserMetaData] = useState(null);
@@ -39,31 +37,30 @@ const DashboardForms = () => {
       .then((res) => {
         setUserMetaData(res.data);
         if (res.data.userLevel === 2) {
-            fetchJson('/api/getPageInfo', {
-              method: 'POST',
-              body: JSON.stringify(body),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            })
-            .then((pageInfo) => {
-              if (pageInfo.data) {
-                console.log(pageInfo);
-                setInitialData(pageInfo);
-              }
-            })
+          fetchJson('/api/getPageInfo', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }).then((pageInfo) => {
+            if (pageInfo.data) {
+              console.log(pageInfo);
+              setInitialData(pageInfo);
+            }
+          });
         } else {
-            fetchJson('/api/getUserFromId', {
-              method: 'POST',
-              body: JSON.stringify(body),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }).then((data) => {
-              console.log('user meta data is 1 ');
-              console.log(data);
-              setInitialData(data);
-            });
+          fetchJson('/api/getUserFromId', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }).then((data) => {
+            console.log('user meta data is 1 ');
+            console.log(data);
+            setInitialData(data);
+          });
         }
       })
       .catch((error) => {
@@ -81,15 +78,12 @@ const DashboardForms = () => {
     return (
       <div className={styles.container}>
         {userMetaData.userLevel === 1 && (
-            <FanSettingForm
-              initialData={initialData}
-              userId={session.userId}
-            />
+          <FanSettingForm initialData={initialData} userId={session.userId} />
         )}
         {userMetaData.userLevel === 2 && (
-          <CreatorPageInfoForm 
-              initialData={initialData}
-              userId={session.userId}
+          <CreatorPageInfoForm
+            initialData={initialData}
+            userId={session.userId}
           />
         )}
       </div>
