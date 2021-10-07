@@ -40,10 +40,9 @@ export default function Home() {
             <div className={styles.wrapper__container}>
               {!isProfileCompleted ? (
                 <AlertBanner>
-                  {' '}
-                  Your page is currently incomplete.{' '}
-                  <Link href="/settings">Click here</Link> to complete profile
-                  and start attracting fans{' '}
+                  We need some info for your creator's page. Please complete
+                  your profile&nbsp;
+                  <Link href="/settings">here</Link>.
                 </AlertBanner>
               ) : null}
             </div>
