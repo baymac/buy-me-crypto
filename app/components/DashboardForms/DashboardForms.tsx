@@ -42,12 +42,12 @@ const pageInfoForm: IFormInputField[] = [
     isInput: false,
   },
   {
-    label : 'Solana Addres',
+    label: 'Solana Addres',
     isRequired: true,
-    type : 'text',
+    type: 'text',
     registerName: 'solanaAddress',
-    isInput : true
-  }
+    isInput: true,
+  },
 ];
 
 const intialSocialUrlList: IFormInputField[] = [
@@ -88,15 +88,15 @@ const intialSocialUrlList: IFormInputField[] = [
   },
 ];
 
-const fanUserNameList : IFormInputField[] = [
+const fanUserNameList: IFormInputField[] = [
   {
-    label : 'Username',
+    label: 'Username',
     isRequired: true,
-    type : 'text',
-    registerName : 'username',
-    isInput: true
-  }
-]
+    type: 'text',
+    registerName: 'username',
+    isInput: true,
+  },
+];
 
 const DashboardForms = () => {
   const {
@@ -116,8 +116,8 @@ const DashboardForms = () => {
   const [socialAddedList, setSocialAddedList] = useState<IFormInputField[]>([]);
   const [subLoading, setSubLoading] = useState<boolean>(false);
   const [userMetaData, setUserMetaData] = useState(null);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const body = {
       userId: session.userId,
     };
@@ -129,69 +129,69 @@ const DashboardForms = () => {
         'Content-Type': 'application/json',
       },
     })
-    .then((res)=>{
-      setUserMetaData(res.data)
-      if(res.data.userLevel===2){
-        fetchJson('/api/getPageInfo', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then((pageInfo) => {
-            const arr: IFormInputField[] = [];
-            if(pageInfo.data){
-              console.log(pageInfo)
-              setInitialData(pageInfo);
-              
-              for (let x in pageInfo.data.links) {
-                if (
-                  !isEmpty(pageInfo.data.links[x]) &&
-                  socialUrlList.some((social) => social.registerName === x)
-                ) {
-                  const presentSocial: IFormInputField = socialUrlList.find(
-                    (social) => social.registerName === x
-                  );
-                  arr.push(presentSocial);
-                }
-              }
-              setSocialAddedList([...socialAddedList, ...arr]);
-              setSocialUrlList(
-                socialUrlList.filter(
-                  (url) => !arr.some((ele) => ele.registerName === url.registerName)
-                )
-              );
-            }
-            return { arr, pageInfo };
+      .then((res) => {
+        setUserMetaData(res.data);
+        if (res.data.userLevel === 2) {
+          fetchJson('/api/getPageInfo', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+            },
           })
-          .then(({ arr, pageInfo }) => {
-            arr.forEach((url) => {
-              setValue(url.registerName, pageInfo.data.links[url.registerName]);
+            .then((pageInfo) => {
+              const arr: IFormInputField[] = [];
+              if (pageInfo.data) {
+                console.log(pageInfo);
+                setInitialData(pageInfo);
+
+                for (let x in pageInfo.data.links) {
+                  if (
+                    !isEmpty(pageInfo.data.links[x]) &&
+                    socialUrlList.some((social) => social.registerName === x)
+                  ) {
+                    const presentSocial: IFormInputField = socialUrlList.find(
+                      (social) => social.registerName === x
+                    );
+                    arr.push(presentSocial);
+                  }
+                }
+                setSocialAddedList([...socialAddedList, ...arr]);
+                setSocialUrlList(
+                  socialUrlList.filter(
+                    (url) =>
+                      !arr.some((ele) => ele.registerName === url.registerName)
+                  )
+                );
+              }
+              return { arr, pageInfo };
+            })
+            .then(({ arr, pageInfo }) => {
+              arr.forEach((url) => {
+                setValue(
+                  url.registerName,
+                  pageInfo.data.links[url.registerName]
+                );
+              });
             });
+        } else {
+          fetchJson('/api/getUserFromId', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }).then((data) => {
+            console.log('user meta data is 1 ');
+            console.log(data);
+            setInitialData(data);
           });
-      }
-      else {
-        fetchJson('/api/getUserFromId', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((data) => {
-          console.log('user meta data is 1 ')
-          console.log(data)
-          setInitialData(data)
-        })
-      }
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-
-  },[session])
-
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [session]);
 
   const handleOnSubmitCreator = async (data) => {
     console.log(data);
@@ -211,7 +211,7 @@ const DashboardForms = () => {
     }
   };
 
-  const handleOnSubmitFan = async (data)=>{
+  const handleOnSubmitFan = async (data) => {
     setSubLoading(true);
     data['userId'] = session.userId;
 
@@ -226,7 +226,7 @@ const DashboardForms = () => {
     if (!resData.error) {
       setSubLoading(false);
     }
-  }
+  };
 
   const isEmpty = (str: string): boolean => {
     return !str || str.length === 0;
@@ -271,130 +271,130 @@ const DashboardForms = () => {
   } else {
     return (
       <div className={styles.container}>
-      {userMetaData.userLevel=== 1 && (
-        <Form
-          formInfo={fanUserNameList}
-          handleOnSubmit={handleOnSubmitFan}
-          handleSubmit={handleSubmit}
-          register={register}
-          errors={errors}
-          submitBtnText={'Publish Page'}
-          initialData={initialData}
-          setValue={setValue}
-          subLoading={subLoading}
-        />
-      )}
-      {userMetaData.userLevel === 2 && (
-      <Form
-          formInfo={pageInfoForm}
-          handleOnSubmit={handleOnSubmitCreator}
-          handleSubmit={handleSubmit}
-          register={register}
-          errors={errors}
-          submitBtnText={'Publish Page'}
-          initialData={initialData}
-          setValue={setValue}
-          subLoading={subLoading}
-        >
-          <>
-            {socialAddedList.length >= 1 && (
-              <div>
-                {socialAddedList.map((social) => {
-                  return (
-                    <div
-                      id={social.label}
-                      key={social.label}
-                      className={inputStyles.inputBox}
-                    >
-                      <label
-                        className={inputStyles.inputBox__label}
-                      >{`${social.label}`}</label>
-                      <div className={cn(inputStyles.inputMinusBox__wrapper)}>
-                        <input
-                          type={'text'}
-                          className={inputStyles.inputBox__wrapper__input}
-                          {...register(social.registerName, {
-                            required: false,
-                          })}
-                        />
-                        <button
-                          onClick={(e) => handleMinusSocialInput(e, social)}
-                          className={cn(inputStyles.inputMinusBtn)}
-                        >
-                          {createElement(
-                            UilMinusCircle,
-                            {
-                              width: 24,
-                              height: 24,
-                            },
-                            null
-                          )}
-                        </button>
+        {userMetaData.userLevel === 1 && (
+          <Form
+            formInfo={fanUserNameList}
+            handleOnSubmit={handleOnSubmitFan}
+            handleSubmit={handleSubmit}
+            register={register}
+            errors={errors}
+            submitBtnText={'Publish Page'}
+            initialData={initialData}
+            setValue={setValue}
+            subLoading={subLoading}
+          />
+        )}
+        {userMetaData.userLevel === 2 && (
+          <Form
+            formInfo={pageInfoForm}
+            handleOnSubmit={handleOnSubmitCreator}
+            handleSubmit={handleSubmit}
+            register={register}
+            errors={errors}
+            submitBtnText={'Publish Page'}
+            initialData={initialData}
+            setValue={setValue}
+            subLoading={subLoading}
+          >
+            <>
+              {socialAddedList.length >= 1 && (
+                <div>
+                  {socialAddedList.map((social) => {
+                    return (
+                      <div
+                        id={social.label}
+                        key={social.label}
+                        className={inputStyles.inputBox}
+                      >
+                        <label
+                          className={inputStyles.inputBox__label}
+                        >{`${social.label}`}</label>
+                        <div className={cn(inputStyles.inputMinusBox__wrapper)}>
+                          <input
+                            type={'text'}
+                            className={inputStyles.inputBox__wrapper__input}
+                            {...register(social.registerName, {
+                              required: false,
+                            })}
+                          />
+                          <button
+                            onClick={(e) => handleMinusSocialInput(e, social)}
+                            className={cn(inputStyles.inputMinusBtn)}
+                          >
+                            {createElement(
+                              UilMinusCircle,
+                              {
+                                width: 24,
+                                height: 24,
+                              },
+                              null
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {addSocialUrl && (
-              <div className={inputStyles.inputBox}>
-                {addSocialUrl && (
-                  <div className={inputStyles.socialDropdown__wrapper}>
-                    <select
-                      className={inputStyles.socialDropdown}
-                      onChange={handleSocialDropdownChange}
-                    >
-                      <option> Select </option>
-                      {socialUrlList.map((url) => {
-                        return (
-                          <option key={url.registerName}>{url.label}</option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                )}
-                <div className={inputStyles.inputMinusBox__wrapper}>
-                  <input
-                    disabled
-                    type={'text'}
-                    className={inputStyles.inputBox__wrapper__input}
-                  />
-                  <button
-                    onClick={handleMinusDropdown}
-                    className={cn(inputStyles.inputMinusBtn)}
-                  >
-                    {createElement(
-                      UilMinusCircle,
-                      {
-                        width: 24,
-                        height: 24,
-                      },
-                      null
-                    )}
-                  </button>
+                    );
+                  })}
                 </div>
-              </div>
-            )}
+              )}
 
-            {!addSocialUrl && socialUrlList.length > 0 && (
-              <button
-                onClick={handleSocialUrlClick}
-                className={cn(inputStyles.btn, inputStyles.socialBtn)}
-              >
-                {createElement(
-                  UilPlus,
-                  {
-                    width: 28,
-                    height: 28,
-                  },
-                  null
-                )}
-                <span>Add Link</span>
-              </button>
-            )}
-          </>
-        </Form>
+              {addSocialUrl && (
+                <div className={inputStyles.inputBox}>
+                  {addSocialUrl && (
+                    <div className={inputStyles.socialDropdown__wrapper}>
+                      <select
+                        className={inputStyles.socialDropdown}
+                        onChange={handleSocialDropdownChange}
+                      >
+                        <option> Select </option>
+                        {socialUrlList.map((url) => {
+                          return (
+                            <option key={url.registerName}>{url.label}</option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  )}
+                  <div className={inputStyles.inputMinusBox__wrapper}>
+                    <input
+                      disabled
+                      type={'text'}
+                      className={inputStyles.inputBox__wrapper__input}
+                    />
+                    <button
+                      onClick={handleMinusDropdown}
+                      className={cn(inputStyles.inputMinusBtn)}
+                    >
+                      {createElement(
+                        UilMinusCircle,
+                        {
+                          width: 24,
+                          height: 24,
+                        },
+                        null
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!addSocialUrl && socialUrlList.length > 0 && (
+                <button
+                  onClick={handleSocialUrlClick}
+                  className={cn(inputStyles.btn, inputStyles.socialBtn)}
+                >
+                  {createElement(
+                    UilPlus,
+                    {
+                      width: 28,
+                      height: 28,
+                    },
+                    null
+                  )}
+                  <span>Add Link</span>
+                </button>
+              )}
+            </>
+          </Form>
         )}
       </div>
     );

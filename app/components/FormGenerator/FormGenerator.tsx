@@ -29,19 +29,16 @@ const FormGenerator = ({
   setValue,
   subLoading,
 }: IFormGeneratorProps) => {
-
   useEffect(() => {
     if (initialData && initialData.data) {
-      let {data} = initialData
-      for( let x in data){
-        if(typeof data[x] === 'object' && data[x] !== null){
+      let { data } = initialData;
+      for (let x in data) {
+        if (typeof data[x] === 'object' && data[x] !== null) {
           continue;
-        }
-        else{
+        } else {
           setValue(x, data[x]);
         }
       }
-
     }
   }, [initialData]);
 

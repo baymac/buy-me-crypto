@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getUser from '../../lib/getUser'
-import {IGetUserRequest} from '../../lib/getUser'
+import getUser from '../../lib/getUser';
+import { IGetUserRequest } from '../../lib/getUser';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function handler(
     res.status(200).json({ message: 'Wrong req method' });
   }
   const { username } = req.body;
-  const body :IGetUserRequest = {
+  const body: IGetUserRequest = {
     username,
   };
   try {

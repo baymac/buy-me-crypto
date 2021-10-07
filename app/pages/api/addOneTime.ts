@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import addOneTime from '../../lib/addOneTime'
-import { IAddOneTimeRequest,IAddOneTimeResponse } from '../../lib/addOneTime';
+import addOneTime from '../../lib/addOneTime';
+import { IAddOneTimeRequest, IAddOneTimeResponse } from '../../lib/addOneTime';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -8,17 +8,13 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
-  const { 
-    amount,
-    fan,
-    creator,
-    note } = req.body;
+  const { amount, fan, creator, note } = req.body;
 
-  const body :IAddOneTimeRequest = {
+  const body: IAddOneTimeRequest = {
     amount: amount,
-    fan : fan,
-    creator : creator,
-    note : note,
+    fan: fan,
+    creator: creator,
+    note: note,
   };
   try {
     const result: IAddOneTimeResponse = await addOneTime(body);

@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IAddUsernameRequest, IAddUsernameResponse } from '../../lib/addUsername';
-import addUsername from '../../lib/addUsername'
+import {
+  IAddUsernameRequest,
+  IAddUsernameResponse,
+} from '../../lib/addUsername';
+import addUsername from '../../lib/addUsername';
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +12,7 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
-  const { userId,username } = req.body;
+  const { userId, username } = req.body;
   const body: IAddUsernameRequest = {
     userId,
     username,

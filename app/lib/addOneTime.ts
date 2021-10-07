@@ -4,29 +4,28 @@ import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
 const db = firebase.firestore();
 
 export interface IOneTime {
-    amount : number;
-    fan : string;
-    creator : string;
-    note : string;
+  amount: number;
+  fan: string;
+  creator: string;
+  note: string;
 }
 export interface IAddOneTimeRequest {
-    amount : number;
-    fan : string;
-    creator : string;
-    note : string;
+  amount: number;
+  fan: string;
+  creator: string;
+  note: string;
 }
 export interface IAddOneTimeResponse extends IGenericAPIResponse {
   data: null | IOneTime;
 }
 
 export default async function addOneTime({
-    amount,
-    fan,
-    creator,
-    note,
+  amount,
+  fan,
+  creator,
+  note,
 }: IAddOneTimeRequest): Promise<IAddOneTimeResponse> {
   try {
-    
     const fanUser = db
       .collection('userMetaData')
       .doc(fan)
@@ -49,43 +48,41 @@ export default async function addOneTime({
         return { ...querySnapshot.data() };
       });
 
-    if(!fanUser || !creatorUser){
-        return {
-            error : true,
-            data : null,
-            message : "either fan or creator doesn't exist"
-        }
-    }
-    else {
-        const result = await db
-            .collection('oneTime')
-            .add({
-                amount : amount,
-                fan : fan,
-                creator : creator,
-                start : firebase.firestore.Timestamp.fromDate(new Date()),
-                active : true,
-                note : note
-            })
-            .then(()=>{
-                console.log('oneTime added successfully')
-                return {
-                    error: false,
-                    message : 'oneTime added successfully',
-                    data : null
-                }
-            })
-            .catch((error)=>{
-                return {
-                    error : true,
-                    message : 'some error occured ' + error.message,
-                    data : null
-                }
-            })
+    if (!fanUser || !creatorUser) {
+      return {
+        error: true,
+        data: null,
+        message: "either fan or creator doesn't exist",
+      };
+    } else {
+      const result = await db
+        .collection('oneTime')
+        .add({
+          amount: amount,
+          fan: fan,
+          creator: creator,
+          start: firebase.firestore.Timestamp.fromDate(new Date()),
+          active: true,
+          note: note,
+        })
+        .then(() => {
+          console.log('oneTime added successfully');
+          return {
+            error: false,
+            message: 'oneTime added successfully',
+            data: null,
+          };
+        })
+        .catch((error) => {
+          return {
+            error: true,
+            message: 'some error occured ' + error.message,
+            data: null,
+          };
+        });
 
-        return result;
+      return result;
     }
-
   } catch (error) {
     return {
       error: true,
