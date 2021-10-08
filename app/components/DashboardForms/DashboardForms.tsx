@@ -1,13 +1,11 @@
-import cn from 'classnames';
-import React, { useState, useEffect } from 'react';
-import styles from '../DashboardForms/DashboardForms.module.css';
-import fetchJson from '../../lib/fetchJson';
 import { useSession } from 'next-auth/client';
-import PieLoading from '../PieLoading/PieLoading';
+import React, { useEffect, useState } from 'react';
+import fetchJson from '../../lib/fetchJson';
 import rootStyles from '../../styles/root.module.css';
 import CreatorPageInfoForm from '../CreatorPageInfoForm/CreatorPageInfoForm';
-import { copyFileSync } from 'fs';
+import styles from '../DashboardForms/DashboardForms.module.css';
 import FanSettingForm from '../FanSettingForm/FanSettingForm';
+import PieLoading from '../PieLoading/PieLoading';
 
 export interface IFormInputField {
   label: string;
