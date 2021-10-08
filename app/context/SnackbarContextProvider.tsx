@@ -7,6 +7,8 @@ import React, {
 } from 'react';
 import Snackbar from '../components/Snackbar/Snackbar';
 
+export const uniqueId = Math.random().toString(16).slice(2);
+
 export type SnackbarVariants = 'success' | 'error' | 'warning' | 'info';
 
 export type TSnackbarOptions = {
@@ -18,6 +20,8 @@ export type TSnackbarItem = {
   message: string;
   options?: TSnackbarOptions;
 };
+
+export type TSnackbarItemInner = TSnackbarItem & { id: string };
 
 export interface ISnackbarContextValues {
   enqueueSnackbar: (snackBarItem: TSnackbarItem) => void;
@@ -36,11 +40,13 @@ export default function SnackbarContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [snackbarItems, setSetSnackbarItems] = useState<TSnackbarItem[]>([]);
+  const [snackbarItems, setSetSnackbarItems] = useState<TSnackbarItemInner[]>(
+    []
+  );
 
   const enqueueSnackbar = (snackBarItem: TSnackbarItem) => {
     setSetSnackbarItems((prevSnackbarItems) =>
-      prevSnackbarItems.concat(snackBarItem)
+      prevSnackbarItems.concat({ ...snackBarItem, id: uniqueId })
     );
   };
 
@@ -55,6 +61,7 @@ export default function SnackbarContextProvider({
         createElement(
           Snackbar,
           {
+            id: snackbarItem.id,
             message: snackbarItem.message,
             duration: snackbarItem?.options?.duration ?? 1500,
             variant: snackbarItem?.options?.variant ?? 'info',
