@@ -112,58 +112,57 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
         <PieLoading />
       </div>
     );
-  } else {
-    return (
-      <HomeLayout>
-        <Head>
-          <title>Sponsor | Buy Me Crypto</title>
-        </Head>
-        <section className={cn(rootStyles.section)} id="about">
-          <div
-            className={cn(
-              rootStyles.container,
-              rootStyles.grid,
-              styles.about__container
-            )}
-          >
-            <div className={styles.wrapper}>
-              <div className={styles.wrapper__pageInfo}>
-                <img
-                  className={styles.wrapper__pageInfo__avatar}
-                  src={creator.image}
-                  alt="creator avatar"
-                />
-                <h2 className={styles.wrapper__pageInfo__pageName}>
-                  {creator.username}
-                </h2>
-                <h4 className={styles.wrapper__pageInfo__pageHeadline}>
-                  {creatorPageInfo.pageHeadline}
-                </h4>
-                <p className={styles.wrapper__pageInfo__aboutPage}>
-                  {creatorPageInfo.aboutPage}
-                </p>
-              </div>
-              {!activeSubscription && (
-                <SponsorForm
-                  creatorName={'Creator'}
-                  creatorId={creator.id}
-                  fanId={session.userId}
-                />
-              )}
-              {activeSubscription && (
-                <div className={styles.wrapper__sponsor}>
-                  <h2
-                    className={styles.wrapper__sponsor__heading}
-                  >{`Sponsor Creator`}</h2>
-                  <h3>Active Subscriptions</h3>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      </HomeLayout>
-    );
   }
+  return (
+    <HomeLayout>
+      <Head>
+        <title>Sponsor | Buy Me Crypto</title>
+      </Head>
+      <section className={cn(rootStyles.section)} id="about">
+        <div
+          className={cn(
+            rootStyles.container,
+            rootStyles.grid,
+            styles.about__container
+          )}
+        >
+          <div className={styles.wrapper}>
+            <div className={styles.wrapper__pageInfo}>
+              <img
+                className={styles.wrapper__pageInfo__avatar}
+                src={creator.image}
+                alt="creator avatar"
+              />
+              <h2 className={styles.wrapper__pageInfo__pageName}>
+                {creator.username}
+              </h2>
+              <h4 className={styles.wrapper__pageInfo__pageHeadline}>
+                {creatorPageInfo.pageHeadline}
+              </h4>
+              <p className={styles.wrapper__pageInfo__aboutPage}>
+                {creatorPageInfo.aboutPage}
+              </p>
+            </div>
+            {!activeSubscription && (
+              <SponsorForm
+                creatorName={'Creator'}
+                creatorId={creator.id}
+                fanId={session.userId}
+              />
+            )}
+            {activeSubscription && (
+              <div className={styles.wrapper__sponsor}>
+                <h2
+                  className={styles.wrapper__sponsor__heading}
+                >{`Sponsor Creator`}</h2>
+                <h3>Active Subscriptions</h3>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </HomeLayout>
+  );
 };
 
 export default creatorPage;
