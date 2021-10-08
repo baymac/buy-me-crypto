@@ -50,6 +50,12 @@ export default function SnackbarContextProvider({
     );
   };
 
+  const dequeueSnackbar = (id: string) => {
+    setSetSnackbarItems((prevSnackbarItems) =>
+      prevSnackbarItems.filter((prevSnackbarItem) => prevSnackbarItem.id !== id)
+    );
+  };
+
   const value: ISnackbarContextValues = {
     enqueueSnackbar,
   };
@@ -65,6 +71,7 @@ export default function SnackbarContextProvider({
             message: snackbarItem.message,
             duration: snackbarItem?.options?.duration ?? 1500,
             variant: snackbarItem?.options?.variant ?? 'info',
+            dequeueSnackbar: dequeueSnackbar,
           },
           null
         )

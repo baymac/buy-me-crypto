@@ -1,20 +1,22 @@
 import cn from 'classnames';
 import { SnackbarVariants } from '../../context/SnackbarContextProvider';
+import { useReset } from '../../hooks/useReset';
 import styles from './snackbar.module.css';
 
 export interface ISnackbarProps {
   id: string;
-  reset?: () => void;
-  onClose?: () => void;
+  dequeueSnackbar: (id: string) => void;
   variant?: SnackbarVariants;
   message: string;
   duration?: number;
 }
 
-// Variants and duration not implemented yet
+// Variants
 
 export default function Snackbar(props: ISnackbarProps) {
-  const { id } = props;
+  const { id, duration, dequeueSnackbar } = props;
+
+  useReset(dequeueSnackbar, id, duration);
 
   return (
     <div className={cn(styles.snackbar__container)}>
