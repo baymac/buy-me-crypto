@@ -5,6 +5,65 @@ import styles from './SponsorForm.module.css';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
+import * as solanaWeb3 from '@solana/web3.js';
+import { useWalletContext } from '../../context/WalletContextProvider';
+import { useSnackbar } from '../../context/SnackbarContextProvider';
+
+const connection = new solanaWeb3.Connection(
+  'https://api.mainnet-beta.solana.com'
+);
+
+const getProvider = () => {
+  if ('solana' in window) {
+    // @ts-ignore
+    const provider = window.solana;
+    if (provider.isPhantom) {
+      return provider;
+    }
+  }
+  alert('Please install Phantom wallet extension in your browser.');
+  window.open('https://phantom.app/', '_blank');
+};
+
+const connect = async () => {
+  const provider = getProvider();
+  if (provider) {
+    if (!provider.isConnected) {
+      await provider.connect();
+      return provider.isConnected;
+    } else {
+      return provider.isConnected;
+    }
+  } else {
+    return false;
+  }
+};
+
+const getPublicKey = async () => {
+  const provider = getProvider();
+  if (provider) {
+    if (!provider.isConnected) {
+      provider.connect().then((res) => {
+        console.log('connection successful!', res);
+      });
+    }
+    return provider.publicKey;
+  } else {
+    return false;
+  }
+};
+
+const getBalance = async () => {
+  let balance = null;
+  try {
+    const address = await getPublicKey();
+    const pubKey = new solanaWeb3.PublicKey(address);
+    balance = await connection.getBalance(pubKey);
+    return balance / solanaWeb3.LAMPORTS_PER_SOL;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const SponsorForm = ({ creatorName, creatorId, fanId }) => {
   const {
@@ -15,7 +74,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
     formState: { errors },
   } = useForm();
 
-  let [isSubscriptionPayment, setIsSubscriptionPayment] =
+  const [isSubscriptionPayment, setIsSubscriptionPayment] =
     useState<boolean>(true);
   const [subLoading, setSubLoading] = useState<boolean>(false);
 
@@ -29,45 +88,54 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
     }
   };
 
-  const handleOnSubmit = (data) => {
+  const { setWallet, wallet, connectWallet, disconnectWallet } =
+    useWalletContext();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleOnSubmit = async (data) => {
     setSubLoading(true);
-    let reqUrl;
-    let body;
-    if (isSubscriptionPayment) {
-      reqUrl = '/api/addSubscription';
-      body = {
-        rate: data.rate,
-      };
-    } else {
-      reqUrl = '/api/addOneTime';
-      body = {
-        amount: data.amount,
-      };
-    }
+    connect();
+    const bal = await getBalance();
+    enqueueSnackbar({ message: bal.toString() });
+    setSubLoading(false);
+    // let reqUrl;
+    // let body;
+    // if (isSubscriptionPayment) {
+    //   reqUrl = '/api/addSubscription';
+    //   body = {
+    //     rate: data.rate,
+    //   };
+    // } else {
+    //   reqUrl = '/api/addOneTime';
+    //   body = {
+    //     amount: data.amount,
+    //   };
+    // }
 
-    body = {
-      ...body,
-      note: data.note,
-      fan: fanId,
-      creator: creatorId,
-    };
+    // body = {
+    //   ...body,
+    //   note: data.note,
+    //   fan: fanId,
+    //   creator: creatorId,
+    // };
 
-    fetchJson(reqUrl, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        setSubLoading(false);
-        setValue('rate', '');
-        setValue('amount', '');
-        setValue('note', '');
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    // fetchJson(reqUrl, {
+    //   method: 'POST',
+    //   body: JSON.stringify(body),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((res) => {
+    //     setSubLoading(false);
+    //     setValue('rate', '');
+    //     setValue('amount', '');
+    //     setValue('note', '');
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //   });
   };
 
   return (
