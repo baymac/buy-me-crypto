@@ -30,7 +30,6 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
   };
 
   const handleOnSubmit = (data) => {
-    console.log(data);
     setSubLoading(true);
     let reqUrl;
     let body;
@@ -52,9 +51,6 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
       fan: fanId,
       creator: creatorId,
     };
-
-    console.log('sending req to ' + reqUrl);
-    console.log(body);
 
     fetchJson(reqUrl, {
       method: 'POST',
