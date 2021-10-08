@@ -9,13 +9,9 @@ const tableHeading : string[] = [
     "Rate"
 ]
 
-const ActiveSubscription = ()=>{
-
-
-
-    useEffect(()=>{
-
-    },[])
+const ActiveSubscriptionTable = ({
+    activeSubscriptions
+})=>{
 
     return (
         <div className={tableStyles.wrapper}>
@@ -24,13 +20,25 @@ const ActiveSubscription = ()=>{
                 <thead>
                     <tr className={tableStyles.tableRow}>
                         {tableHeading.map((heading)=>{
-                            return <th className={tableStyles.tableEle}>{heading}</th>
+                            return <th key={heading} className={tableStyles.tableEle}>{heading}</th>
                         })}
                     </tr>
                 </thead> 
+                <tbody>
+                    {activeSubscriptions.map((sub,index)=>{
+                        return (
+                            <tr>
+                                <td className={tableStyles.tableEle}>{index +1}</td>
+                                <td className={tableStyles.tableEle}>{sub.creator}</td>
+                                <td className={tableStyles.tableEle}>{sub.start}</td>
+                                <td className={tableStyles.tableEle}>{sub.rate}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
             </table>
         </div>
     )
 }
 
-export default ActiveSubscription
+export default ActiveSubscriptionTable

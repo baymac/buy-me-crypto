@@ -6,6 +6,7 @@
   border-radius: 5px;
   background-color: var(--alert-bg-color);
   color: var(--alert-text-color);
+  margin-bottom : var(--mb-2)
 }
 
 .wrapper > svg {

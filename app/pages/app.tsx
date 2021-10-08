@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import React from 'react';
+import React,{useEffect ,useState} from 'react';
 import AlertBanner from '../components/AlertBanner/AlertBanner';
 import PieLoading from '../components/PieLoading/PieLoading';
 import Sidebar from '../components/Sidebar/Sidebar';
@@ -13,13 +13,47 @@ import Link from 'next/link';
 import Head from 'next/head';
 import ActiveSubscriptionsTable from '../components/ActiveSubscriptionsTable/ActiveSubscriptionsTable'
 import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable'
+import fetchJson from '../lib/fetchJson';
 export default function Home() {
-  const [_, loading] = useSession();
+  const [session , loading] = useSession();
   useSessionRedirect('/', true);
 
   const [userMetaData] = useFinishSignupRedirect();
+  const [ activeSubscriptions,setActiveSubscriptions ] = useState(null)
 
-  if (loading || !userMetaData) {
+  useEffect(()=>{
+
+    if(userMetaData && session){
+      if(userMetaData.userLevel === 1){
+        const body = {
+          userId : session.userId
+        }
+        fetchJson('/api/getActiveSubscriptionsTo',{
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((data)=>{
+          if(!data.data && data.error){
+            throw Error
+          }
+          setActiveSubscriptions(data.data)
+        })
+        .catch((error)=>{
+          console.log('error ' + error.message)
+        })
+      }
+      else{
+  
+      }
+    }
+
+  },[userMetaData,session ])
+  
+
+  if (loading || !userMetaData || !activeSubscriptions) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
@@ -59,7 +93,7 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
-              <ActiveSubscriptionsTable/>
+              <ActiveSubscriptionsTable activeSubscriptions={activeSubscriptions}/>
               <PastTransactionsTable/>
             </div>
           </div>

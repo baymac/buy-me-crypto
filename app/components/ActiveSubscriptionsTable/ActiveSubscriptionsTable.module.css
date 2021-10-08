@@ -36,4 +36,5 @@
 .tableEle{
     border: 1px solid var(--footer-border-color);
     padding: var(--mb-0-75);
+    text-align: center;
 }
