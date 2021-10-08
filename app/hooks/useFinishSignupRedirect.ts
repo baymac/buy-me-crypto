@@ -12,7 +12,6 @@ export default function useFinishSignupRedirect() {
 
   useEffect(() => {
     if (session) {
-      console.log(session);
       const body = {
         userId: session.userId,
       };

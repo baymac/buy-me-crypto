@@ -6,6 +6,7 @@ import fetchJson from '../../lib/fetchJson';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
 import cn from 'classnames';
 import { UilMinusCircle, UilPlus } from '@iconscout/react-unicons';
+import { useSnackbar } from '../../context/SnackbarContextProvider';
 
 const pageInfoForm: IFormInputField[] = [
   {
@@ -91,6 +92,8 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
   const [socialAddedList, setSocialAddedList] = useState<IFormInputField[]>([]);
   const [subLoading, setSubLoading] = useState<boolean>(false);
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleOnSubmitCreator = async (data) => {
     console.log(data);
     setSubLoading(true);
@@ -103,6 +106,8 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
         'Content-Type': 'application/json',
       },
     });
+
+    enqueueSnackbar({ message: resData.message, options: { duration: 2000 } });
 
     if (!resData.error) {
       setSubLoading(false);
