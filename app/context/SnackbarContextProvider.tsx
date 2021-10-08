@@ -72,6 +72,7 @@ export default function SnackbarContextProvider({
             duration: snackbarItem?.options?.duration ?? 1500,
             variant: snackbarItem?.options?.variant ?? 'info',
             dequeueSnackbar: dequeueSnackbar,
+            key: snackbarItem.id,
           },
           null
         )
