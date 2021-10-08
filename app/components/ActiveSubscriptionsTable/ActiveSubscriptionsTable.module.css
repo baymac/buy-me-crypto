@@ -13,6 +13,10 @@
     border-collapse : collapse;
 }
 
+.tableHeading{
+    font-weight: 900;
+}
+
 .tableName{
     margin-bottom: var(--mb-1)
 }
@@ -33,7 +37,8 @@
     width : 25%
 }
 
-.tableEle{
+.tableEle,
+.tableHeading {
     border: 1px solid var(--footer-border-color);
     padding: var(--mb-0-75);
     text-align: center;

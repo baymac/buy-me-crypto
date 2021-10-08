@@ -4,15 +4,15 @@ import {populateUser} from './getActiveSubscriptionsTo'
 
 const db = firebase.firestore();
 
-export interface IActiveSubscriptionsFromRequest extends IGenericAPIRequest{}
+export interface IGetOneTimeTransactionsFromRequest extends IGenericAPIRequest{}
 
-//function to get the active subscriptions of creator from all the fans
-export default async function getOneTimeTransactionsFrom({
+//function to get the one time transactions of creator from all the fans
+export default async function getActiveSubscriptionFrom({
     userId
-}: IActiveSubscriptionsFromRequest) {
+}: IGetOneTimeTransactionsFromRequest) {
   try {
     const activeSubscriptions = await db
-      .collection('subscriptions')
+      .collection('oneTime')
       .where('creator', '==', userId)
       .get()
       .then((querySnapshot) => {

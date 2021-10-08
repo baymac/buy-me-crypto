@@ -12,18 +12,18 @@ export function convertDate(start){
 }
 
 
-export async function populateActiveSubscription(activeSubs){
+export async function populateUser(activeSubs,field){
   for(let i in activeSubs){
     activeSubs[i].start = convertDate(activeSubs[i].start)
     const body = {
-      userId : activeSubs[i].creator
+      userId : activeSubs[i][field]
     }
     let {data} = await getUserFromId(body)
     if(!data){
       throw Error('user not found')
     }
     else{
-      activeSubs[i].creator = data.username
+      activeSubs[i][field] = data.username
     }
   }
 }
@@ -55,7 +55,8 @@ export default async function getActiveSubscriptionTo({
         message: 'no active subscriptions',
       };
     } else {
-      await populateActiveSubscription(activeSubscriptions)
+      //function populater user from user ID
+      await populateUser(activeSubscriptions,'creator')
       return {
         error: false,
         data: activeSubscriptions,

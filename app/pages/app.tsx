@@ -20,7 +20,7 @@ export default function Home() {
 
   const [userMetaData] = useFinishSignupRedirect();
   const [ activeSubscriptions,setActiveSubscriptions ] = useState(null)
-
+  const [ pastTransactions, setPastTransactions ] = useState(null)
   useEffect(()=>{
 
     if(userMetaData && session){
@@ -28,6 +28,8 @@ export default function Home() {
         const body = {
           userId : session.userId
         }
+
+        //request for active Subscriptions
         fetchJson('/api/getActiveSubscriptionsTo',{
           method: 'POST',
           body: JSON.stringify(body),
@@ -36,24 +38,70 @@ export default function Home() {
           },
         })
         .then((data)=>{
-          if(!data.data && data.error){
-            throw Error
-          }
-          setActiveSubscriptions(data.data)
+          setActiveSubscriptions(data)
+        })
+        .catch((error)=>{
+          console.log('error ' + error.message)
+        })
+
+
+        //request for past transactions oneTime
+        fetchJson('/api/getOneTimeTransactionsTo',{
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((data)=>{
+          console.log('past Transactions')
+          console.log(data)
+          setPastTransactions(data)
         })
         .catch((error)=>{
           console.log('error ' + error.message)
         })
       }
       else{
-  
+        const body = {
+          userId : session.userId
+        }
+        fetchJson('/api/getActiveSubscriptionsFrom',{
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((data)=>{
+          setActiveSubscriptions(data)
+        })
+        .catch((error)=>{
+          console.log('error ' + error.message)
+        })
+        //request for past transactions oneTime
+        fetchJson('/api/getOneTimeTransactionsFrom',{
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((data)=>{
+          setPastTransactions(data)
+        })
+        .catch((error)=>{
+          console.log('error ' + error.message)
+        })
       }
     }
 
-  },[userMetaData,session ])
+  },[userMetaData,session])
   
 
-  if (loading || !userMetaData || !activeSubscriptions) {
+  console.log(activeSubscriptions)
+
+  if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
@@ -93,8 +141,8 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
-              <ActiveSubscriptionsTable activeSubscriptions={activeSubscriptions}/>
-              <PastTransactionsTable/>
+              <ActiveSubscriptionsTable activeSubscriptions={activeSubscriptions.data} userLevel={userMetaData.userLevel}/>
+              <PastTransactionsTable activeSubscriptions={activeSubscriptions.data} oneTimeTransactions={pastTransactions.data} userLevel={userMetaData.userLevel}/>
             </div>
           </div>
         </div>
