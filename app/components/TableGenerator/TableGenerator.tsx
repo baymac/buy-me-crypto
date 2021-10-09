@@ -21,13 +21,13 @@ export interface ITableRowContent {
 export interface ITableGeneratorProps {
   tableName: string;
   tableHeadings: ITableColumn[];
-  contentArr: ITableRowContent[];
+  data: ITableRowContent[];
 }
 
 const TableGenerator = ({
   tableName,
   tableHeadings,
-  contentArr,
+  data,
 }: ITableGeneratorProps) => {
   return (
     <div className={tableStyles.wrapper}>
@@ -53,9 +53,9 @@ const TableGenerator = ({
             })}
           </tr>
         </thead>
-        {contentArr && (
+        {data && (
           <tbody className={tableStyles.tableBody}>
-            {contentArr.map((sub, index) => {
+            {data.map((sub, index) => {
               return (
                 <tr key={index} className={tableStyles.tableRow}>
                   {tableHeadings.map((col) => {

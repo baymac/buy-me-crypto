@@ -7,17 +7,7 @@ import Table, {
   ITableRowContent,
 } from '../TableGenerator/TableGenerator';
 
-const FanTableHeadings = ['Sl.No', 'Creator', 'Type', 'Created At', 'Amount'];
-
-const CreatorTableHeadings = [
-  'Sl.No',
-  'Creator',
-  'Type',
-  'Created At',
-  'Amount',
-];
-
-const FanTableColums: ITableColumn[] = [
+const FanTableColumns: ITableColumn[] = [
   {
     heading: 'Sl.No',
     minWidth: 65,
@@ -55,6 +45,44 @@ const FanTableColums: ITableColumn[] = [
   },
 ];
 
+const CreatorTableColumns: ITableColumn[] = [
+  {
+    heading: 'Sl.No',
+    minWidth: 65,
+    maxWidth: 70,
+    registerName: 'serialNo',
+    width : "10%"
+  },
+  {
+    heading: 'Creator',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'benefactorName',
+    width : "25%"
+  },
+  {
+    heading: 'Type',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'type',
+    width : "25%"
+  },
+  {
+    heading: 'Created At',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'start',
+    width : "25%"
+  },
+  {
+    heading: 'Amount',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'amount',
+    width : "25%"
+  },
+]
+
 const PastTransactionTable = ({
   activeSubscriptions,
   oneTimeTransactions,
@@ -63,7 +91,7 @@ const PastTransactionTable = ({
   const [transactionsArr, setTransactionsArr] =
     useState<Array<ITableRowContent> | null>(null);
 
-  const [tableHeadings, setTableHeadings] = useState<Array<string>>([]);
+  const [tableHeadings, setTableHeadings] = useState<Array<ITableColumn>>([]);
 
   useEffect(() => {
     let arr: ITableRowContent[] = [];
@@ -84,9 +112,9 @@ const PastTransactionTable = ({
     setTransactionsArr(arr);
 
     if (userLevel === 1) {
-      setTableHeadings(FanTableHeadings);
+      setTableHeadings(FanTableColumns);
     } else {
-      setTableHeadings(CreatorTableHeadings);
+      setTableHeadings(CreatorTableColumns);
     }
   }, [activeSubscriptions, oneTimeTransactions, userLevel]);
 
@@ -100,9 +128,9 @@ const PastTransactionTable = ({
 
   return (
     <Table
-      contentArr={transactionsArr}
+      data={transactionsArr}
       tableName={'Past Transaction'}
-      tableHeadings={FanTableColums}
+      tableHeadings={tableHeadings}
     />
   );
 };
