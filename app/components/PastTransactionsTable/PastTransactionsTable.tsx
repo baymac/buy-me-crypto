@@ -19,15 +19,6 @@ const PastTransactionTable = ({
 
     useEffect(()=>{
         let arr = []
-        if(activeSubscriptions){
-            for(let i  in activeSubscriptions){
-                arr.push({
-                    type : 'Subscription',
-                    amount : activeSubscriptions[i].rate,
-                    benefactor : userLevel === 1 ? activeSubscriptions[i].creator : activeSubscriptions[i].fan
-                })
-            }
-        }
         if(oneTimeTransactions){
             for(let i  in oneTimeTransactions){
                 arr.push({
@@ -40,7 +31,14 @@ const PastTransactionTable = ({
         setTransactionsArr(arr)
     },[activeSubscriptions,oneTimeTransactions])
 
-    console.log(transactionsArr)
+    if(transactionsArr === null || transactionsArr.length === 0){
+        return (
+            <div className={tableStyles.wrapper}>
+                <h2 className={tableStyles.tableName}>No Past Transactions</h2>
+            </div>
+        )
+    }
+    
     return (
         <div className={tableStyles.wrapper}>
             <h2 className={tableStyles.tableName}>Past Transaction</h2>

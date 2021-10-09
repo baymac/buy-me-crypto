@@ -24,82 +24,41 @@ export default function Home() {
   useEffect(()=>{
 
     if(userMetaData && session){
-      if(userMetaData.userLevel === 1){
-        const body = {
-          userId : session.userId
-        }
 
-        //request for active Subscriptions
-        fetchJson('/api/getActiveSubscriptionsTo',{
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((data)=>{
-          setActiveSubscriptions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
-
-
-        //request for past transactions oneTime
-        fetchJson('/api/getOneTimeTransactionsTo',{
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((data)=>{
-          console.log('past Transactions')
-          console.log(data)
-          setPastTransactions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
+      let {userLevel} = userMetaData
+      const body = {
+        userId : session.userId
       }
-      else{
-        const body = {
-          userId : session.userId
+      //fetching active Subscriptions for creator or fan
+      fetchJson(`/api/getActiveSubscriptions${userLevel === 1 ? 'To' : 'From'}`,{
+        method : 'POST',
+        body : JSON.stringify(body),
+        headers: {
+          'Content-Type' : 'applications/json'
         }
-        fetchJson('/api/getActiveSubscriptionsFrom',{
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((data)=>{
-          setActiveSubscriptions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
-        //request for past transactions oneTime
-        fetchJson('/api/getOneTimeTransactionsFrom',{
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((data)=>{
-          setPastTransactions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
-      }
+      })
+      .then((data)=>{
+        setActiveSubscriptions(data)
+      })
+      .catch((error)=>{
+        console.log(error.message)
+      })
+      //fetching one Time Transactions for creator or fan
+      fetchJson(`/api/getOneTimeTransactions${ userLevel === 1 ? 'To' : 'From'}`,{
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((data)=>{
+         setPastTransactions(data)
+      })
+      .catch((error)=>{
+        console.log('error ' + error.message)
+      })
     }
-
   },[userMetaData,session])
-  
-
-  console.log(activeSubscriptions)
 
   if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
@@ -108,7 +67,6 @@ export default function Home() {
       </div>
     );
   }
-
   return (
     <HomeLayout>
       <Head>
@@ -141,7 +99,7 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
-              <ActiveSubscriptionsTable activeSubscriptions={activeSubscriptions.data} userLevel={userMetaData.userLevel}/>
+              {/* <ActiveSubscriptionsTable activeSubscriptions={activeSubscriptions.data} userLevel={userMetaData.userLevel}/> */}
               <PastTransactionsTable activeSubscriptions={activeSubscriptions.data} oneTimeTransactions={pastTransactions.data} userLevel={userMetaData.userLevel}/>
             </div>
           </div>
