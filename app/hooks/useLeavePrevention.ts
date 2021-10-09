@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+// Originally written at: https://github.com/vercel/next.js/discussions/12348#discussioncomment-131768
+
 const handleWindowClose = (e) => {
   e.preventDefault();
   return (e.returnValue = 'Are you sure you want to leave?');
