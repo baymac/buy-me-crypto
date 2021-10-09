@@ -1,5 +1,11 @@
-import { Connection } from '@solana/web3.js';
-import React, { useState, createContext, useContext, ReactNode } from 'react';
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import React, {
+  useState,
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+} from 'react';
 import { useSnackbar } from './SnackbarContextProvider';
 import { clusterApiUrl } from '@solana/web3.js';
 
@@ -16,62 +22,160 @@ const clusterUrls = {
 };
 
 export interface IWalletContextValues {
+  cluster: string;
+  setCluster: React.Dispatch<React.SetStateAction<string>>;
+  clusterConnection: any;
   wallet: any;
   setWallet: React.Dispatch<React.SetStateAction<any>>;
   connectWallet: any;
   disconnectWallet: any;
+  getWalletBalance: any;
 }
 
 const WalletContext = createContext({
+  cluster: null,
+  setCluster: (cluster: string) => {},
+  clusterConnection: null,
+  wallet: null,
   // eslint-disable-next-line no-unused-vars
   setWallet: (wallet: any) => {},
-  wallet: null,
-  connectWallet: () => {},
+  connectWallet: () => false,
   disconnectWallet: () => {},
+  getWalletBalance: () => {},
 });
 
 export function useWalletContext() {
   return useContext(WalletContext);
 }
 
-let memoizedConnection = {};
-
-const getConnection = (clusterUrl: string) => {
-  const key = clusterUrl;
-  if (!memoizedConnection[key]) {
-    memoizedConnection = { [key]: new Connection(clusterUrl) };
-  }
-  return memoizedConnection[key];
-};
-
 export default function WalletContextProvider({
   children,
 }: {
   children: ReactNode;
 }) {
+  // For cluster shorthand
   const [cluster, setCluster] = useState(CLUSTER_DEVNET);
+  // For storing cluster connection
+  const [clusterConnection, setClusterConnection] = useState(null);
+
+  const setupClusterConnection = () => {
+    setClusterConnection(new Connection(clusterUrls[cluster]()));
+  };
+
+  // Setup new connection everytime cluster is changed
+  useEffect(() => {
+    if (cluster) {
+      console.log(cluster);
+      setupClusterConnection();
+    }
+  }, [cluster]);
+
   const [wallet, setWallet] = useState(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const connectWallet = () => {
-    wallet?.connect().catch((e) => {
-      setWallet(null);
-      enqueueSnackbar({
-        message: 'Wallet not connected, please try again',
-      });
+  // Get solana object or notify is wallet not found
+  const getProvider = () => {
+    if ('solana' in window) {
+      // @ts-ignore
+      const provider = window.solana;
+      if (provider.isPhantom) {
+        console.log(provider);
+        return provider;
+      }
+    }
+    enqueueSnackbar({
+      message: 'Please install Phantom wallet extension in your browser.',
     });
+    return null;
   };
 
-  const disconnectWallet = () => wallet?.disconnect();
+  // Connect app with the wallet
+  const connectWallet = async (): Promise<boolean> => {
+    const provider = getProvider();
+    if (provider) {
+      if (!provider.isConnected) {
+        try {
+          await provider.connect();
+          enqueueSnackbar({
+            message: 'Wallet connected.',
+          });
+          return provider.isConnected;
+        } catch (e) {
+          enqueueSnackbar({
+            message: e.message,
+          });
+          return false;
+        }
+      } else {
+        enqueueSnackbar({
+          message: 'Wallet connected.',
+        });
+        return provider.isConnected;
+      }
+    } else {
+      return false;
+    }
+  };
 
-  // const connection = getConnection(clusterUrls[cluster]);
+  const disconnectWallet = async () => {
+    const provider = getProvider();
+    if (provider) {
+      if (provider.isConnected) {
+        await provider.disconect();
+        enqueueSnackbar({
+          message: 'Wallet disconnected.',
+        });
+        return provider.isConnected;
+      } else {
+        enqueueSnackbar({
+          message: 'Wallet not connected.',
+        });
+        return provider.isConnected;
+      }
+    } else {
+      enqueueSnackbar({
+        message: 'Unable to connect wallet.',
+      });
+      return false;
+    }
+  };
+
+  const getPublicKey = async () => {
+    const provider = getProvider();
+    if (provider) {
+      if (!provider.isConnected) {
+        await provider.connect();
+      }
+      return provider.publicKey;
+    } else {
+      return null;
+    }
+  };
+
+  const getWalletBalance = async () => {
+    try {
+      const address = await getPublicKey();
+      const pubKey = new PublicKey(address);
+      const balance = await clusterConnection.getBalance(pubKey);
+      return balance / LAMPORTS_PER_SOL;
+    } catch (err) {
+      enqueueSnackbar({
+        message: `Unable to get balance: ${err.message}`,
+      });
+      return null;
+    }
+  };
 
   const value: IWalletContextValues = {
-    setWallet,
+    cluster,
+    setCluster,
+    clusterConnection,
     wallet,
+    setWallet,
     connectWallet,
     disconnectWallet,
+    getWalletBalance,
   };
 
   return (

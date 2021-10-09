@@ -1,69 +1,11 @@
+import cn from 'classnames';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSnackbar } from '../../context/SnackbarContextProvider';
+import { useWalletContext } from '../../context/WalletContextProvider';
 import Form from '../FormGenerator/FormGenerator';
 import formStyles from '../FormGenerator/FormGenerator.module.css';
 import styles from './SponsorForm.module.css';
-import cn from 'classnames';
-import { useForm } from 'react-hook-form';
-import fetchJson from '../../lib/fetchJson';
-import * as solanaWeb3 from '@solana/web3.js';
-import { useWalletContext } from '../../context/WalletContextProvider';
-import { useSnackbar } from '../../context/SnackbarContextProvider';
-
-const connection = new solanaWeb3.Connection(
-  'https://api.mainnet-beta.solana.com'
-);
-
-const getProvider = () => {
-  if ('solana' in window) {
-    // @ts-ignore
-    const provider = window.solana;
-    if (provider.isPhantom) {
-      return provider;
-    }
-  }
-  alert('Please install Phantom wallet extension in your browser.');
-  window.open('https://phantom.app/', '_blank');
-};
-
-const connect = async () => {
-  const provider = getProvider();
-  if (provider) {
-    if (!provider.isConnected) {
-      await provider.connect();
-      return provider.isConnected;
-    } else {
-      return provider.isConnected;
-    }
-  } else {
-    return false;
-  }
-};
-
-const getPublicKey = async () => {
-  const provider = getProvider();
-  if (provider) {
-    if (!provider.isConnected) {
-      provider.connect().then((res) => {
-        console.log('connection successful!', res);
-      });
-    }
-    return provider.publicKey;
-  } else {
-    return false;
-  }
-};
-
-const getBalance = async () => {
-  let balance = null;
-  try {
-    const address = await getPublicKey();
-    const pubKey = new solanaWeb3.PublicKey(address);
-    balance = await connection.getBalance(pubKey);
-    return balance / solanaWeb3.LAMPORTS_PER_SOL;
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 const SponsorForm = ({ creatorName, creatorId, fanId }) => {
   const {
@@ -88,16 +30,26 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
     }
   };
 
-  const { setWallet, wallet, connectWallet, disconnectWallet } =
-    useWalletContext();
+  const {
+    cluster,
+    setCluster,
+    clusterConnection,
+    wallet,
+    setWallet,
+    connectWallet,
+    disconnectWallet,
+    getWalletBalance,
+  } = useWalletContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const handleOnSubmit = async (data) => {
     setSubLoading(true);
-    connect();
-    const bal = await getBalance();
-    enqueueSnackbar({ message: bal.toString() });
+    const res = await connectWallet();
+    if (res) {
+      const balance = await getWalletBalance();
+      enqueueSnackbar({ message: `${balance}` });
+    }
     setSubLoading(false);
     // let reqUrl;
     // let body;
