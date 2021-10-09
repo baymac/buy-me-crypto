@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getPastTransactionsTo,{ IGetPastTransactionsToRequest } from '../../lib/getOneTimeTransactionsTo';
+import getPastTransactionsTo, {
+  IGetPastTransactionsToRequest,
+} from '../../lib/getOneTimeTransactionsTo';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +12,7 @@ export default async function handler(
   }
   const { userId } = req.body;
   const body: IGetPastTransactionsToRequest = {
-    userId
+    userId,
   };
   try {
     const result = await getPastTransactionsTo(body);

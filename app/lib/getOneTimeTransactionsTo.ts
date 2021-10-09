@@ -1,13 +1,13 @@
 import firebase from '../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
-import {populateUser} from './getActiveSubscriptionsTo'
+import { populateUser } from './getActiveSubscriptionsTo';
 const db = firebase.firestore();
 
-export interface IGetPastTransactionsToRequest extends IGenericAPIRequest{}
+export interface IGetPastTransactionsToRequest extends IGenericAPIRequest {}
 
 //function to get all the one Time transactions of a fan is currently paying
 export default async function getOneTimeTransactionsTo({
-    userId
+  userId,
 }: IGetPastTransactionsToRequest) {
   try {
     const pastTransactions = await db
@@ -16,12 +16,12 @@ export default async function getOneTimeTransactionsTo({
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.docs.length === 0) return null;
-        else{
-            let arr = []
-            querySnapshot.forEach((doc)=>{
-                arr.push(doc.data())
-            })
-            return arr
+        else {
+          let arr = [];
+          querySnapshot.forEach((doc) => {
+            arr.push(doc.data());
+          });
+          return arr;
         }
       });
 
@@ -33,7 +33,7 @@ export default async function getOneTimeTransactionsTo({
       };
     } else {
       //function populater user from user ID
-      await populateUser(pastTransactions,'creator')
+      await populateUser(pastTransactions, 'creator');
       return {
         error: false,
         data: pastTransactions,

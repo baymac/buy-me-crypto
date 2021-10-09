@@ -1,14 +1,15 @@
 import firebase from '../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
-import {populateUser} from './getActiveSubscriptionsTo'
+import { populateUser } from './getActiveSubscriptionsTo';
 
 const db = firebase.firestore();
 
-export interface IGetOneTimeTransactionsFromRequest extends IGenericAPIRequest{}
+export interface IGetOneTimeTransactionsFromRequest
+  extends IGenericAPIRequest {}
 
 //function to get the one time transactions of creator from all the fans
 export default async function getActiveSubscriptionFrom({
-    userId
+  userId,
 }: IGetOneTimeTransactionsFromRequest) {
   try {
     const activeSubscriptions = await db
@@ -17,12 +18,12 @@ export default async function getActiveSubscriptionFrom({
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.docs.length === 0) return null;
-        else{
-            let arr = []
-            querySnapshot.forEach((doc)=>{
-                arr.push(doc.data())
-            })
-            return arr
+        else {
+          let arr = [];
+          querySnapshot.forEach((doc) => {
+            arr.push(doc.data());
+          });
+          return arr;
         }
       });
 
@@ -33,7 +34,7 @@ export default async function getActiveSubscriptionFrom({
         message: 'no active subscriptions',
       };
     } else {
-      await populateUser(activeSubscriptions,'fan')
+      await populateUser(activeSubscriptions, 'fan');
       return {
         error: false,
         data: activeSubscriptions,

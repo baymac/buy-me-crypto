@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getOneTimeTransactionsFrom,{ IGetOneTimeTransactionsFromRequest } from '../../lib/getOneTimeTransactionsFrom';
+import getOneTimeTransactionsFrom, {
+  IGetOneTimeTransactionsFromRequest,
+} from '../../lib/getOneTimeTransactionsFrom';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +12,7 @@ export default async function handler(
   }
   const { userId } = req.body;
   const body: IGetOneTimeTransactionsFromRequest = {
-    userId
+    userId,
   };
   try {
     const result = await getOneTimeTransactionsFrom(body);

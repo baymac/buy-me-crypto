@@ -12,7 +12,7 @@ export default async function handler(
   }
   const { userId } = req.body;
   const body: IActiveSubscriptionsToRequest = {
-    userId
+    userId,
   };
   try {
     const result = await getActiveSubscriptionsTo(body);

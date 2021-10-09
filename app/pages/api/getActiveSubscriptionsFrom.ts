@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getActiveSubscriptionsFrom, {
-    IActiveSubscriptionsFromRequest,
+  IActiveSubscriptionsFromRequest,
 } from '../../lib/getActiveSubscriptionsFrom';
 
 export default async function handler(
@@ -12,7 +12,7 @@ export default async function handler(
   }
   const { userId } = req.body;
   const body: IActiveSubscriptionsFromRequest = {
-    userId
+    userId,
   };
   try {
     const result = await getActiveSubscriptionsFrom(body);
