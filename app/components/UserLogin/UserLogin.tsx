@@ -28,7 +28,7 @@ const UserLogin = ({
   return (
     <HomeLayout hideMenu>
       <div className={styles.container}>
-        <h1 className={styles.heading}>Buy Me Crypto</h1>
+        <h1 className={styles.heading}>Select your preferred login method</h1>
         {providerEleArr}
       </div>
     </HomeLayout>
