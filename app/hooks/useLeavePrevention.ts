@@ -10,6 +10,7 @@ const handleWindowClose = (e) => {
 
 let leaveConfirmed = false;
 
+// TODO: When selected browser back button, route url gets updated. Fix this.
 export const useLeavePrevention = () => {
   const router = useRouter();
 

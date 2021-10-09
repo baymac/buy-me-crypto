@@ -50,19 +50,22 @@ export default async function createCheckoutSession({
         ),
         completed: false,
       })
-      .then(() => {
+      .then((docRef) => {
         return {
           error: false,
-          message: 'Checkout session added successfully',
-          data: null,
-        };
+          message:
+            'Checkout session added successfully. Transaction valid for next 15 mins.',
+          data: {
+            sessionId: docRef.id,
+          },
+        } as ICreateCheckoutResponse;
       })
       .catch((err) => {
         return {
           error: true,
           message: `Error occurred while trying to create checkout session: ${err.message}`,
           data: null,
-        };
+        } as ICreateCheckoutResponse;
       });
     return result;
   } catch (error) {
@@ -70,6 +73,6 @@ export default async function createCheckoutSession({
       error: true,
       message: `Error occurred while trying to create checkout session ${error.message}`,
       data: null,
-    };
+    } as ICreateCheckoutResponse;
   }
 }

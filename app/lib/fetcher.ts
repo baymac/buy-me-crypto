@@ -11,7 +11,7 @@ const fetcher = async <P, Q>(
         'Content-Type': 'application/json',
       },
       ...(data && { body: JSON.stringify(data) }),
-    }).then((r) => r.json());
+    });
     // if the server replies, there's always some data in json
     // if there's a network error, it will throw at the previous line
     const resJson = await res.json();

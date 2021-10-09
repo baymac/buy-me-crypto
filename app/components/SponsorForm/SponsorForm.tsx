@@ -1,8 +1,13 @@
 import cn from 'classnames';
+import router from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
-import { useWalletContext } from '../../context/WalletContextProvider';
+import {
+  ICreateCheckoutParams,
+  ICreateCheckoutResponse,
+} from '../../lib/creatorPage/createCheckoutSession';
+import fetcher from '../../lib/fetcher';
 import Form from '../FormGenerator/FormGenerator';
 import formStyles from '../FormGenerator/FormGenerator.module.css';
 import styles from './SponsorForm.module.css';
@@ -17,77 +22,40 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
   } = useForm();
 
   const [isSubscriptionPayment, setIsSubscriptionPayment] =
-    useState<boolean>(true);
-  const [subLoading, setSubLoading] = useState<boolean>(false);
+    useState<boolean>(false);
+  const [sponsorLoading, setSponsorLoading] = useState<boolean>(false);
 
   const handleTypeChange = (e) => {
-    if (e.target.value === 'Subscription') {
-      unregister('amount');
+    if (e.target.value === 'subscription') {
       setIsSubscriptionPayment(true);
     } else {
-      unregister('rate');
       setIsSubscriptionPayment(false);
     }
   };
 
-  const {
-    cluster,
-    setCluster,
-    clusterConnection,
-    wallet,
-    setWallet,
-    connectWallet,
-    disconnectWallet,
-    getWalletBalance,
-  } = useWalletContext();
-
   const { enqueueSnackbar } = useSnackbar();
 
   const handleOnSubmit = async (data) => {
-    setSubLoading(true);
-    const res = await connectWallet();
-    if (res) {
-      const balance = await getWalletBalance();
-      enqueueSnackbar({ message: `${balance}` });
+    setSponsorLoading(true);
+    const { amount: amt, note } = data;
+
+    const res = await fetcher<ICreateCheckoutParams, ICreateCheckoutResponse>(
+      '/api/checkout/createSession',
+      {
+        amt,
+        note,
+        creator: creatorId,
+        fan: fanId,
+        type: isSubscriptionPayment ? 'subscription' : 'onetime',
+      }
+    );
+
+    enqueueSnackbar({ message: res.message, options: { duration: 5000 } });
+
+    if (!res.error) {
+      router.push(`/sponsor/${res.data.sessionId}`);
     }
-    setSubLoading(false);
-    // let reqUrl;
-    // let body;
-    // if (isSubscriptionPayment) {
-    //   reqUrl = '/api/addSubscription';
-    //   body = {
-    //     rate: data.rate,
-    //   };
-    // } else {
-    //   reqUrl = '/api/addOneTime';
-    //   body = {
-    //     amount: data.amount,
-    //   };
-    // }
-
-    // body = {
-    //   ...body,
-    //   note: data.note,
-    //   fan: fanId,
-    //   creator: creatorId,
-    // };
-
-    // fetchJson(reqUrl, {
-    //   method: 'POST',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then((res) => {
-    //     setSubLoading(false);
-    //     setValue('rate', '');
-    //     setValue('amount', '');
-    //     setValue('note', '');
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
+    setSponsorLoading(false);
   };
 
   return (
@@ -99,88 +67,71 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
         errors={errors}
         submitBtnText={'Sponsor'}
         setValue={setValue}
-        subLoading={subLoading}
+        subLoading={sponsorLoading}
       >
-        <>
-          <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
-          <div onChange={handleTypeChange} className={styles.wrapper__radioBox}>
-            <span>
-              <input
-                type="radio"
-                value="Subscription"
-                name="donationType"
-                defaultChecked
-              />{' '}
+        <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
+        <div onChange={handleTypeChange} className={styles.wrapper__radioBox}>
+          <span>
+            <input
+              type="radio"
+              value="onetime"
+              id="onetime"
+              name="donationType"
+              checked={!isSubscriptionPayment}
+            />
+            <label htmlFor="onetime" className={styles.radio_label}>
+              One Time
+            </label>
+          </span>
+          <span>
+            <input
+              type="radio"
+              value="subscription"
+              id="subscription"
+              name="donationType"
+              disabled
+              checked={isSubscriptionPayment}
+            />
+            <label htmlFor="subscription" className={styles.radio_label}>
               Subscription
-            </span>
-            <span>
-              <input type="radio" value="One Ti" name="donationType" /> One Time
-            </span>
-          </div>
-          <div>
-            {isSubscriptionPayment && (
-              <div className={formStyles.inputBox}>
-                <div
-                  className={cn(
-                    formStyles.inputBox__wrapper,
-                    styles.inputBox__wrapper
-                  )}
-                >
-                  <input
-                    type="number"
-                    {...register('rate', {
-                      required: true,
-                    })}
-                    className={cn(
-                      formStyles.inputBox__wrapper__input,
-                      styles.numberInput
-                    )}
-                  />
-                </div>
-                <label
-                  className={formStyles.inputBox__label}
-                >{`Lamport/s`}</label>
-              </div>
+            </label>
+          </span>
+        </div>
+        <div className={formStyles.inputBox}>
+          <div
+            className={cn(
+              formStyles.inputBox__wrapper,
+              styles.inputBox__wrapper
             )}
-
-            {!isSubscriptionPayment && (
-              <div className={formStyles.inputBox}>
-                <div
-                  className={cn(
-                    formStyles.inputBox__wrapper,
-                    styles.inputBox__wrapper
-                  )}
-                >
-                  <input
-                    type="number"
-                    {...register('amount', {
-                      required: true,
-                    })}
-                    className={cn(
-                      formStyles.inputBox__wrapper__input,
-                      styles.numberInput
-                    )}
-                  />
-                </div>
-                <label
-                  className={formStyles.inputBox__label}
-                >{`Lamport`}</label>
-              </div>
-            )}
+          >
+            <input
+              type="number"
+              {...register('amount', {
+                required: true,
+              })}
+              className={cn(
+                formStyles.inputBox__wrapper__input,
+                styles.numberInput
+              )}
+            />
           </div>
+          <label className={formStyles.inputBox__label}>
+            {isSubscriptionPayment ? 'Lamports/s' : 'Lamports'}
+          </label>
+        </div>
 
-          <div className={formStyles.textBox}>
-            <label className={formStyles.textBox__label}>Notes</label>
-            <div className={formStyles.textBox__wrapper}>
-              <textarea
-                className={formStyles.textBox__wrapper__input}
-                {...register('note', {
-                  required: false,
-                })}
-              />
-            </div>
+        <div className={formStyles.textBox}>
+          <label className={formStyles.textBox__label}>Note</label>
+          <div className={formStyles.textBox__wrapper}>
+            <textarea
+              className={formStyles.textBox__wrapper__input}
+              {...register('note', {
+                required: false,
+              })}
+              placeholder={`Any message for ${creatorName}`}
+            />
           </div>
-        </>
+        </div>
       </Form>
     </div>
   );
