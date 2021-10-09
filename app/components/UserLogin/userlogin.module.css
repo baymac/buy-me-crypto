@@ -1,3 +1,10 @@
+.container {
+  margin: 8rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -5,7 +12,7 @@
 .heading {
   color: var(--text-color);
   text-align: center;
-  max-width: 300px;
+  margin-bottom: 3rem;
 }
 
 .input_box {
@@ -111,10 +118,6 @@
 @media screen and (min-width: 600px) {
   .add_new_line {
     display: none;
-  }
-
-  .heading {
-    margin-left: 1rem;
   }
 
   .reset_input_box button,
