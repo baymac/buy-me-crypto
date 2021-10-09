@@ -48,12 +48,12 @@ const PastTransactionTable = ({
       <table className={tableStyles.table}>
         <thead>
           <tr className={tableStyles.tableRow}>
-            <th className={tableStyles.tableEle}>Sl.No</th>
-            <th className={tableStyles.tableEle}>
+            <th className={tableStyles.tableHeading}>Sl.No</th>
+            <th className={tableStyles.tableHeading}>
               {userLevel === 1 ? 'Creator' : 'Fan'}
             </th>
-            <th className={tableStyles.tableEle}>Type</th>
-            <th className={tableStyles.tableEle}>Amount</th>
+            <th className={tableStyles.tableHeading}>Type</th>
+            <th className={tableStyles.tableHeading}>Amount</th>
           </tr>
         </thead>
         {transactionsArr && (
