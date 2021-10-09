@@ -114,7 +114,7 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
     );
   }
   return (
-    <HomeLayout>
+    <HomeLayout hideMenu>
       <Head>
         <title>Sponsor | Buy Me Crypto</title>
       </Head>
