@@ -18,13 +18,13 @@ export async function populateUser(activeSubs, field) {
       activeSubs[i][field] = data.username;
     }
   }
-  sortArrInDesc(activeSubs)
+  sortArrInDesc(activeSubs);
   for (let i in activeSubs) {
     activeSubs[i].start = convertDate(activeSubs[i].start);
   }
 }
 
-function sortArrInDesc(arr){
+function sortArrInDesc(arr) {
   arr.sort((a, b) => {
     return (
       b.start.seconds * 1000 +

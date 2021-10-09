@@ -2,14 +2,89 @@ import cn from 'classnames';
 import tableStyles from './ActiveSubscriptionsTable.module.css';
 import { useEffect, useState } from 'react';
 import Table, { ITableRowContent } from '../TableGenerator/TableGenerator';
-const FanTableHeadings = ['Sl.No', 'Creator', 'Type', 'Amount'];
+import { ITableColumn } from '../TableGenerator/TableGenerator';
+const FanTableColumns: ITableColumn[] = [
+  {
+    heading: 'Sl.No',
+    minWidth: 65,
+    maxWidth: 70,
+    registerName: 'serialNo',
+    width: '10%',
+  },
+  {
+    heading: 'Creator',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'benefactorName',
+    width: '25%',
+  },
+  {
+    heading: 'Type',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'type',
+    width: '25%',
+  },
+  {
+    heading: 'Created At',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'start',
+    width: '25%',
+  },
+  {
+    heading: 'Amount',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'amount',
+    width: '25%',
+  },
+];
 
-const CreatorTableHeadings = ['Sl.No', 'Creator', 'Type', 'Amount'];
+const CreatorTableColumns: ITableColumn[] = [
+  {
+    heading: 'Sl.No',
+    minWidth: 65,
+    maxWidth: 70,
+    registerName: 'serialNo',
+    width: '10%',
+  },
+  {
+    heading: 'Creator',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'benefactorName',
+    width: '25%',
+  },
+  {
+    heading: 'Type',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'type',
+    width: '25%',
+  },
+  {
+    heading: 'Created At',
+    minWidth: 172,
+    maxWidth: 230,
+    registerName: 'start',
+    width: '25%',
+  },
+  {
+    heading: 'Amount',
+    minWidth: 172,
+    maxWidth: 210,
+    registerName: 'amount',
+    width: '25%',
+  },
+];
 
 const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
   let [subscriptionArr, setSubscriptionArr] =
     useState<Array<ITableRowContent> | null>(null);
-  let [tableHeadings, setTableHeadings] = useState<Array<string> | null>(null);
+  let [tableHeadings, setTableHeadings] = useState<Array<ITableColumn> | null>(
+    null
+  );
   useEffect(() => {
     let arr: ITableRowContent[] = [];
     if (activeSubscriptions) {
@@ -28,9 +103,9 @@ const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
     setSubscriptionArr(arr);
 
     if (userLevel === 1) {
-      setTableHeadings(FanTableHeadings);
+      setTableHeadings(FanTableColumns);
     } else {
-      setTableHeadings(CreatorTableHeadings);
+      setTableHeadings(CreatorTableColumns);
     }
   }, [activeSubscriptions, userLevel]);
 
@@ -48,7 +123,7 @@ const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
         <>
           <Table
             tableName={'Active Subscriptions'}
-            contentArr={subscriptionArr}
+            data={subscriptionArr}
             tableHeadings={tableHeadings}
           />
         </>
