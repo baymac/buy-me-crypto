@@ -16,7 +16,7 @@ import Head from 'next/head';
 import { getHostUrl } from '../../lib/utils';
 
 export async function getServerSideProps(context) {
-  const { params, req, res } = context;
+  const { params, req } = context;
 
   const session = await getSession({ req });
 
