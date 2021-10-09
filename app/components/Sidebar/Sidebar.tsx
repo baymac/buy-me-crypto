@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { createElement } from 'react';
 import useNavSelection from '../../hooks/useNavSelection';
 import { sidebarItems } from '../Nav/NavbarLinks';
-import styles from '../Sidebar/Sidebar.module.css';
+import styles from '../Sidebar/sidebar.module.css';
 
 const Sidebar = () => {
   const [selectedMenu] = useNavSelection();
