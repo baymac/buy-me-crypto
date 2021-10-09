@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
-import React,{useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import AlertBanner from '../components/AlertBanner/AlertBanner';
 import PieLoading from '../components/PieLoading/PieLoading';
 import Sidebar from '../components/Sidebar/Sidebar';
@@ -11,78 +11,75 @@ import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import Link from 'next/link';
 import Head from 'next/head';
-import ActiveSubscriptionsTable from '../components/ActiveSubscriptionsTable/ActiveSubscriptionsTable'
-import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable'
+import ActiveSubscriptionsTable from '../components/ActiveSubscriptionsTable/ActiveSubscriptionsTable';
+import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable';
 import fetchJson from '../lib/fetchJson';
 export default function Home() {
-  const [session , loading] = useSession();
+  const [session, loading] = useSession();
   useSessionRedirect('/', true);
 
   const [userMetaData] = useFinishSignupRedirect();
-  const [ activeSubscriptions,setActiveSubscriptions ] = useState(null)
-  const [ pastTransactions, setPastTransactions ] = useState(null)
-  useEffect(()=>{
-
-    if(userMetaData && session){
+  const [activeSubscriptions, setActiveSubscriptions] = useState(null);
+  const [pastTransactions, setPastTransactions] = useState(null);
+  useEffect(() => {
+    if (userMetaData && session) {
       const body = {
-        userId : session.userId
-      }
+        userId: session.userId,
+      };
       //request for active Subscriptions
-      if(userMetaData.userLevel === 1){
-        fetchJson('/api/getActiveSubscriptionsTo',{
+      if (userMetaData.userLevel === 1) {
+        fetchJson('/api/getActiveSubscriptionsTo', {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {
             'Content-Type': 'application/json',
           },
         })
-        .then((data)=>{
-          setActiveSubscriptions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
-      }
-      else{
-        fetchJson('/api/getActiveSubscriptionsFrom',{
+          .then((data) => {
+            setActiveSubscriptions(data);
+          })
+          .catch((error) => {
+            console.log('error ' + error.message);
+          });
+      } else {
+        fetchJson('/api/getActiveSubscriptionsFrom', {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {
             'Content-Type': 'application/json',
           },
         })
-        .then((data)=>{
-          setActiveSubscriptions(data)
-        })
-        .catch((error)=>{
-          console.log('error ' + error.message)
-        })
+          .then((data) => {
+            setActiveSubscriptions(data);
+          })
+          .catch((error) => {
+            console.log('error ' + error.message);
+          });
       }
-              
+
       //fetching one Time Transactions for creator or fan
       fetchJson(
-        `/api/getOneTimeTransactions${userMetaData.userLevel === 1 ? 'To' : 'From'}`,
+        `/api/getOneTimeTransactions${
+          userMetaData.userLevel === 1 ? 'To' : 'From'
+        }`,
         {
           method: 'POST',
           body: JSON.stringify(body),
-           headers: {
+          headers: {
             'Content-Type': 'application/json',
           },
         }
       )
-      .then((data) => {
-        setPastTransactions(data);
-      })
-      .catch((error) => {
-        console.log('error ' + error.message);
-      });
-      
+        .then((data) => {
+          setPastTransactions(data);
+        })
+        .catch((error) => {
+          console.log('error ' + error.message);
+        });
     }
+  }, [userMetaData, session]);
 
-  },[userMetaData,session])
-  
-
-  console.log(activeSubscriptions)
+  console.log(activeSubscriptions);
 
   if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
@@ -124,7 +121,11 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
-              <PastTransactionsTable activeSubscriptions={activeSubscriptions.data} oneTimeTransactions={pastTransactions.data} userLevel={userMetaData.userLevel}/>
+              <PastTransactionsTable
+                activeSubscriptions={activeSubscriptions.data}
+                oneTimeTransactions={pastTransactions.data}
+                userLevel={userMetaData.userLevel}
+              />
             </div>
           </div>
         </div>
