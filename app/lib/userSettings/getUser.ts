@@ -1,4 +1,4 @@
-import firebase from '../firebase/clientApp';
+import firebase from '../../firebase/clientApp';
 import userIfExists from './userIfExists';
 
 const db = firebase.firestore();

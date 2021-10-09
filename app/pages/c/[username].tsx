@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import cn from 'classnames';
+import { getSession, useSession } from 'next-auth/client';
+import Head from 'next/head';
+import React from 'react';
+import PieLoading from '../../components/PieLoading/PieLoading';
+import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../../hooks/useSessionRedirect';
+import HomeLayout from '../../layouts/HomeLayout';
+import fetchJson from '../../lib/fetchJson';
+import { IGetPageInfoRequest } from '../../lib/home/getPageInfo';
+import { IGetUserRequest } from '../../lib/userSettings/getUser';
+import { getHostUrl } from '../../lib/utils';
 import styles from '../../styles/pageStyles/creator.module.css';
 import rootStyles from '../../styles/root.module.css';
-import PieLoading from '../../components/PieLoading/PieLoading';
-import HomeLayout from '../../layouts/HomeLayout';
-import cn from 'classnames';
-import fetchJson from '../../lib/fetchJson';
-import { IGetUserRequest } from '../../lib/getUser';
-import { IGetPageInfoRequest } from '../../lib/getPageInfo';
-import SponsorForm from '../../components/SponsorForm/SponsorForm';
-import { getSession } from 'next-auth/client';
-import Head from 'next/head';
-import { getHostUrl } from '../../lib/utils';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;

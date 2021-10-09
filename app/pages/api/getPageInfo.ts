@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getPageInfo, { IGetPageInfoRequest } from '../../lib/getPageInfo';
+import getPageInfo, { IGetPageInfoRequest } from '../../lib/home/getPageInfo';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,30 +1,30 @@
-import firebase from '../firebase/clientApp';
-import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
+import firebase from '../../firebase/clientApp';
+import { IGenericAPIResponse } from '../utils';
 
 const db = firebase.firestore();
 
-export interface IOneTime {
-  amount: number;
+export interface ISubscription {
+  rate: number;
   fan: string;
   creator: string;
   note: string;
 }
-export interface IAddOneTimeRequest {
-  amount: number;
+export interface IAddSubcriptionRequest {
+  rate: number;
   fan: string;
   creator: string;
   note: string;
 }
-export interface IAddOneTimeResponse extends IGenericAPIResponse {
-  data: null | IOneTime;
+export interface IAddSubscriptionResponse extends IGenericAPIResponse {
+  data: null | ISubscription;
 }
 
-export default async function addOneTime({
-  amount,
+export default async function addSubscription({
+  rate,
   fan,
   creator,
   note,
-}: IAddOneTimeRequest): Promise<IAddOneTimeResponse> {
+}: IAddSubcriptionRequest): Promise<IAddSubscriptionResponse> {
   try {
     const fanUser = db
       .collection('userMetaData')
@@ -56,9 +56,9 @@ export default async function addOneTime({
       };
     } else {
       const result = await db
-        .collection('oneTime')
+        .collection('subscriptions')
         .add({
-          amount: amount,
+          rate: rate,
           fan: fan,
           creator: creator,
           start: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -66,17 +66,17 @@ export default async function addOneTime({
           note: note,
         })
         .then(() => {
-          console.log('oneTime added successfully');
+          console.log('subscription added successfully');
           return {
             error: false,
-            message: 'oneTime added successfully',
+            message: 'subscription added successfully',
             data: null,
           };
         })
-        .catch((error) => {
+        .catch((err) => {
           return {
             error: true,
-            message: 'some error occured ' + error.message,
+            message: 'some error occured',
             data: null,
           };
         });

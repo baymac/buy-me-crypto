@@ -1,6 +1,6 @@
-import firebase from '../firebase/clientApp';
-import { IAddPageInfoRequest, IPageInfo } from './addPageInfo';
-import { IGenericAPIResponse } from './utils';
+import firebase from '../../firebase/clientApp';
+import { IAddPageInfoRequest, IPageInfo } from '../userSettings/addPageInfo';
+import { IGenericAPIResponse } from '../utils';
 const db = firebase.firestore();
 
 export interface IGetPageInfoRequest extends IAddPageInfoRequest {}

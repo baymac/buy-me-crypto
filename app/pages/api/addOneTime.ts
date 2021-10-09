@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import addOneTime from '../../lib/addOneTime';
-import { IAddOneTimeRequest, IAddOneTimeResponse } from '../../lib/addOneTime';
+import addOneTime from '../../lib/creatorPage/addOneTime';
+import {
+  IAddOneTimeRequest,
+  IAddOneTimeResponse,
+} from '../../lib/creatorPage/addOneTime';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

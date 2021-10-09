@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
   IAddSubcriptionRequest,
   IAddSubscriptionResponse,
-} from '../../lib/addSubscription';
-import addSubscription from '../../lib/addSubscription';
+} from '../../lib/creatorPage/addSubscription';
+import addSubscription from '../../lib/creatorPage/addSubscription';
 
 export default async function handler(
   req: NextApiRequest,
