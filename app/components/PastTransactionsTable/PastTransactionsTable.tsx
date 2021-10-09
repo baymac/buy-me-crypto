@@ -2,12 +2,22 @@ import cn from 'classnames';
 import tableStyles from '../ActiveSubscriptionsTable/ActiveSubscriptionsTable.module.css';
 import { useEffect, useState } from 'react';
 import { rawListeners } from 'process';
+import Table, { ITableRowContent } from '../TableGenerator/TableGenerator'
 
-export interface ITransactions {
-  benefactor: string;
-  type: string;
-  amount: number;
-}
+const FanTableHeadings = [
+  'Sl.No',
+  'Creator',
+  'Type',
+  'Amount',
+]
+
+const CreatorTableHeadings = [
+  'Sl.No',
+  'Creator',
+  'Type',
+  'Amount',
+]
+
 
 const PastTransactionTable = ({
   activeSubscriptions,
@@ -15,16 +25,19 @@ const PastTransactionTable = ({
   userLevel,
 }) => {
   const [transactionsArr, setTransactionsArr] =
-    useState<Array<ITransactions> | null>(null);
+    useState<Array<ITableRowContent> | null>(null);
+
+  const [tableHeadings, setTableHeadings ] = useState<Array<string>>([])
 
   useEffect(() => {
-    let arr = [];
+    let arr : ITableRowContent[] = [];
     if (oneTimeTransactions) {
-      for (let i in oneTimeTransactions) {
+      for (let i =0 ; i< oneTimeTransactions.length ; i++) {
         arr.push({
+          serialNo : i +1,
           type: 'One Time',
           amount: oneTimeTransactions[i].amount,
-          benefactor:
+          benefactorName:
             userLevel === 1
               ? oneTimeTransactions[i].creator
               : oneTimeTransactions[i].fan,
@@ -32,7 +45,14 @@ const PastTransactionTable = ({
       }
     }
     setTransactionsArr(arr);
-  }, [activeSubscriptions, oneTimeTransactions]);
+
+    if(userLevel ===1){
+      setTableHeadings(FanTableHeadings)
+    }
+    else{
+      setTableHeadings(CreatorTableHeadings)
+    }
+  }, [activeSubscriptions, oneTimeTransactions,userLevel]);
 
   if (transactionsArr === null || transactionsArr.length === 0) {
     return (
@@ -44,33 +64,7 @@ const PastTransactionTable = ({
 
   return (
     <div className={tableStyles.wrapper}>
-      <h2 className={tableStyles.tableName}>Past Transaction</h2>
-      <table className={tableStyles.table}>
-        <thead>
-          <tr className={tableStyles.tableRow}>
-            <th className={tableStyles.tableHeading}>Sl.No</th>
-            <th className={tableStyles.tableHeading}>
-              {userLevel === 1 ? 'Creator' : 'Fan'}
-            </th>
-            <th className={tableStyles.tableHeading}>Type</th>
-            <th className={tableStyles.tableHeading}>Amount</th>
-          </tr>
-        </thead>
-        {transactionsArr && (
-          <tbody>
-            {transactionsArr.map((sub, index) => {
-              return (
-                <tr>
-                  <td className={tableStyles.tableEle}>{index + 1}</td>
-                  <td className={tableStyles.tableEle}>{sub.benefactor}</td>
-                  <td className={tableStyles.tableEle}>{sub.type}</td>
-                  <td className={tableStyles.tableEle}>{sub.amount}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        )}
-      </table>
+      <Table contentArr={transactionsArr} tableName={'Past Transaction'} tableHeadings={tableHeadings} />
     </div>
   );
 };
