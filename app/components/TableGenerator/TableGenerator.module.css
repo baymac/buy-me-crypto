@@ -8,9 +8,24 @@
     border: 1px solid var(--footer-border-color);
   }
   
+  .table,
+  .tableHeader,
+  .tableBody {
+    display: block;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
+    max-height: 357px;
+    overflow-y: scroll;
+    position: relative;
+  }
+  
+  .tableHeader{
+      width: 100%;
+      position: sticky;
+      top:0
   }
   
   .tableHeading {
@@ -20,6 +35,11 @@
   
   .tableName {
     margin-bottom: var(--mb-1);
+  }
+
+  .tableRow {
+      display : flex;
+      width: 100%;
   }
   
   .tableRow > .tableEle:nth-child(1) {
@@ -44,3 +64,7 @@
     padding: var(--mb-0-75);
     text-align: center;
   }
+
+  /* .tableHeading:last-child{
+    padding-right : calc(0.75rem + 9px)
+  } */

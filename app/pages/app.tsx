@@ -121,10 +121,6 @@ export default function Home() {
                   )}
                 </AlertBanner>
               )}
-              <ActiveSubscriptionsTable 
-                activeSubscriptions={activeSubscriptions.data}
-                userLevel={userMetaData.userLevel}
-              />
               <PastTransactionsTable
                 activeSubscriptions={activeSubscriptions.data}
                 oneTimeTransactions={pastTransactions.data}
