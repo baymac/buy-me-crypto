@@ -8,11 +8,11 @@ export interface IGetOneTimeTransactionsFromRequest
   extends IGenericAPIRequest {}
 
 //function to get the one time transactions of creator from all the fans
-export default async function getActiveSubscriptionFrom({
+export default async function getOneTimeTransactionFrom({
   userId,
 }: IGetOneTimeTransactionsFromRequest) {
   try {
-    const activeSubscriptions = await db
+    const oneTimePayments = await db
       .collection('oneTime')
       .where('creator', '==', userId)
       .get()
@@ -27,17 +27,17 @@ export default async function getActiveSubscriptionFrom({
         }
       });
 
-    if (!activeSubscriptions) {
+    if (!oneTimePayments) {
       return {
         error: true,
         data: null,
         message: 'no active subscriptions',
       };
     } else {
-      await populateUser(activeSubscriptions, 'fan');
+      await populateUser(oneTimePayments, 'fan');
       return {
         error: false,
-        data: activeSubscriptions,
+        data: oneTimePayments,
         message: 'active subscriptions found',
       };
     }

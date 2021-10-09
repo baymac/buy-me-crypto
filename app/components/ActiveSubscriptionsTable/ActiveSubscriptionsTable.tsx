@@ -1,31 +1,21 @@
 import cn from 'classnames';
 import tableStyles from './ActiveSubscriptionsTable.module.css';
 import { useEffect, useState } from 'react';
-import Table, { ITableRowContent } from '../TableGenerator/TableGenerator'
-const FanTableHeadings = [
-  'Sl.No',
-  'Creator',
-  'Type',
-  'Amount',
-]
+import Table, { ITableRowContent } from '../TableGenerator/TableGenerator';
+const FanTableHeadings = ['Sl.No', 'Creator', 'Type', 'Amount'];
 
-const CreatorTableHeadings = [
-  'Sl.No',
-  'Creator',
-  'Type',
-  'Amount',
-]
-
+const CreatorTableHeadings = ['Sl.No', 'Creator', 'Type', 'Amount'];
 
 const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
-  let [subscriptionArr, setSubscriptionArr] = useState<Array<ITableRowContent> | null> (null)
-  let [tableHeadings,setTableHeadings] = useState<Array<string> | null> (null)
+  let [subscriptionArr, setSubscriptionArr] =
+    useState<Array<ITableRowContent> | null>(null);
+  let [tableHeadings, setTableHeadings] = useState<Array<string> | null>(null);
   useEffect(() => {
-    let arr : ITableRowContent[] = [];
+    let arr: ITableRowContent[] = [];
     if (activeSubscriptions) {
-      for (let i =0 ; i< activeSubscriptions.length ; i++) {
+      for (let i = 0; i < activeSubscriptions.length; i++) {
         arr.push({
-          serialNo : i +1,
+          serialNo: i + 1,
           start: activeSubscriptions.start,
           amount: activeSubscriptions[i].rate,
           benefactorName:
@@ -37,13 +27,12 @@ const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
     }
     setSubscriptionArr(arr);
 
-    if(userLevel ===1){
-      setTableHeadings(FanTableHeadings)
+    if (userLevel === 1) {
+      setTableHeadings(FanTableHeadings);
+    } else {
+      setTableHeadings(CreatorTableHeadings);
     }
-    else{
-      setTableHeadings(CreatorTableHeadings)
-    }
-  }, [activeSubscriptions,userLevel]);
+  }, [activeSubscriptions, userLevel]);
 
   if (subscriptionArr === null || subscriptionArr.length === 0) {
     return (
@@ -57,7 +46,11 @@ const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
     <div className={tableStyles.wrapper}>
       {activeSubscriptions && (
         <>
-          <Table tableName={'Active Subscriptions'} contentArr={subscriptionArr} tableHeadings={tableHeadings} />
+          <Table
+            tableName={'Active Subscriptions'}
+            contentArr={subscriptionArr}
+            tableHeadings={tableHeadings}
+          />
         </>
       )}
       {!activeSubscriptions && <h2>No Active Subscriptions</h2>}

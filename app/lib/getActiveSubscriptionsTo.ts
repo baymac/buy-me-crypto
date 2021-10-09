@@ -1,23 +1,13 @@
 import firebase from '../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
 import getUserFromId from './getUserFromId';
+import { convertDate } from './utils';
 const db = firebase.firestore();
 
 export interface IActiveSubscriptionsToRequest extends IGenericAPIRequest {}
 
-export function convertDate(start) {
-  let { seconds, nanoseconds } = start;
-  return (
-    '' +
-    new Date(
-      seconds * 1000 + Math.round(nanoseconds) / 1000000
-    ).toLocaleDateString()
-  );
-}
-
 export async function populateUser(activeSubs, field) {
   for (let i in activeSubs) {
-    activeSubs[i].start = convertDate(activeSubs[i].start);
     const body = {
       userId: activeSubs[i][field],
     };
@@ -27,6 +17,18 @@ export async function populateUser(activeSubs, field) {
     } else {
       activeSubs[i][field] = data.username;
     }
+  }
+
+  activeSubs.sort((a, b) => {
+    return (
+      b.start.seconds * 1000 +
+      Math.round(b.start.nanoseconds) / 1000000 -
+      (a.start.seconds * 1000 + Math.round(a.start.nanoseconds) / 1000000)
+    );
+  });
+
+  for (let i in activeSubs) {
+    activeSubs[i].start = convertDate(activeSubs[i].start);
   }
 }
 
