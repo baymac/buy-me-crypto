@@ -1,6 +1,5 @@
 import { getSession } from 'next-auth/client';
 import React from 'react';
-import { useLeavePrevention } from '../../hooks/useLeavePrevention';
 import HomeLayout from '../../layouts/HomeLayout';
 
 export async function getServerSideProps(context) {
@@ -22,8 +21,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Checkout({ sessionId }: { sessionId: string }) {
-  useLeavePrevention();
-
   return (
     <HomeLayout hideMenu={true}>
       <h1 style={{ marginTop: '8rem' }}>{sessionId}</h1>
