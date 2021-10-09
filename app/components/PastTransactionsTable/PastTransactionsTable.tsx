@@ -23,30 +23,35 @@ const FanTableColums: ITableColumn[] = [
     minWidth: 65,
     maxWidth: 70,
     registerName: 'serialNo',
+    width : "10%"
   },
   {
     heading: 'Creator',
     minWidth: 172,
     maxWidth: 230,
     registerName: 'benefactorName',
+    width : "25%"
   },
   {
     heading: 'Type',
     minWidth: 172,
     maxWidth: 210,
     registerName: 'type',
+    width : "25%"
   },
   {
     heading: 'Created At',
     minWidth: 172,
     maxWidth: 230,
     registerName: 'start',
+    width : "25%"
   },
   {
     heading: 'Amount',
     minWidth: 172,
     maxWidth: 210,
     registerName: 'amount',
+    width : "25%"
   },
 ];
 

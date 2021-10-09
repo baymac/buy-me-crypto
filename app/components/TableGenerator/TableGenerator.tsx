@@ -6,6 +6,7 @@ export interface ITableColumn {
   heading: string;
   minWidth: number;
   maxWidth: number;
+  width : string;
   registerName: string;
 }
 
@@ -39,7 +40,11 @@ const TableGenerator = ({
               return (
                 <th
                   key={col.heading}
-                  style={{ minWidth: col.minWidth, maxWidth: col.maxWidth }}
+                  style={{ 
+                    minWidth: col.minWidth,
+                    maxWidth: col.maxWidth,
+                    width : col.width 
+                  }}
                   className={cn(tableStyles.tableHeading, tableStyles.tableEle)}
                 >
                   {col.heading}
@@ -59,6 +64,7 @@ const TableGenerator = ({
                         style={{
                           minWidth: col.minWidth,
                           maxWidth: col.maxWidth,
+                          width : col.width
                         }}
                         className={tableStyles.tableEle}
                       >

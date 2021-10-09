@@ -18,18 +18,20 @@ export async function populateUser(activeSubs, field) {
       activeSubs[i][field] = data.username;
     }
   }
+  sortArrInDesc(activeSubs)
+  for (let i in activeSubs) {
+    activeSubs[i].start = convertDate(activeSubs[i].start);
+  }
+}
 
-  activeSubs.sort((a, b) => {
+function sortArrInDesc(arr){
+  arr.sort((a, b) => {
     return (
       b.start.seconds * 1000 +
       Math.round(b.start.nanoseconds) / 1000000 -
       (a.start.seconds * 1000 + Math.round(a.start.nanoseconds) / 1000000)
     );
   });
-
-  for (let i in activeSubs) {
-    activeSubs[i].start = convertDate(activeSubs[i].start);
-  }
 }
 
 //function to get all the active subscriptions a fan is currently paying
