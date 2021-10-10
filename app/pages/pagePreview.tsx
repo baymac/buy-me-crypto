@@ -15,7 +15,7 @@ import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 import { getHostUrl } from '../lib/utils';
 import { IPageInfo } from '../lib/addPageInfo';
-
+import { useRouter } from 'next/router';
 const pagePreview = () => {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
@@ -23,28 +23,32 @@ const pagePreview = () => {
   const [creatorPageInfo, setCreatorPageInfo] = useState<IPageInfo | null>(
     null
   );
-
+  const router = useRouter();
   useEffect(() => {
-    if (session) {
-      const pageInfoBody = {
-        userId: session.userId,
-      };
+    if (session && userMetaData) {
+      if (userMetaData.userLevel === 1) {
+        router.push('/404');
+      } else {
+        const pageInfoBody = {
+          userId: session.userId,
+        };
 
-      fetchJson(`/api/getPageInfo`, {
-        method: 'POST',
-        body: JSON.stringify(pageInfoBody),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((data) => {
-          setCreatorPageInfo(data.data);
+        fetchJson(`/api/getPageInfo`, {
+          method: 'POST',
+          body: JSON.stringify(pageInfoBody),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-        .catch((error) => {
-          console.log(error.message);
-        });
+          .then((data) => {
+            setCreatorPageInfo(data.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      }
     }
-  }, [session]);
+  }, [session, userMetaData]);
 
   if (loading || !userMetaData || !creatorPageInfo) {
     return (
