@@ -1,7 +1,6 @@
 import firebase from '../firebase/clientApp';
-import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
-import getUserFromId from './getUserFromId';
-import { convertDate } from './utils';
+import getUserFromId from './userSettings/getUserFromId';
+import { convertDate, IGenericAPIRequest } from './utils';
 const db = firebase.firestore();
 
 export interface IActiveSubscriptionsToRequest extends IGenericAPIRequest {}

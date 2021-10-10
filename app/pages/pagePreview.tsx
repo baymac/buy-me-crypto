@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
 import { useSession } from 'next-auth/client';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import PieLoading from '../components/PieLoading/PieLoading';
+import SponsorForm from '../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../hooks/useSessionRedirect';
+import HomeLayout from '../layouts/HomeLayout';
+import fetchJson from '../lib/fetchJson';
+import { IPageInfo } from '../lib/userSettings/addPageInfo';
 import styles from '../styles/pageStyles/creator.module.css';
 import rootStyles from '../styles/root.module.css';
-import PieLoading from '../components/PieLoading/PieLoading';
-import HomeLayout from '../layouts/HomeLayout';
-import cn from 'classnames';
-import fetchJson from '../lib/fetchJson';
-import { IGetUserRequest } from '../lib/getUser';
-import { IGetPageInfoRequest } from '../lib/getPageInfo';
-import SponsorForm from '../components/SponsorForm/SponsorForm';
-import { getSession } from 'next-auth/client';
-import Head from 'next/head';
-import { getHostUrl } from '../lib/utils';
-import { IPageInfo } from '../lib/addPageInfo';
-import { useRouter } from 'next/router';
+
 const pagePreview = () => {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
