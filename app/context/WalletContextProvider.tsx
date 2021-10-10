@@ -1,13 +1,12 @@
-import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
 import React, {
-  useState,
   createContext,
-  useContext,
   ReactNode,
+  useContext,
   useEffect,
+  useState,
 } from 'react';
 import { useSnackbar } from './SnackbarContextProvider';
-import { clusterApiUrl } from '@solana/web3.js';
 
 export const CLUSTER_LOCAL = 'local';
 export const CLUSTER_DEVNET = 'devnet';
@@ -104,7 +103,6 @@ export default function WalletContextProvider({
             });
           }
           const pubKey = await getPublicKey();
-          // setWalletAddr(Buffer.from(pubKey.toString()).toString('base64'));
           setWalletAddr(pubKey.toBase58());
           const balance = await getWalletBalance();
           setWalletBalance(balance);
@@ -168,7 +166,7 @@ export default function WalletContextProvider({
   const getWalletBalance = async () => {
     try {
       const balance = await clusterConnection.getBalance(await getPublicKey());
-      return balance / LAMPORTS_PER_SOL;
+      return balance;
     } catch (err) {
       enqueueSnackbar({
         message: `Unable to get balance: ${err.message}`,
