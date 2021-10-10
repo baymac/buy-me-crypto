@@ -3,6 +3,16 @@ import { Account, Connection } from '@solana/web3.js';
 export const getHttpProtocol = (env) =>
   env === 'development' ? 'http://' : 'https://';
 
+export function convertDate(start) {
+  let { seconds, nanoseconds } = start;
+  return (
+    '' +
+    new Date(seconds * 1000 + Math.round(nanoseconds) / 1000000)
+      .toLocaleString()
+      .replace(/:.. /, ' ')
+  );
+}
+
 export interface IGenericAPIResponse {
   error: boolean;
   message: string;
