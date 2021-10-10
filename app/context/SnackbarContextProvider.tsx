@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import Snackbar from '../components/Snackbar/Snackbar';
 
-export const uniqueId = Math.random().toString(16).slice(2);
+export const uniqueId = () => Math.random().toString(16).slice(2);
 
 export type SnackbarVariants = 'success' | 'error' | 'warning' | 'info';
 
@@ -46,7 +46,7 @@ export default function SnackbarContextProvider({
 
   const enqueueSnackbar = (snackBarItem: TSnackbarItem) => {
     setSetSnackbarItems((prevSnackbarItems) =>
-      prevSnackbarItems.concat({ ...snackBarItem, id: uniqueId })
+      prevSnackbarItems.concat({ ...snackBarItem, id: uniqueId() })
     );
   };
 

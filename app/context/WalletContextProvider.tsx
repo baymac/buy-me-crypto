@@ -21,27 +21,29 @@ const clusterUrls = {
   [CLUSTER_MAINNET]: () => clusterApiUrl(CLUSTER_MAINNET),
 };
 
+export interface IWalletInfo {
+  balance: number;
+  address: string;
+}
+
 export interface IWalletContextValues {
   cluster: string;
   setCluster: React.Dispatch<React.SetStateAction<string>>;
   clusterConnection: any;
-  wallet: any;
-  setWallet: React.Dispatch<React.SetStateAction<any>>;
   connectWallet: any;
   disconnectWallet: any;
-  getWalletBalance: any;
+  walletBalance: number | null;
+  walletAddr: string | null;
 }
 
 const WalletContext = createContext({
   cluster: null,
   setCluster: (cluster: string) => {},
   clusterConnection: null,
-  wallet: null,
-  // eslint-disable-next-line no-unused-vars
-  setWallet: (wallet: any) => {},
   connectWallet: () => false,
   disconnectWallet: () => {},
-  getWalletBalance: () => {},
+  walletBalance: null,
+  walletAddr: null,
 });
 
 export function useWalletContext() {
@@ -57,6 +59,8 @@ export default function WalletContextProvider({
   const [cluster, setCluster] = useState(CLUSTER_DEVNET);
   // For storing cluster connection
   const [clusterConnection, setClusterConnection] = useState(null);
+  const [walletBalance, setWalletBalance] = useState<number | null>(null);
+  const [walletAddr, setWalletAddr] = useState<string | null>(null);
 
   const setupClusterConnection = () => {
     setClusterConnection(new Connection(clusterUrls[cluster]()));
@@ -65,12 +69,9 @@ export default function WalletContextProvider({
   // Setup new connection everytime cluster is changed
   useEffect(() => {
     if (cluster) {
-      console.log(cluster);
       setupClusterConnection();
     }
   }, [cluster]);
-
-  const [wallet, setWallet] = useState(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -79,8 +80,8 @@ export default function WalletContextProvider({
     if ('solana' in window) {
       // @ts-ignore
       const provider = window.solana;
+      console.log(provider);
       if (provider.isPhantom) {
-        console.log(provider);
         return provider;
       }
     }
@@ -91,15 +92,22 @@ export default function WalletContextProvider({
   };
 
   // Connect app with the wallet
-  const connectWallet = async (): Promise<boolean> => {
+  const connectWallet = async (alertOnSuccess?: boolean): Promise<boolean> => {
     const provider = getProvider();
     if (provider) {
       if (!provider.isConnected) {
         try {
           await provider.connect();
-          enqueueSnackbar({
-            message: 'Wallet connected.',
-          });
+          if (alertOnSuccess) {
+            enqueueSnackbar({
+              message: 'Wallet connected.',
+            });
+          }
+          const pubKey = await getPublicKey();
+          // setWalletAddr(Buffer.from(pubKey.toString()).toString('base64'));
+          setWalletAddr(pubKey.toBase58());
+          const balance = await getWalletBalance();
+          setWalletBalance(balance);
           return provider.isConnected;
         } catch (e) {
           enqueueSnackbar({
@@ -108,9 +116,11 @@ export default function WalletContextProvider({
           return false;
         }
       } else {
-        enqueueSnackbar({
-          message: 'Wallet connected.',
-        });
+        if (alertOnSuccess) {
+          enqueueSnackbar({
+            message: 'Wallet connected.',
+          });
+        }
         return provider.isConnected;
       }
     } else {
@@ -123,6 +133,8 @@ export default function WalletContextProvider({
     if (provider) {
       if (provider.isConnected) {
         await provider.disconect();
+        setWalletAddr(null);
+        setWalletBalance(null);
         enqueueSnackbar({
           message: 'Wallet disconnected.',
         });
@@ -155,9 +167,7 @@ export default function WalletContextProvider({
 
   const getWalletBalance = async () => {
     try {
-      const address = await getPublicKey();
-      const pubKey = new PublicKey(address);
-      const balance = await clusterConnection.getBalance(pubKey);
+      const balance = await clusterConnection.getBalance(await getPublicKey());
       return balance / LAMPORTS_PER_SOL;
     } catch (err) {
       enqueueSnackbar({
@@ -171,11 +181,10 @@ export default function WalletContextProvider({
     cluster,
     setCluster,
     clusterConnection,
-    wallet,
-    setWallet,
     connectWallet,
     disconnectWallet,
-    getWalletBalance,
+    walletBalance,
+    walletAddr,
   };
 
   return (
