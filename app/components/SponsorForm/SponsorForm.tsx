@@ -6,7 +6,7 @@ import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
 
-const SponsorForm = ({ creatorName, creatorId, fanId }) => {
+const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
   const {
     register,
     handleSubmit,
@@ -30,48 +30,46 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
   };
 
   const handleOnSubmit = (data) => {
-    console.log(data);
-    setSubLoading(true);
-    let reqUrl;
-    let body;
-    if (isSubscriptionPayment) {
-      reqUrl = '/api/addSubscription';
+    if (!isDisabled) {
+      setSubLoading(true);
+      let reqUrl;
+      let body;
+      if (isSubscriptionPayment) {
+        reqUrl = '/api/addSubscription';
+        body = {
+          rate: data.rate,
+        };
+      } else {
+        reqUrl = '/api/addOneTime';
+        body = {
+          amount: data.amount,
+        };
+      }
+
       body = {
-        rate: data.rate,
+        ...body,
+        note: data.note,
+        fan: fanId,
+        creator: creatorId,
       };
-    } else {
-      reqUrl = '/api/addOneTime';
-      body = {
-        amount: data.amount,
-      };
-    }
 
-    body = {
-      ...body,
-      note: data.note,
-      fan: fanId,
-      creator: creatorId,
-    };
-
-    console.log('sending req to ' + reqUrl);
-    console.log(body);
-
-    fetchJson(reqUrl, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        setSubLoading(false);
-        setValue('rate', '');
-        setValue('amount', '');
-        setValue('note', '');
+      fetchJson(reqUrl, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => {
-        console.log(error.message);
-      });
+        .then((res) => {
+          setSubLoading(false);
+          setValue('rate', '');
+          setValue('amount', '');
+          setValue('note', '');
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
   };
 
   return (
@@ -84,12 +82,14 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
         submitBtnText={'Sponsor'}
         setValue={setValue}
         subLoading={subLoading}
+        isDisabled={isDisabled}
       >
         <>
           <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
           <div onChange={handleTypeChange} className={styles.wrapper__radioBox}>
             <span>
               <input
+                disabled={isDisabled}
                 type="radio"
                 value="Subscription"
                 name="donationType"
@@ -98,7 +98,13 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
               Subscription
             </span>
             <span>
-              <input type="radio" value="One Ti" name="donationType" /> One Time
+              <input
+                disabled={isDisabled}
+                type="radio"
+                value="One Ti"
+                name="donationType"
+              />{' '}
+              One Time
             </span>
           </div>
           <div>
@@ -111,6 +117,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
                   )}
                 >
                   <input
+                    disabled={isDisabled}
                     type="number"
                     {...register('rate', {
                       required: true,
@@ -137,6 +144,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
                 >
                   <input
                     type="number"
+                    disabled={isDisabled}
                     {...register('amount', {
                       required: true,
                     })}
@@ -158,6 +166,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
             <div className={formStyles.textBox__wrapper}>
               <textarea
                 className={formStyles.textBox__wrapper__input}
+                disabled={isDisabled}
                 {...register('note', {
                   required: false,
                 })}

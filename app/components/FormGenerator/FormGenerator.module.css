@@ -52,7 +52,6 @@
   padding: var(--mb-0-75) var(--mb-1);
   background-color: var(--landing-input-bg-color);
   outline: none;
-  border: none;
   border: 1px solid var(--footer-border-color);
   border-radius: 5px;
   width: 100%;
@@ -75,6 +74,15 @@
 .textBox__wrapper__input:active,
 .textBox__wrapper__input:focus {
   border: 1px solid var(--input-hover-border-color);
+}
+
+.inputBox__wrapper__input:disabled:hover,
+.inputBox__wrapper__input:disabled:active,
+.inputBox__wrapper__input:disabled,
+.textBox__wrapper__input:disabled:hover,
+.textBox__wrapper__input:disabled:active,
+.textBox__wrapper__input:disabled {
+  border: 1px solid var(--footer-border-color);
 }
 
 .inputBox__wrapper__error,

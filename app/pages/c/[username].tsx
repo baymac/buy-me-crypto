@@ -51,7 +51,7 @@ export async function getServerSideProps(context) {
   if (session.userId === creator.data.id) {
     return {
       redirect: {
-        destination: '/app',
+        destination: '/pagePreview',
       },
     };
   }
@@ -148,6 +148,7 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
                   creatorName={'Creator'}
                   creatorId={creator.id}
                   fanId={session.userId}
+                  isDisabled={false}
                 />
               )}
               {activeSubscription && (

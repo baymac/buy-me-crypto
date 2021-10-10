@@ -10,8 +10,9 @@ import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createElement } from 'react';
+import { createElement, useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
+import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
 
@@ -41,7 +42,7 @@ export const sidebarItems: INavItem[] = [
   {
     label: 'Page Preview',
     icon: UilEye,
-    path: '/',
+    path: '/pagePreview',
     selector: 'preview',
   },
   {
@@ -54,12 +55,22 @@ export const sidebarItems: INavItem[] = [
 
 export default function NavBarLinks() {
   const { setNavBarOpen } = useAppContext();
-
   const [selectedMenu] = useNavSelection();
-
+  const [sidebarItemsArr, setSidebarItemsArr] =
+    useState<Array<INavItem> | null>(sidebarItems);
   const router = useRouter();
-
   const [session, loading] = useSession();
+  const [userMetaData] = useFinishSignupRedirect();
+
+  useEffect(() => {
+    if (userMetaData) {
+      if (userMetaData.userLevel === 1) {
+        setSidebarItemsArr(
+          sidebarItems.filter((item) => item.selector !== 'preview')
+        );
+      }
+    }
+  }, [userMetaData]);
 
   return (
     <>
@@ -76,7 +87,7 @@ export default function NavBarLinks() {
       )}
 
       <div className={cn(styles.nav__list)}>
-        {(!session ? navItems : sidebarItems).map((navItem) => (
+        {(!session ? navItems : sidebarItemsArr).map((navItem) => (
           <Link href={`${navItem.path}`} key={navItem.label}>
             <a
               className={cn(styles.nav__item, {

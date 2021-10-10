@@ -101,7 +101,7 @@ export default function Home() {
           )}
         >
           <div className={styles.wrapper}>
-            <Sidebar />
+            <Sidebar userLevel={userMetaData.userLevel} />
             <div className={styles.wrapper__container}>
               {!userMetaData.profileCompleted && (
                 <AlertBanner>

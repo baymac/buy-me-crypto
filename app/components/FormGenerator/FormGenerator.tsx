@@ -15,6 +15,7 @@ interface IFormGeneratorProps {
   initialData?: any;
   setValue?: any;
   subLoading?: boolean;
+  isDisabled: boolean;
 }
 
 const FormGenerator = ({
@@ -28,6 +29,7 @@ const FormGenerator = ({
   initialData,
   setValue,
   subLoading,
+  isDisabled,
 }: IFormGeneratorProps) => {
   useEffect(() => {
     if (initialData && initialData.data) {
@@ -62,6 +64,7 @@ const FormGenerator = ({
                       `${input.label} is required !`}
                   </p>
                   <textarea
+                    disabled={isDisabled}
                     className={styles.textBox__wrapper__input}
                     {...register(input.registerName, {
                       required: input.isRequired,
@@ -83,6 +86,7 @@ const FormGenerator = ({
               </label>
               <div className={styles.inputBox__wrapper}>
                 <input
+                  disabled={isDisabled}
                   type={input.type}
                   className={styles.inputBox__wrapper__input}
                   {...register(input.registerName, {
@@ -100,7 +104,7 @@ const FormGenerator = ({
         {children}
         <button
           className={cn(styles.btn, styles.saveBtn)}
-          disabled={subLoading}
+          disabled={isDisabled || subLoading}
         >
           {subLoading ? <ButtonLoading /> : <span>{submitBtnText}</span>}
         </button>
