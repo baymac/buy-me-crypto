@@ -6,9 +6,7 @@ import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
 
-const SponsorForm = (
-  { creatorName, creatorId, fanId , isDisabled }
-  ) => {
+const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
   const {
     register,
     handleSubmit,
@@ -32,7 +30,7 @@ const SponsorForm = (
   };
 
   const handleOnSubmit = (data) => {
-    if(!isDisabled){
+    if (!isDisabled) {
       setSubLoading(true);
       let reqUrl;
       let body;
@@ -47,14 +45,14 @@ const SponsorForm = (
           amount: data.amount,
         };
       }
-  
+
       body = {
         ...body,
         note: data.note,
         fan: fanId,
         creator: creatorId,
       };
-  
+
       fetchJson(reqUrl, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -96,12 +94,17 @@ const SponsorForm = (
                 value="Subscription"
                 name="donationType"
                 defaultChecked
-                
               />{' '}
               Subscription
             </span>
             <span>
-              <input disabled={isDisabled} type="radio" value="One Ti" name="donationType" /> One Time
+              <input
+                disabled={isDisabled}
+                type="radio"
+                value="One Ti"
+                name="donationType"
+              />{' '}
+              One Time
             </span>
           </div>
           <div>

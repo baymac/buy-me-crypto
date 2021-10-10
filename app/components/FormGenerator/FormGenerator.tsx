@@ -15,7 +15,7 @@ interface IFormGeneratorProps {
   initialData?: any;
   setValue?: any;
   subLoading?: boolean;
-  isDisabled:boolean;
+  isDisabled: boolean;
 }
 
 const FormGenerator = ({
@@ -29,7 +29,7 @@ const FormGenerator = ({
   initialData,
   setValue,
   subLoading,
-  isDisabled
+  isDisabled,
 }: IFormGeneratorProps) => {
   useEffect(() => {
     if (initialData && initialData.data) {
