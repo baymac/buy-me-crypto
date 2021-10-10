@@ -7,24 +7,30 @@ import useNavSelection from '../../hooks/useNavSelection';
 import { sidebarItems } from '../Nav/NavbarLinks';
 import styles from '../Sidebar/Sidebar.module.css';
 import { INavItem } from '../Nav/NavbarLinks';
+import PieLoading from '../PieLoading/PieLoading';
 
-const Sidebar = () => {
+const Sidebar = ({ userLevel }) => {
   const [selectedMenu] = useNavSelection();
 
   const [session, loading] = useSession();
   const [sidebarItemsArr, setSidebarItemsArr] =
     useState<Array<INavItem> | null>(sidebarItems);
-  const [userMetaData] = useFinishSignupRedirect();
 
   useEffect(() => {
-    if (userMetaData) {
-      if (userMetaData.userLevel === 1) {
+    if (userLevel) {
+      if (userLevel === 1) {
         setSidebarItemsArr(
           sidebarItems.filter((item) => item.selector !== 'preview')
         );
+      } else {
+        setSidebarItemsArr(sidebarItems);
       }
     }
-  }, [userMetaData]);
+  }, [userLevel]);
+
+  // if(  !sidebarItemsArr){
+  //     <PieLoading />
+  // }
 
   return (
     <div className={styles.sidebarContainer}>
