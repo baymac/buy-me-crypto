@@ -1,4 +1,10 @@
-import { clusterApiUrl, Connection } from '@solana/web3.js';
+import {
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+} from '@solana/web3.js';
 import React, {
   createContext,
   ReactNode,
@@ -33,6 +39,7 @@ export interface IWalletContextValues {
   disconnectWallet: any;
   walletBalance: number | null;
   walletAddr: string | null;
+  confirmTxn: (receiver: string, amount: number) => Promise<string> | null;
 }
 
 const WalletContext = createContext({
@@ -43,6 +50,7 @@ const WalletContext = createContext({
   disconnectWallet: () => {},
   walletBalance: null,
   walletAddr: null,
+  confirmTxn: (receiver: string, amount: number) => null,
 });
 
 export function useWalletContext() {
@@ -79,7 +87,6 @@ export default function WalletContextProvider({
     if ('solana' in window) {
       // @ts-ignore
       const provider = window.solana;
-      console.log(provider);
       if (provider.isPhantom) {
         return provider;
       }
@@ -175,6 +182,43 @@ export default function WalletContextProvider({
     }
   };
 
+  const confirmTxn = async (receiver, amt) => {
+    const senderAddr = new PublicKey(walletAddr);
+    const receiverAddr = new PublicKey(receiver);
+    const txn = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: senderAddr,
+        toPubkey: receiverAddr,
+        lamports: amt,
+      })
+    );
+    const { blockhash } = await clusterConnection.getRecentBlockhash();
+    txn.recentBlockhash = blockhash;
+    txn.feePayer = senderAddr;
+    let signed = null;
+    try {
+      signed = await getProvider()?.signTransaction(txn);
+    } catch (err) {
+      enqueueSnackbar({
+        message: `Error signing transaction: ${err.message}`,
+      });
+      return null;
+    }
+    let signature = null;
+    try {
+      signature = await clusterConnection.sendRawTransaction(
+        signed.serialize()
+      );
+    } catch (err) {
+      enqueueSnackbar({
+        message: `Error sending transaction: ${err.message}`,
+      });
+      return null;
+    }
+    await clusterConnection.confirmTransaction(signature, 'confirmed');
+    return signature;
+  };
+
   const value: IWalletContextValues = {
     cluster,
     setCluster,
@@ -183,6 +227,7 @@ export default function WalletContextProvider({
     disconnectWallet,
     walletBalance,
     walletAddr,
+    confirmTxn,
   };
 
   return (

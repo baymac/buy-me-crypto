@@ -1,28 +1,18 @@
 import cn from 'classnames';
 import React, { useState } from 'react';
-import { useSnackbar } from '../../context/SnackbarContextProvider';
 import { useWalletContext } from '../../context/WalletContextProvider';
 import ButtonLoading from '../ButtonLoading/ButtonLoading';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
 
 export default function ConnectWallet() {
   const [connecting, setConnecting] = useState(false);
-  const [transacting, setTransacting] = useState(false);
 
   const { connectWallet, walletBalance, walletAddr } = useWalletContext();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const onConnectClick = async (e) => {
     setConnecting(true);
     await connectWallet();
     setConnecting(false);
-  };
-
-  const onConfirmTxnClick = async (e) => {
-    setTransacting(true);
-
-    setTransacting(false);
   };
 
   return (
@@ -45,15 +35,6 @@ export default function ConnectWallet() {
         <div>
           <p>Your Wallet Balance: {`${walletBalance} Lamports`}</p>
         </div>
-      )}
-      {walletBalance && (
-        <button
-          className={cn(inputStyles.btn, inputStyles.saveBtn)}
-          disabled={transacting}
-          onClick={(e) => onConfirmTxnClick(e)}
-        >
-          {transacting ? <ButtonLoading /> : <span>Confirm Transaction</span>}
-        </button>
       )}
     </>
   );
