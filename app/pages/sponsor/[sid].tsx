@@ -1,11 +1,14 @@
 import cn from 'classnames';
 import { getSession } from 'next-auth/client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConnectWallet from '../../components/ConnectWallet/ConnectWallet';
+import PieLoading from '../../components/PieLoading/PieLoading';
+import { useSnackbar } from '../../context/SnackbarContextProvider';
 import HomeLayout from '../../layouts/HomeLayout';
 import {
   IGetCheckoutRequest,
   IGetCheckoutResponse,
+  IGetCheckoutResponseData,
 } from '../../lib/checkout/getCheckoutSession';
 import fetcher from '../../lib/fetcher';
 import styles from '../../styles/pageStyles/app.module.css';
@@ -30,11 +33,27 @@ export async function getServerSideProps(context) {
 }
 
 export default function Checkout({ sessionId }: { sessionId: string }) {
+  const [loadingTxnDetails, setLoadingTxnDetails] = useState(false);
+  const [txnDetails, setTxnDetails] = useState<IGetCheckoutResponseData | null>(
+    null
+  );
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
-    const res = fetcher<IGetCheckoutRequest, IGetCheckoutResponse>(
+    setLoadingTxnDetails(true);
+    fetcher<IGetCheckoutRequest, IGetCheckoutResponse>(
       '/api/checkout/getSession',
       { sessionId }
-    ).then((res) => console.log(res));
+    ).then((res) => {
+      if (res.error) {
+        enqueueSnackbar({
+          message: res.message,
+        });
+      } else {
+        setTxnDetails(res.data);
+      }
+      setLoadingTxnDetails(false);
+    });
   }, []);
 
   return (
@@ -47,7 +66,15 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
             styles.about__container
           )}
         >
-          <ConnectWallet />
+          {loadingTxnDetails && <PieLoading />}
+          {!loadingTxnDetails && txnDetails !== null && (
+            <>
+              <h3>Transaction Details</h3>
+              <p>Amount: {txnDetails?.amt} Lamports</p>
+              <p>Creator Solana Address: {txnDetails?.creatorSolAddr}</p>
+              <ConnectWallet />
+            </>
+          )}
         </div>
       </section>
     </HomeLayout>
