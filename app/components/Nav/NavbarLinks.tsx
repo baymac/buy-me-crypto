@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createElement } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
+import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
 

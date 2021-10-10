@@ -1,15 +1,30 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
-import { createElement } from 'react';
+import { createElement, useEffect, useState } from 'react';
+import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import { sidebarItems } from '../Nav/NavbarLinks';
 import styles from '../Sidebar/Sidebar.module.css';
+import { INavItem } from '../Nav/NavbarLinks';
 
 const Sidebar = () => {
   const [selectedMenu] = useNavSelection();
 
   const [session, loading] = useSession();
+  const [sidebarItemsArr, setSidebarItemsArr] =
+    useState<Array<INavItem> | null>(sidebarItems);
+  const [userMetaData] = useFinishSignupRedirect();
+
+  useEffect(() => {
+    if (userMetaData) {
+      if (userMetaData.userLevel === 1) {
+        setSidebarItemsArr(
+          sidebarItems.filter((item) => item.selector !== 'preview')
+        );
+      }
+    }
+  }, [userMetaData]);
 
   return (
     <div className={styles.sidebarContainer}>
@@ -22,7 +37,7 @@ const Sidebar = () => {
         <h4 className={styles.userInfo__name}>{session.user.name}</h4>
       </div>
       <ul className={styles.sidebarList}>
-        {sidebarItems.map((item) => {
+        {sidebarItemsArr.map((item) => {
           return (
             <Link href={`${item.path}`} key={item.label}>
               <a
