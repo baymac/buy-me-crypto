@@ -56,7 +56,6 @@ const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
       router.push(`/sponsor/${res.data.sessionId}`);
     }
     setSponsorLoading(false);
-
   };
 
   return (
@@ -110,6 +109,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
             )}
           >
             <input
+              disabled={isDisabled}
               type="number"
               {...register('amount', {
                 required: true,
