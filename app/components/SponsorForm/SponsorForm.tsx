@@ -12,7 +12,7 @@ import Form from '../FormGenerator/FormGenerator';
 import formStyles from '../FormGenerator/FormGenerator.module.css';
 import styles from './SponsorForm.module.css';
 
-const SponsorForm = ({ creatorName, creatorId, fanId }) => {
+const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
   const {
     register,
     handleSubmit,
@@ -56,6 +56,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
       router.push(`/sponsor/${res.data.sessionId}`);
     }
     setSponsorLoading(false);
+
   };
 
   return (
@@ -67,6 +68,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
         errors={errors}
         submitBtnText={'Sponsor'}
         setValue={setValue}
+        isDisabled={isDisabled}
         subLoading={sponsorLoading}
       >
         <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
@@ -79,6 +81,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
               name="donationType"
               checked={!isSubscriptionPayment}
               onChange={handleTypeChange}
+              disabled={isDisabled}
             />
             <label htmlFor="onetime" className={styles.radio_label}>
               One Time
@@ -121,7 +124,6 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
             {isSubscriptionPayment ? 'Lamports/s' : 'Lamports'}
           </label>
         </div>
-
         <div className={formStyles.textBox}>
           <label className={formStyles.textBox__label}>Note</label>
           <div className={formStyles.textBox__wrapper}>
@@ -130,6 +132,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
               {...register('note', {
                 required: false,
               })}
+              disabled={isDisabled}
               placeholder={`Any message for ${creatorName}`}
             />
           </div>
