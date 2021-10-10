@@ -51,7 +51,7 @@ export async function getServerSideProps(context) {
   if (session.userId === creator.data.id) {
     return {
       redirect: {
-        destination: '/app',
+        destination: '/pagePreview',
       },
     };
   }
