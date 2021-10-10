@@ -4,6 +4,7 @@ import HomeLayout from '../../layouts/HomeLayout';
 import rootStyles from '../../styles/root.module.css';
 import cn from 'classnames';
 import ConnectWallet from '../../components/ConnectWallet/ConnectWallet';
+import styles from '../../styles/pageStyles/app.module.css';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -27,7 +28,13 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
   return (
     <HomeLayout hideMenu={true}>
       <section className={cn(rootStyles.section)} id="about">
-        <div className={cn(rootStyles.container, rootStyles.grid)}>
+        <div
+          className={cn(
+            rootStyles.container,
+            rootStyles.grid,
+            styles.about__container
+          )}
+        >
           <ConnectWallet />
         </div>
       </section>
