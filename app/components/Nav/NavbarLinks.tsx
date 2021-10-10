@@ -42,7 +42,7 @@ export const sidebarItems: INavItem[] = [
   {
     label: 'Page Preview',
     icon: UilEye,
-    path: '/',
+    path: '/pagePreview',
     selector: 'preview',
   },
   {

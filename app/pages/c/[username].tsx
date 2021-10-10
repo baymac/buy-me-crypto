@@ -148,6 +148,7 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
                   creatorName={'Creator'}
                   creatorId={creator.id}
                   fanId={session.userId}
+                  isDisabled={false}
                 />
               )}
               {activeSubscription && (
