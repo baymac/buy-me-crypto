@@ -179,6 +179,7 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
         initialData={initialData}
         setValue={setValue}
         subLoading={subLoading}
+        isDisabled={false}
       >
         <>
           {socialAddedList.length >= 1 && (
