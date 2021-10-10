@@ -21,7 +21,7 @@
   overflow-y: auto;
   position: relative;
   overflow-x: auto;
-  max-width: calc(100vw - 2rem);
+  max-width: calc(90vw - 2.5rem);
   table-layout: fixed;
 }
 
@@ -53,4 +53,22 @@
   border: 1px solid var(--footer-border-color);
   padding: var(--mb-0-75);
   text-align: center;
+}
+
+@media (min-width: 600px) {
+  .table {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 800px) {
+  .table {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .table {
+    max-width: calc(100vw - 15rem - 230px);
+  }
 }

@@ -32,7 +32,6 @@ const TableGenerator = ({
   return (
     <div className={tableStyles.wrapper}>
       <h2 className={tableStyles.tableName}>{tableName}</h2>
-      {/* <div className={tableStyles.tableContainer}> */}
       <table className={tableStyles.table}>
         <thead className={tableStyles.tableHeader}>
           <tr className={tableStyles.tableRow}>
@@ -78,7 +77,6 @@ const TableGenerator = ({
           </tbody>
         )}
       </table>
-      {/* </div> */}
     </div>
   );
 };
