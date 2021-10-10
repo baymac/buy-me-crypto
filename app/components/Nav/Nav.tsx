@@ -17,7 +17,7 @@ import Logo from '../Logo/Logo';
 import styles from './nav.module.css';
 import NavLinkMobile from './NavLinkMobile';
 
-export default function Nav() {
+export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
   const { navBarOpen, setNavBarOpen } = useAppContext();
 
   const [mounted, setMounted] = useState(false);
@@ -90,68 +90,72 @@ export default function Nav() {
                 )}
               </div>
             )}
-            {!navBarOpen && (
-              <button
-                onClick={() => setNavBarOpen(true)}
-                className={styles.nav__toggle}
-                aria-label="nav-open-button"
-                title="Show Menu"
-              >
-                <UilApps id="nav_toggle" width={28} height={28} />
-              </button>
-            )}
-            {navBarOpen && (
-              <button
-                className={styles.nav__toggle}
-                onClick={() => setNavBarOpen(false)}
-                aria-label="nav-close-button"
-                title="Close Menu"
-              >
-                <UilMultiply width={28} height={28} id="nav_toggle" />
-              </button>
-            )}
-            {session &&
-              createElement(
-                'button',
-                {
-                  className: cn(styles.nav__signout),
-                  onClick: () => {
-                    signOut();
-                  },
-                  'aria-label': 'sign-out-button',
-                  title: 'Sign out',
-                },
-                [
+            {!hideMenu && (
+              <>
+                {!navBarOpen && (
+                  <button
+                    onClick={() => setNavBarOpen(true)}
+                    className={styles.nav__toggle}
+                    aria-label="nav-open-button"
+                    title="Show Menu"
+                  >
+                    <UilApps id="nav_toggle" width={28} height={28} />
+                  </button>
+                )}
+                {navBarOpen && (
+                  <button
+                    className={styles.nav__toggle}
+                    onClick={() => setNavBarOpen(false)}
+                    aria-label="nav-close-button"
+                    title="Close Menu"
+                  >
+                    <UilMultiply width={28} height={28} id="nav_toggle" />
+                  </button>
+                )}
+                {session &&
                   createElement(
-                    'span',
+                    'button',
                     {
-                      className: cn(styles.nav__signout__text),
+                      className: cn(styles.nav__signout),
+                      onClick: () => {
+                        signOut();
+                      },
+                      'aria-label': 'sign-out-button',
+                      title: 'Sign out',
                     },
-                    'Log Out'
-                  ),
-                ]
-              )}
-            {!session &&
-              createElement(
-                'button',
-                {
-                  className: cn(styles.nav__signin),
-                  onClick: () => {
-                    router.push('/login');
-                  },
-                  'aria-label': 'sign-in-button',
-                  title: 'Sign in',
-                },
-                [
+                    [
+                      createElement(
+                        'span',
+                        {
+                          className: cn(styles.nav__signout__text),
+                        },
+                        'Log Out'
+                      ),
+                    ]
+                  )}
+                {!session &&
                   createElement(
-                    'span',
+                    'button',
                     {
-                      className: cn(styles.nav__signin__text),
+                      className: cn(styles.nav__signin),
+                      onClick: () => {
+                        router.push('/login');
+                      },
+                      'aria-label': 'sign-in-button',
+                      title: 'Sign in',
                     },
-                    'Log In'
-                  ),
-                ]
-              )}
+                    [
+                      createElement(
+                        'span',
+                        {
+                          className: cn(styles.nav__signin__text),
+                        },
+                        'Log In'
+                      ),
+                    ]
+                  )}
+              </>
+            )}
           </div>
         </nav>
       </header>

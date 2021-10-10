@@ -5,7 +5,7 @@ import { createElement, useEffect, useState } from 'react';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import { sidebarItems } from '../Nav/NavbarLinks';
-import styles from '../Sidebar/Sidebar.module.css';
+import styles from '../Sidebar/sidebar.module.css';
 import { INavItem } from '../Nav/NavbarLinks';
 import PieLoading from '../PieLoading/PieLoading';
 

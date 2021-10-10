@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import cn from 'classnames';
+import { getSession, useSession } from 'next-auth/client';
+import Head from 'next/head';
+import React from 'react';
+import PieLoading from '../../components/PieLoading/PieLoading';
+import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../../hooks/useSessionRedirect';
+import HomeLayout from '../../layouts/HomeLayout';
+import fetchJson from '../../lib/fetchJson';
+import { IGetPageInfoRequest } from '../../lib/home/getPageInfo';
+import { IGetUserRequest } from '../../lib/userSettings/getUser';
+import { getHostUrl } from '../../lib/utils';
 import styles from '../../styles/pageStyles/creator.module.css';
 import rootStyles from '../../styles/root.module.css';
-import PieLoading from '../../components/PieLoading/PieLoading';
-import HomeLayout from '../../layouts/HomeLayout';
-import cn from 'classnames';
-import fetchJson from '../../lib/fetchJson';
-import { IGetUserRequest } from '../../lib/getUser';
-import { IGetPageInfoRequest } from '../../lib/getPageInfo';
-import SponsorForm from '../../components/SponsorForm/SponsorForm';
-import { getSession } from 'next-auth/client';
-import Head from 'next/head';
-import { getHostUrl } from '../../lib/utils';
 
 export async function getServerSideProps(context) {
-  const { params, req, res } = context;
+  const { params, req } = context;
 
   const session = await getSession({ req });
 
@@ -112,59 +111,58 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
         <PieLoading />
       </div>
     );
-  } else {
-    return (
-      <HomeLayout>
-        <Head>
-          <title>Sponsor | Buy Me Crypto</title>
-        </Head>
-        <section className={cn(rootStyles.section)} id="about">
-          <div
-            className={cn(
-              rootStyles.container,
-              rootStyles.grid,
-              styles.about__container
-            )}
-          >
-            <div className={styles.wrapper}>
-              <div className={styles.wrapper__pageInfo}>
-                <img
-                  className={styles.wrapper__pageInfo__avatar}
-                  src={creator.image}
-                  alt="creator avatar"
-                />
-                <h2 className={styles.wrapper__pageInfo__pageName}>
-                  {creator.username}
-                </h2>
-                <h4 className={styles.wrapper__pageInfo__pageHeadline}>
-                  {creatorPageInfo.pageHeadline}
-                </h4>
-                <p className={styles.wrapper__pageInfo__aboutPage}>
-                  {creatorPageInfo.aboutPage}
-                </p>
-              </div>
-              {!activeSubscription && (
-                <SponsorForm
-                  creatorName={'Creator'}
-                  creatorId={creator.id}
-                  fanId={session.userId}
-                  isDisabled={false}
-                />
-              )}
-              {activeSubscription && (
-                <div className={styles.wrapper__sponsor}>
-                  <h2
-                    className={styles.wrapper__sponsor__heading}
-                  >{`Sponsor Creator`}</h2>
-                  <h3>Active Subscriptions</h3>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      </HomeLayout>
-    );
   }
+  return (
+    <HomeLayout hideMenu>
+      <Head>
+        <title>Sponsor | Buy Me Crypto</title>
+      </Head>
+      <section className={cn(rootStyles.section)} id="about">
+        <div
+          className={cn(
+            rootStyles.container,
+            rootStyles.grid,
+            styles.about__container
+          )}
+        >
+          <div className={styles.wrapper}>
+            <div className={styles.wrapper__pageInfo}>
+              <img
+                className={styles.wrapper__pageInfo__avatar}
+                src={creator.image}
+                alt="creator avatar"
+              />
+              <h2 className={styles.wrapper__pageInfo__pageName}>
+                {creator.username}
+              </h2>
+              <h4 className={styles.wrapper__pageInfo__pageHeadline}>
+                {creatorPageInfo.pageHeadline}
+              </h4>
+              <p className={styles.wrapper__pageInfo__aboutPage}>
+                {creatorPageInfo.aboutPage}
+              </p>
+            </div>
+            {!activeSubscription && (
+              <SponsorForm
+                creatorName={'Creator'}
+                creatorId={creator.id}
+                fanId={session.userId}
+                isDisabled={false}
+              />
+            )}
+            {activeSubscription && (
+              <div className={styles.wrapper__sponsor}>
+                <h2
+                  className={styles.wrapper__sponsor__heading}
+                >{`Sponsor Creator`}</h2>
+                <h3>Active Subscriptions</h3>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </HomeLayout>
+  );
 };
 
 export default creatorPage;

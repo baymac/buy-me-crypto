@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import addPageInfo, { IAddPageInfoResponse } from '../../lib/addPageInfo';
-import { IAddPageInfoRequest } from '../../lib/addPageInfo';
+import addPageInfo, {
+  IAddPageInfoResponse,
+} from '../../lib/userSettings/addPageInfo';
+import { IAddPageInfoRequest } from '../../lib/userSettings/addPageInfo';
 
 export default async function handler(
   req: NextApiRequest,

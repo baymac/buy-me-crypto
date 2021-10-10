@@ -1,7 +1,7 @@
-import firebase from '../firebase/clientApp';
+import firebase from '../../firebase/clientApp';
 import { IPageInfo } from './addPageInfo';
 import addUserName, { IAddUsernameRequest } from './addUsername';
-import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
+import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest extends IGenericAPIRequest {

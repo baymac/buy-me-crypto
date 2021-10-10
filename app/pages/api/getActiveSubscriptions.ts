@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getActiveSubscriptions, {
   IGetActiveSubscriptionRequest,
-} from '../../lib/getActiveSubscription';
+} from '../../lib/creatorPage/getActiveSubscription';
 
 export default async function handler(
   req: NextApiRequest,

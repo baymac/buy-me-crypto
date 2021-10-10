@@ -17,6 +17,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-right: var(--mb-1);
   }
 
   .userInfo__img {
@@ -45,7 +46,7 @@
   .sidebarList {
     display: flex;
     flex-direction: column;
-    padding: 0 var(--mb-1) 0 0;
+    padding-right: var(--mb-1);
     column-gap: 2rem;
     margin-top: var(--mb-1);
   }

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { ClientSafeProvider, signIn } from 'next-auth/client';
 import React from 'react';
-import LoginLayout from '../../layouts/LoginLayout';
+import HomeLayout from '../../layouts/HomeLayout';
 import { getHostUrl } from '../../lib/utils';
 import styles from './userlogin.module.css';
 
@@ -26,10 +26,12 @@ const UserLogin = ({
     );
   });
   return (
-    <LoginLayout>
-      <h1 className={styles.heading}>Buy Me Crypto</h1>
-      {providerEleArr}
-    </LoginLayout>
+    <HomeLayout hideMenu>
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Select your preferred login method</h1>
+        {providerEleArr}
+      </div>
+    </HomeLayout>
   );
 };
 

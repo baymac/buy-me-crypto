@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import updateFanProfile from '../../lib/updateFanProfile';
+import updateFanProfile from '../../lib/userSettings/updateFanProfile';
 
 export default async function handler(
   req: NextApiRequest,

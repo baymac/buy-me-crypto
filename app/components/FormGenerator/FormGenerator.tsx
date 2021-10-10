@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import ButtonLoading from '../ButtonLoading/ButtonLoading';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import styles from './FormGenerator.module.css';
@@ -7,7 +7,7 @@ import styles from './FormGenerator.module.css';
 interface IFormGeneratorProps {
   formInfo?: IFormInputField[];
   handleOnSubmit: any;
-  children?: ReactElement;
+  children?: ReactNode;
   handleSubmit: any;
   errors: any;
   register: any;

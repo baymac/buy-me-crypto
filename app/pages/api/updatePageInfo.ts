@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import updatePageInfo, {
   IUpdatePageInfoRequest,
-} from '../../lib/updatePageInfo';
+} from '../../lib/userSettings/updatePageInfo';
 
 export default async function updateUserInfo(
   req: NextApiRequest,

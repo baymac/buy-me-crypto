@@ -1,5 +1,5 @@
-import firebase from '../firebase/clientApp';
-import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
+import firebase from '../../firebase/clientApp';
+import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
 const db = firebase.firestore();
 
 export interface IAddPageInfoRequest extends IGenericAPIRequest {}
@@ -54,8 +54,6 @@ export default async function addPageInfo({
           },
           solanaAddress: '',
         });
-
-      console.log(result);
 
       return {
         error: false,

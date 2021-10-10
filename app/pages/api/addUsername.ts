@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
+import addUsername, {
   IAddUsernameRequest,
-  IAddUsernameResponse,
-} from '../../lib/addUsername';
-import addUsername from '../../lib/addUsername';
+} from '../../lib/userSettings/addUsername';
 
 export default async function handler(
   req: NextApiRequest,

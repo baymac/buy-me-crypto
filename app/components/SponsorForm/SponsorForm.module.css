@@ -20,6 +20,10 @@
   margin-top: 0;
 }
 
+.radio_label {
+  margin-left: 0.5rem;
+}
+
 @media (min-width: 600px) {
   .wrapper {
     flex-basis: 100%;

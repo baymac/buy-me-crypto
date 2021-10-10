@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getUserMetaData, {
   IGetUserMetaDataRequest,
-} from '../../lib/getUserMetadata';
+} from '../../lib/userSettings/getUserMetadata';
 
 export default async function handler(
   req: NextApiRequest,

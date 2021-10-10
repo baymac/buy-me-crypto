@@ -1,5 +1,5 @@
-import firebase from '../firebase/clientApp';
-import { IGenericAPIRequest, IGenericAPIResponse } from './utils';
+import firebase from '../../firebase/clientApp';
+import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
 
 const db = firebase.firestore();
 

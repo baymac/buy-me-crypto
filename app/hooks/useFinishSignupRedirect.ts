@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { IUserMetaData } from '../lib/addUserMetaData';
+import { IUserMetaData } from '../lib/userSettings/addUserMetaData';
 import fetchJson from '../lib/fetchJson';
 
 export default function useFinishSignupRedirect() {
