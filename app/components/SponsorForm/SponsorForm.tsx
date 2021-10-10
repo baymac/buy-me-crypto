@@ -6,7 +6,7 @@ import { useSnackbar } from '../../context/SnackbarContextProvider';
 import {
   ICreateCheckoutParams,
   ICreateCheckoutResponse,
-} from '../../lib/creatorPage/createCheckoutSession';
+} from '../../lib/checkout/createCheckoutSession';
 import fetcher from '../../lib/fetcher';
 import Form from '../FormGenerator/FormGenerator';
 import formStyles from '../FormGenerator/FormGenerator.module.css';
@@ -70,7 +70,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
         subLoading={sponsorLoading}
       >
         <h2 className={styles.heading}>{`Sponsor ${creatorName}`}</h2>
-        <div onChange={handleTypeChange} className={styles.wrapper__radioBox}>
+        <div className={styles.wrapper__radioBox}>
           <span>
             <input
               type="radio"
@@ -78,6 +78,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
               id="onetime"
               name="donationType"
               checked={!isSubscriptionPayment}
+              onChange={handleTypeChange}
             />
             <label htmlFor="onetime" className={styles.radio_label}>
               One Time
@@ -91,6 +92,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId }) => {
               name="donationType"
               disabled
               checked={isSubscriptionPayment}
+              onChange={handleTypeChange}
             />
             <label htmlFor="subscription" className={styles.radio_label}>
               Subscription

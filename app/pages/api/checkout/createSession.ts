@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import createCheckoutSession, {
   ICreateCheckoutParams,
-} from '../../../lib/creatorPage/createCheckoutSession';
+} from '../../../lib/checkout/createCheckoutSession';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

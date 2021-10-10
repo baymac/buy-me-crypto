@@ -55,8 +55,6 @@ export default async function addPageInfo({
           solanaAddress: '',
         });
 
-      console.log(result);
-
       return {
         error: false,
         message: 'PageInfo Created Successfully',
