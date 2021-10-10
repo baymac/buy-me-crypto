@@ -60,6 +60,7 @@ const TableGenerator = ({
                   {tableHeadings.map((col) => {
                     return (
                       <td
+                        key={col.registerName}
                         style={{
                           minWidth: col.minWidth,
                           maxWidth: col.maxWidth,
