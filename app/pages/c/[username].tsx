@@ -59,6 +59,22 @@ export async function getServerSideProps(context) {
     userId: creator.data.id,
   };
 
+  const creatorMetaData = await fetchJson(`${getHostUrl}/api/getUerMetaData`, {
+    method: 'POST',
+    body: JSON.stringify(pageInfoBody),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!creatorMetaData.profileCompleted) {
+    return {
+      redirect: {
+        destination: '/404',
+      },
+    };
+  }
+
   const creatorPageInfo = await fetchJson(`${getHostUrl}/api/getPageInfo`, {
     method: 'POST',
     body: JSON.stringify(pageInfoBody),
