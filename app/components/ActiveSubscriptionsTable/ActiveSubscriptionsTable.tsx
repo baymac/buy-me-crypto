@@ -97,6 +97,7 @@ const ActiveSubscriptionTable = ({ activeSubscriptions, userLevel }) => {
             userLevel === 1
               ? activeSubscriptions[i].creator
               : activeSubscriptions[i].fan,
+          txnId: activeSubscriptions[i].txnId,
         });
       }
     }

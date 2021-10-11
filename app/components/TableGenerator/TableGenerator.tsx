@@ -4,8 +4,8 @@ import tableStyles from './TableGenerator.module.css';
 
 export interface ITableColumn {
   heading: string;
-  minWidth: number;
-  maxWidth: number;
+  minWidth: number | string;
+  maxWidth: number | string;
   width: string;
   registerName: string;
 }
@@ -16,6 +16,7 @@ export interface ITableRowContent {
   amount: number;
   serialNo: number;
   createdAt: string;
+  txnId: string;
 }
 
 export interface ITableGeneratorProps {

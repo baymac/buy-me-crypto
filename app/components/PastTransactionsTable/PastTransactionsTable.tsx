@@ -43,6 +43,13 @@ const FanTableColumns: ITableColumn[] = [
     registerName: 'amount',
     width: '25%',
   },
+  {
+    heading: 'TxnId',
+    minWidth: 900,
+    maxWidth: 1000,
+    registerName: 'txnId',
+    width: '25%',
+  },
 ];
 
 const CreatorTableColumns: ITableColumn[] = [
@@ -81,6 +88,13 @@ const CreatorTableColumns: ITableColumn[] = [
     registerName: 'amount',
     width: '25%',
   },
+  {
+    heading: 'TxnId',
+    minWidth: 900,
+    maxWidth: 900,
+    registerName: 'txnId',
+    width: '25%',
+  },
 ];
 
 const PastTransactionTable = ({
@@ -106,6 +120,7 @@ const PastTransactionTable = ({
             userLevel === 1
               ? oneTimeTransactions[i].creator
               : oneTimeTransactions[i].fan,
+          txnId: oneTimeTransactions[i].txnId,
         });
       }
     }
