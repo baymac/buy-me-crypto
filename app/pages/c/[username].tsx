@@ -38,7 +38,6 @@ export async function getServerSideProps(context) {
       'Content-Type': 'application/json',
     },
   });
-
   if (!creator.data) {
     return {
       redirect: {
@@ -59,7 +58,7 @@ export async function getServerSideProps(context) {
     userId: creator.data.id,
   };
 
-  const creatorMetaData = await fetchJson(`${getHostUrl}/api/getUerMetaData`, {
+  const creatorMetaData = await fetchJson(`${getHostUrl}/api/getUserMetaData`, {
     method: 'POST',
     body: JSON.stringify(pageInfoBody),
     headers: {
@@ -67,13 +66,15 @@ export async function getServerSideProps(context) {
     },
   });
 
-  if (!creatorMetaData.profileCompleted) {
+  if (!creatorMetaData.data.profileCompleted) {
     return {
       redirect: {
         destination: '/404',
       },
     };
   }
+
+  console.log('test');
 
   const creatorPageInfo = await fetchJson(`${getHostUrl}/api/getPageInfo`, {
     method: 'POST',
@@ -82,6 +83,14 @@ export async function getServerSideProps(context) {
       'Content-Type': 'application/json',
     },
   });
+
+  if (!creatorPageInfo.data) {
+    return {
+      redirect: {
+        destination: '/404',
+      },
+    };
+  }
 
   const activeSubscriptionBody = {
     fan: session.userId,
@@ -98,14 +107,6 @@ export async function getServerSideProps(context) {
       },
     }
   );
-
-  if (!creatorPageInfo.data) {
-    return {
-      redirect: {
-        destination: '/404',
-      },
-    };
-  }
 
   return {
     props: {
