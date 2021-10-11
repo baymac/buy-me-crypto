@@ -79,6 +79,8 @@ export default function Home() {
     }
   }, [userMetaData, session]);
 
+  console.log(userMetaData);
+
   if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
       <div className={rootStyles.absolute_center}>

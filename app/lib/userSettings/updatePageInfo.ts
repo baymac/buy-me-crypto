@@ -2,6 +2,7 @@ import firebase from '../../firebase/clientApp';
 import { IPageInfo } from './addPageInfo';
 import addUserName, { IAddUsernameRequest } from './addUsername';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
+import getPageInfo from '../home/getPageInfo';
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest extends IGenericAPIRequest {
@@ -55,11 +56,25 @@ export default async function updatePageInfo({
           ...body,
         });
 
+      //checking if pageInfo is completed
+      let isProfileCompleted: boolean = true;
+      let res = await getPageInfo({ userId });
+      let updatedPageInfo = res.data;
+      for (let x in updatedPageInfo) {
+        if (
+          (!updatedPageInfo[x] || updatedPageInfo[x].length === 0) &&
+          typeof updatedPageInfo[x] !== 'object' &&
+          updatedPageInfo[x] !== null
+        ) {
+          isProfileCompleted = false;
+        }
+      }
+
       await db
         .collection('userMetaData')
         .doc(userId)
         .update({
-          profileCompleted: true,
+          profileCompleted: isProfileCompleted,
         })
         .then(() => {
           console.log('profile status changed');

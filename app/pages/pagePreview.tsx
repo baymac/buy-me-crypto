@@ -23,6 +23,10 @@ const pagePreview = () => {
   const router = useRouter();
   useEffect(() => {
     if (session && userMetaData) {
+      if (!userMetaData.profileCompleted) {
+        router.push('/settings');
+      }
+
       if (userMetaData.userLevel === 1) {
         router.push('/404');
       } else {

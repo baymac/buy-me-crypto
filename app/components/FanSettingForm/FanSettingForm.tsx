@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
-
+import { useSnackbar } from '../../context/SnackbarContextProvider';
 const fanUserNameList: IFormInputField[] = [
   {
     label: 'Username',
@@ -16,7 +16,7 @@ const fanUserNameList: IFormInputField[] = [
 
 const FanSettingForm = ({ initialData, userId }) => {
   const [subLoading, setSubLoading] = useState<boolean>(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleOnSubmitFan = async (data) => {
     setSubLoading(true);
     data['userId'] = userId;
@@ -28,10 +28,8 @@ const FanSettingForm = ({ initialData, userId }) => {
         'Content-Type': 'application/json',
       },
     });
-
-    if (!resData.error) {
-      setSubLoading(false);
-    }
+    enqueueSnackbar({ message: resData.message, options: { duration: 2000 } });
+    setSubLoading(false);
   };
 
   const {
