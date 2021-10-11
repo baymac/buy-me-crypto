@@ -61,25 +61,45 @@ export default function useFinishSignupRedirect() {
                       headers: {
                         'Content-Type': 'application/json',
                       },
-                    }).then((pageResDate) => {
-                      fetchJson('/api/updatePageInfo', {
-                        method: 'POST',
-                        body: JSON.stringify(updatePageInfo),
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      })
-                        .then((data) => {
-                          localStorage.removeItem('pageName');
-                          setUserMetaData(resData);
-                          router.push('/app');
+                    })
+                      .then((pageResDate) => {
+                        fetchJson('/api/updatePageInfo', {
+                          method: 'POST',
+                          body: JSON.stringify(updatePageInfo),
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
                         })
-                        .catch((error) => {
-                          console.log(
-                            'error in updating page info ' + error.message
-                          );
-                        });
-                    });
+                          .then((data) => {
+                            fetchJson('/api/getUserMetaData', {
+                              method: 'POST',
+                              body: JSON.stringify(bodyPageInfo),
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                            })
+                              .then((res) => {
+                                localStorage.removeItem('pageName');
+                                setUserMetaData(res.data);
+                                router.push('/app');
+                              })
+                              .catch((error) => {
+                                console.log(
+                                  'error is getting pageInfo ' + error.message
+                                );
+                              });
+                          })
+                          .catch((error) => {
+                            console.log(
+                              'error in updating page info ' + error.message
+                            );
+                          });
+                      })
+                      .catch((error) => {
+                        console.log(
+                          'error in adding new page info ' + error.message
+                        );
+                      });
                   }
                 })
                 .catch((error) => {
