@@ -15,7 +15,7 @@ export interface ITableRowContent {
   type?: string;
   amount: number;
   serialNo: number;
-  start: string;
+  createdAt: string;
 }
 
 export interface ITableGeneratorProps {

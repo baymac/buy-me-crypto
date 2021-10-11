@@ -19,16 +19,17 @@ export async function populateUser(activeSubs, field) {
   }
   sortArrInDesc(activeSubs);
   for (let i in activeSubs) {
-    activeSubs[i].start = convertDate(activeSubs[i].start);
+    activeSubs[i].createdAt = convertDate(activeSubs[i].createdAt);
   }
 }
 
 function sortArrInDesc(arr) {
   arr.sort((a, b) => {
     return (
-      b.start.seconds * 1000 +
-      Math.round(b.start.nanoseconds) / 1000000 -
-      (a.start.seconds * 1000 + Math.round(a.start.nanoseconds) / 1000000)
+      b.createdAt.seconds * 1000 +
+      Math.round(b.createdAt.nanoseconds) / 1000000 -
+      (a.createdAt.seconds * 1000 +
+        Math.round(a.createdAt.nanoseconds) / 1000000)
     );
   });
 }

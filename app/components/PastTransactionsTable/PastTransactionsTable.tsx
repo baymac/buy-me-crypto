@@ -33,7 +33,7 @@ const FanTableColumns: ITableColumn[] = [
     heading: 'Created At',
     minWidth: 172,
     maxWidth: 230,
-    registerName: 'start',
+    registerName: 'createdAt',
     width: '25%',
   },
   {
@@ -54,7 +54,7 @@ const CreatorTableColumns: ITableColumn[] = [
     width: '10%',
   },
   {
-    heading: 'Creator',
+    heading: 'Fan',
     minWidth: 172,
     maxWidth: 230,
     registerName: 'benefactorName',
@@ -71,7 +71,7 @@ const CreatorTableColumns: ITableColumn[] = [
     heading: 'Created At',
     minWidth: 172,
     maxWidth: 230,
-    registerName: 'start',
+    registerName: 'createdAt',
     width: '25%',
   },
   {
@@ -101,7 +101,7 @@ const PastTransactionTable = ({
           serialNo: i + 1,
           type: 'One Time',
           amount: oneTimeTransactions[i].amount,
-          start: oneTimeTransactions[i].start,
+          createdAt: oneTimeTransactions[i].createdAt,
           benefactorName:
             userLevel === 1
               ? oneTimeTransactions[i].creator
@@ -109,6 +109,7 @@ const PastTransactionTable = ({
         });
       }
     }
+
     setTransactionsArr(arr);
 
     if (userLevel === 1) {
@@ -129,7 +130,7 @@ const PastTransactionTable = ({
   return (
     <Table
       data={transactionsArr}
-      tableName={'Past Transaction'}
+      tableName={'Past Transactions'}
       tableHeadings={tableHeadings}
     />
   );
