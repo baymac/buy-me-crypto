@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
 import fetchJson from '../../lib/fetchJson';
 import { useRouter } from 'next/router';
+import ButtonLoading from '../ButtonLoading/ButtonLoading';
 
 const GettingStarted = () => {
   const [inputFocus, setInputFocus] = useState<boolean>(false);
@@ -13,6 +14,7 @@ const GettingStarted = () => {
   const handleInputFocus = () => {
     setInputFocus(true);
   };
+  const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const router = useRouter();
   const handleInputBlur = () => {
     if (inputRef.current.innerHTML == '') {
@@ -29,6 +31,7 @@ const GettingStarted = () => {
       });
     } else {
       //check with database if that name is taken
+      setBtnLoading(true);
       const body = {
         username: pageName,
       };
@@ -45,6 +48,7 @@ const GettingStarted = () => {
           message: 'Page Name is taken',
           options: { duration: 2000 },
         });
+        setBtnLoading(false);
       } else {
         localStorage.setItem('pageName', pageName);
         router.push('/login');
@@ -69,15 +73,21 @@ const GettingStarted = () => {
 
       <div className={styles.getStarted__btnWrapper}>
         <button onClick={() => handleStartMyPageSubmit()}>
-          <span>Start my page</span>
-          {createElement(
-            UilArrowRight,
-            {
-              id: 'right-arrow-icon',
-              width: 28,
-              height: 28,
-            },
-            null
+          {btnLoading ? (
+            <ButtonLoading />
+          ) : (
+            <>
+              <span>Start my page</span>
+              {createElement(
+                UilArrowRight,
+                {
+                  id: 'right-arrow-icon',
+                  width: 28,
+                  height: 28,
+                },
+                null
+              )}
+            </>
           )}
         </button>
       </div>
