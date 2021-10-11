@@ -17,6 +17,10 @@ import styles from '../../styles/pageStyles/app.module.css';
 import rootStyles from '../../styles/root.module.css';
 import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
 import router from 'next/router';
+import {
+  IAddOneTimeTxnRequest,
+  IAddOneTimeTxnResponse,
+} from '../../lib/checkout/addOneTimeTxn';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -74,7 +78,22 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       enqueueSnackbar({
         message: `Transaction confirmed with signature: ${signature}`,
       });
-      router.push('/app');
+      // TODO: First add txn to db then complete txn then add txnId (or signature)
+      const addOneTimeTxnResp = await fetcher<
+        IAddOneTimeTxnRequest,
+        IAddOneTimeTxnResponse
+      >('/api/checkout/addOneTimeTxn', {
+        amount: txnDetails.amt,
+        txnId: signature,
+        creator: txnDetails.creator,
+        fan: txnDetails.fan,
+        note: txnDetails.note,
+      });
+      if (addOneTimeTxnResp.error) {
+        enqueueSnackbar({ message: addOneTimeTxnResp.message });
+      } else {
+        router.push('/app');
+      }
     }
     setTransacting(false);
   };

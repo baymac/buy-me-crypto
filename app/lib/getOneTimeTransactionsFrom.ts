@@ -13,7 +13,7 @@ export default async function getOneTimeTransactionFrom({
 }: IGetOneTimeTransactionsFromRequest) {
   try {
     const oneTimePayments = await db
-      .collection('oneTime')
+      .collection('oneTimePayments')
       .where('creator', '==', userId)
       .get()
       .then((querySnapshot) => {
@@ -31,20 +31,20 @@ export default async function getOneTimeTransactionFrom({
       return {
         error: true,
         data: null,
-        message: 'no active subscriptions',
+        message: 'No past transactions.',
       };
     } else {
       await populateUser(oneTimePayments, 'fan');
       return {
         error: false,
         data: oneTimePayments,
-        message: 'active subscriptions found',
+        message: '',
       };
     }
   } catch (error) {
     return {
       error: true,
-      message: ' Some error occured while fetching metaData ' + error.message,
+      message: `Some error occured: ${error.message}`,
       data: null,
     };
   }

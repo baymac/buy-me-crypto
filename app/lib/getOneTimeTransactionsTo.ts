@@ -11,7 +11,7 @@ export default async function getOneTimeTransactionsTo({
 }: IGetPastTransactionsToRequest) {
   try {
     const pastTransactions = await db
-      .collection('oneTime')
+      .collection('oneTimePayments')
       .where('fan', '==', userId)
       .get()
       .then((querySnapshot) => {
@@ -29,7 +29,7 @@ export default async function getOneTimeTransactionsTo({
       return {
         error: true,
         data: null,
-        message: 'no active subscriptions',
+        message: 'No past trasactions.',
       };
     } else {
       //function populater user from user ID
@@ -37,13 +37,13 @@ export default async function getOneTimeTransactionsTo({
       return {
         error: false,
         data: pastTransactions,
-        message: 'active subscriptions found',
+        message: '',
       };
     }
   } catch (error) {
     return {
       error: true,
-      message: ' Some error occured while fetching metaData ' + error.message,
+      message: `Some error occured: ${error.message}`,
       data: null,
     };
   }

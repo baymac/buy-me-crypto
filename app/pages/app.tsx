@@ -1,19 +1,19 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/client';
+import Head from 'next/head';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import AlertBanner from '../components/AlertBanner/AlertBanner';
+import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable';
 import PieLoading from '../components/PieLoading/PieLoading';
 import Sidebar from '../components/Sidebar/Sidebar';
 import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
+import fetchJson from '../lib/fetchJson';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
-import Link from 'next/link';
-import Head from 'next/head';
-import ActiveSubscriptionsTable from '../components/ActiveSubscriptionsTable/ActiveSubscriptionsTable';
-import PastTransactionsTable from '../components/PastTransactionsTable/PastTransactionsTable';
-import fetchJson from '../lib/fetchJson';
+
 export default function Home() {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
@@ -21,6 +21,7 @@ export default function Home() {
   const [userMetaData] = useFinishSignupRedirect();
   const [activeSubscriptions, setActiveSubscriptions] = useState(null);
   const [pastTransactions, setPastTransactions] = useState(null);
+
   useEffect(() => {
     if (userMetaData && session) {
       const body = {
@@ -79,8 +80,6 @@ export default function Home() {
     }
   }, [userMetaData, session]);
 
-  console.log(userMetaData);
-
   if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
       <div className={rootStyles.absolute_center}>
@@ -88,6 +87,8 @@ export default function Home() {
       </div>
     );
   }
+
+  console.log(pastTransactions);
 
   return (
     <HomeLayout>
