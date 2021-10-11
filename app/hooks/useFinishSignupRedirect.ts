@@ -24,7 +24,70 @@ export default function useFinishSignupRedirect() {
       })
         .then((metaData) => {
           if (!metaData.data) {
-            router.push('/finishSignup');
+            if (localStorage.getItem('pageName')) {
+              const bodyMetaData = {
+                userId: session.userId,
+                userLevel: 2,
+              };
+              const bodyPageInfo = {
+                userId: session.userId,
+              };
+
+              const updatePageInfo = {
+                aboutPage: '',
+                pageName: localStorage.getItem('pageName'),
+                pageHeadline: '',
+                youtube: '',
+                instagram: '',
+                twitter: '',
+                twitch: '',
+                personalBlog: '',
+                userId: session.userId,
+                solanaAddress: '',
+              };
+
+              fetchJson('/api/addUserMetaData', {
+                method: 'POST',
+                body: JSON.stringify(bodyMetaData),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then((resData) => {
+                  if (!resData.error) {
+                    fetchJson('/api/addPageInfo', {
+                      method: 'POST',
+                      body: JSON.stringify(bodyPageInfo),
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                    }).then((pageResDate) => {
+                      fetchJson('/api/updatePageInfo', {
+                        method: 'POST',
+                        body: JSON.stringify(updatePageInfo),
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                        .then((data) => {
+                          localStorage.removeItem('pageName');
+                          setUserMetaData(resData);
+                          router.push('/app');
+                        })
+                        .catch((error) => {
+                          console.log(
+                            'error in updating page info ' + error.message
+                          );
+                        });
+                    });
+                  }
+                })
+                .catch((error) => {
+                  console.log('error occ ' + error.message);
+                });
+            } else {
+              router.push('/finishSignup');
+            }
           } else {
             setUserMetaData(metaData.data);
           }

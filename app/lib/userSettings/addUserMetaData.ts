@@ -1,6 +1,6 @@
 import firebase from '../../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
-
+import getUserMetaData from './getUserMetadata';
 const db = firebase.firestore();
 
 export interface IAddUserMetaDataRequest extends IGenericAPIRequest {
@@ -13,7 +13,7 @@ export interface IUserMetaData {
 }
 
 export interface IAddUserMetaDataResponse extends IGenericAPIResponse {
-  data: null | IUserMetaData;
+  data: any;
 }
 
 export default async function addUserMetaData({
@@ -37,11 +37,14 @@ export default async function addUserMetaData({
         userLevel: userLevel,
         profileCompleted: false,
       });
-
+      const body = {
+        userId: userId,
+      };
+      const userMetaData = await getUserMetaData(body);
       return {
         error: false,
         message: 'userMetaData Created Successfully',
-        data: null,
+        data: userMetaData.data,
       };
     } else {
       return {
