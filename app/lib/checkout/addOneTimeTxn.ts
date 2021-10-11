@@ -67,7 +67,7 @@ export default async function addOneTimeTxn({
     }
 
     const result = await db
-      .collection('OneTimeTxn')
+      .collection('oneTimePayments')
       .add({
         amount,
         fan,
