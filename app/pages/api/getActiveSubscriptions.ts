@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getActiveSubscriptions, {
   IGetActiveSubscriptionRequest,
+  IGetActiveSubscriptionResponse,
 } from '../../lib/creatorPage/getActiveSubscription';
 
 export default async function handler(
@@ -16,12 +17,15 @@ export default async function handler(
     creator,
   };
   try {
-    const result = await getActiveSubscriptions(body);
+    const result: IGetActiveSubscriptionResponse = await getActiveSubscriptions(
+      body
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGetActiveSubscriptionResponse);
   }
 }
