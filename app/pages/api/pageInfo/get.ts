@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import getPageInfo, {
   IGetPageInfoRequest,
   IGetPageInfoResponse,
-} from '../../lib/home/getPageInfo';
+} from '../../../lib/home/getPageInfo';
 
 export default async function handler(
   req: NextApiRequest,

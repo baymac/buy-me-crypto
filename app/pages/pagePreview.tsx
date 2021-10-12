@@ -37,7 +37,7 @@ const pagePreview = () => {
           userId: session.userId,
         };
 
-        fetchJson(`/api/getPageInfo`, {
+        fetchJson(`/api/pageInfo/get`, {
           method: 'POST',
           body: JSON.stringify(pageInfoBody),
           headers: {

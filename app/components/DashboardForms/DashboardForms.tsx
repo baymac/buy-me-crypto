@@ -39,7 +39,7 @@ const DashboardForms = () => {
         }
         setUserMetaData(res.data);
         if (res.data.userLevel === 2) {
-          fetchJson('/api/getPageInfo', {
+          fetchJson('/api/pageInfo/get', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {

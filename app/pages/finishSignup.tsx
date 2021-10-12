@@ -20,7 +20,7 @@ export default function finishSignup() {
       userLevel: 1,
     };
 
-    let result = await fetchJson('/api/addUserMetaData', {
+    let result = await fetchJson('/api/userMetaData/add', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -47,7 +47,7 @@ export default function finishSignup() {
       userId: session.userId,
     };
 
-    let resultMetaData = await fetchJson('/api/addUserMetaData', {
+    let resultMetaData = await fetchJson('/api/userMetaData/add', {
       method: 'POST',
       body: JSON.stringify(bodyMetaData),
       headers: {
@@ -56,7 +56,7 @@ export default function finishSignup() {
     });
 
     if (!resultMetaData.error) {
-      let resultPageInfo = await fetchJson('/api/addPageInfo', {
+      let resultPageInfo = await fetchJson('/api/pageInfo/add', {
         method: 'POST',
         body: JSON.stringify(bodyPageInfo),
         headers: {

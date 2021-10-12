@@ -58,13 +58,16 @@ export async function getServerSideProps(context) {
     userId: creator.data.id,
   };
 
-  const creatorMetaData = await fetchJson(`${getHostUrl}/api/getUserMetaData`, {
-    method: 'POST',
-    body: JSON.stringify(pageInfoBody),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const creatorMetaData = await fetchJson(
+    `${getHostUrl}/api/userMetaData/get`,
+    {
+      method: 'POST',
+      body: JSON.stringify(pageInfoBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
   if (!creatorMetaData.data.profileCompleted) {
     return {
@@ -76,7 +79,7 @@ export async function getServerSideProps(context) {
 
   console.log('test');
 
-  const creatorPageInfo = await fetchJson(`${getHostUrl}/api/getPageInfo`, {
+  const creatorPageInfo = await fetchJson(`${getHostUrl}/api/pageInfo/get`, {
     method: 'POST',
     body: JSON.stringify(pageInfoBody),
     headers: {

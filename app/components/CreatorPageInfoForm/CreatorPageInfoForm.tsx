@@ -99,7 +99,7 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
     setSubLoading(true);
     data['userId'] = userId;
 
-    const resData = await fetchJson('/api/updatePageInfo', {
+    const resData = await fetchJson('/api/pageInfo/update', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
