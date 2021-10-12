@@ -108,10 +108,7 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
     });
 
     enqueueSnackbar({ message: resData.message, options: { duration: 2000 } });
-
-    if (!resData.error) {
-      setSubLoading(false);
-    }
+    setSubLoading(false);
   };
 
   const handleSocialUrlClick = (e) => {
