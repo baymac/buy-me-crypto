@@ -12,12 +12,10 @@ export interface IUserMetaData {
   profileCompleted: boolean;
 }
 
-export interface IAddUserMetaDataResponse extends IGenericAPIResponse {}
-
 export default async function addUserMetaData({
   userId,
   userLevel,
-}: IAddUserMetaDataRequest): Promise<IAddUserMetaDataResponse> {
+}: IAddUserMetaDataRequest): Promise<IGenericAPIResponse> {
   try {
     const metaData: IUserMetaData = await db
       .collection('userMetaData')
