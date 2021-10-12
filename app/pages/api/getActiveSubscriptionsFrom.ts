@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getActiveSubscriptionsFrom, {
-  IActiveSubscriptionsFromRequest,
+  IGetAcitveSubscriptionsFromResponse,
+  IGetActiveSubscriptionsFromRequest,
 } from '../../lib/getActiveSubscriptionsFrom';
 
 export default async function handler(
@@ -11,16 +12,18 @@ export default async function handler(
     res.status(200).json({ message: 'Wrong req method' });
   }
   const { userId } = req.body;
-  const body: IActiveSubscriptionsFromRequest = {
+  const body: IGetActiveSubscriptionsFromRequest = {
     userId,
   };
   try {
-    const result = await getActiveSubscriptionsFrom(body);
+    const result: IGetAcitveSubscriptionsFromResponse =
+      await getActiveSubscriptionsFrom(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGetAcitveSubscriptionsFromResponse);
   }
 }

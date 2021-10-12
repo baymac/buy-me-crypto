@@ -9,6 +9,10 @@ export interface ISubscription {
   fan: string;
   creator: string;
   note: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
 export interface IAddSubcriptionRequest {
   rate: number;
@@ -58,7 +62,7 @@ export default async function addSubscription({
           rate: rate,
           fan: fan,
           creator: creator,
-          start: firebase.firestore.Timestamp.fromDate(new Date()),
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           active: true,
           note: note,
         })
