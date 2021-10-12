@@ -27,7 +27,6 @@ const GettingStarted = () => {
     if (pageName == '') {
       enqueueSnackbar({
         message: 'Cannot submit without name',
-        options: { duration: 2000 },
       });
     } else {
       //check with database if that name is taken
@@ -46,7 +45,6 @@ const GettingStarted = () => {
       if (resData.data) {
         enqueueSnackbar({
           message: 'Page Name is taken',
-          options: { duration: 2000 },
         });
         setBtnLoading(false);
       } else {

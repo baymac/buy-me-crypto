@@ -27,7 +27,7 @@ export default async function getOneTimeTransactionsTo({
 
     if (!pastTransactions) {
       return {
-        error: true,
+        error: false,
         data: null,
         message: 'No past trasactions.',
       };
