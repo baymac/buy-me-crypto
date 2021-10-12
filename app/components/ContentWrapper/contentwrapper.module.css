@@ -1,0 +1,11 @@
+.contentWrapper {
+  width: 100%;
+  background-color: var(--form-background-color);
+  box-shadow: 0 0 2px var(--inverted-bw);
+  border-radius: 0.5rem;
+  padding: var(--mb-2) var(--mb-1) var(--mb-1-5);
+  margin-bottom: 2rem;
+  border: 1px solid var(--footer-border-color);
+  overflow: scroll;
+  word-wrap: break-word;
+}

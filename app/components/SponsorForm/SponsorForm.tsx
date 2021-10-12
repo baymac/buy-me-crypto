@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
@@ -34,6 +34,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
   };
 
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const handleOnSubmit = async (data) => {
     setSponsorLoading(true);

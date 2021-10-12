@@ -4,7 +4,7 @@
 }
 
 .label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .socialDropdown {
@@ -14,7 +14,15 @@
   background-color: var(--landing-input-bg-color);
   border: 1px solid var(--footer-border-color);
   border-radius: 5px;
-  height: 54px;
+  height: 3rem;
   border-radius: 5px;
   color: var(--inverted-bw);
+}
+
+@media screen and (min-width: 450px) {
+  .selectWrapper {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
 }
