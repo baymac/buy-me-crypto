@@ -53,7 +53,7 @@ const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
     enqueueSnackbar({ message: res.message, options: { duration: 5000 } });
 
     if (!res.error) {
-      router.push(`/sponsor/${res.data.sessionId}`);
+      router.push(`/checkout/${res.data.sessionId}`);
     }
     setSponsorLoading(false);
   };
