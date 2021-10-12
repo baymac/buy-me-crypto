@@ -21,6 +21,7 @@ import {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
 } from '../../lib/checkout/addOneTimeTxn';
+import useSessionRedirect from '../../hooks/useSessionRedirect';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -41,6 +42,8 @@ export async function getServerSideProps(context) {
 }
 
 export default function Checkout({ sessionId }: { sessionId: string }) {
+  useSessionRedirect('/', true);
+
   const [loadingTxnDetails, setLoadingTxnDetails] = useState(false);
   const [txnDetails, setTxnDetails] = useState<IGetCheckoutResponseData | null>(
     null
@@ -58,9 +61,21 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       { sessionId }
     ).then((res) => {
       if (res.error) {
-        enqueueSnackbar({
-          message: res.message,
-        });
+        if (res.message.includes('Checkout session not found')) {
+          router.push('/404');
+        } else if (
+          res.message.includes('Transaction complete') ||
+          res.message.includes('Checkout session expired')
+        ) {
+          router.push('/app');
+          enqueueSnackbar({
+            message: res.message,
+          });
+        } else {
+          enqueueSnackbar({
+            message: res.message,
+          });
+        }
       } else {
         setTxnDetails(res.data);
       }
