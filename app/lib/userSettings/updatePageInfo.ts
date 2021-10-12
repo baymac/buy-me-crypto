@@ -9,10 +9,12 @@ export interface IUpdatePageInfoRequest extends IGenericAPIRequest {
   body: IPageInfo;
 }
 
+export interface IUpdatePageInfoResponse extends IGenericAPIResponse {}
+
 export default async function updatePageInfo({
   userId,
   body,
-}: IUpdatePageInfoRequest): Promise<IGenericAPIResponse> {
+}: IUpdatePageInfoRequest): Promise<IUpdatePageInfoResponse> {
   try {
     const updateUsernameBody: IAddUsernameRequest = {
       userId,
@@ -70,18 +72,9 @@ export default async function updatePageInfo({
         }
       }
 
-      await db
-        .collection('userMetaData')
-        .doc(userId)
-        .update({
-          profileCompleted: isProfileCompleted,
-        })
-        .then(() => {
-          console.log('profile status changed');
-        })
-        .catch((error) => {
-          console.log('eror' + error.message);
-        });
+      await db.collection('userMetaData').doc(userId).update({
+        profileCompleted: isProfileCompleted,
+      });
 
       return {
         error: false,
