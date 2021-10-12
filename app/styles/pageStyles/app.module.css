@@ -6,42 +6,20 @@
 
 .wrapper {
   display: flex;
-  position: relative;
   width: 100%;
 }
 
-.pageHeading {
-  width: 100%;
-  margin-bottom: 2rem;
-}
-
-.pageHeading > h1 {
-  margin: 0 auto;
-  width: fit-content;
-}
-
-.wrapper__container {
+.wrapper__content {
   width: 100%;
 }
 
 @media (min-width: 600px) {
-  .about__container {
-    grid-template-columns: 1fr;
-    grid-column-gap: 2rem;
-  }
-
-  .wrapper__container {
-    margin-left: calc(230px + 0.5rem);
-    padding: 0 0 2rem;
+  .wrapper__content {
+    padding-left: 250px;
+    overflow: hidden;
   }
 
   .about__container {
     margin: 2rem auto;
-  }
-}
-
-@media (min-width: 1024px) {
-  .wrapper {
-    max-width: 1200px;
   }
 }

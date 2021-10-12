@@ -103,31 +103,29 @@ export default function Home() {
             styles.about__container
           )}
         >
-          <div className={styles.wrapper}>
-            <Sidebar userLevel={userMetaData.userLevel} />
-            <div className={styles.wrapper__container}>
-              {!userMetaData.profileCompleted && (
-                <AlertBanner>
-                  {userMetaData.userLevel === 2 ? (
-                    <>
-                      We need some info for your creator's page. Please complete
-                      your profile&nbsp;
-                      <Link href="/settings">here</Link>.
-                    </>
-                  ) : (
-                    <>
-                      Please complete your profile&nbsp;
-                      <Link href="/settings">here</Link>.
-                    </>
-                  )}
-                </AlertBanner>
-              )}
-              <PastTransactionsTable
-                activeSubscriptions={activeSubscriptions.data}
-                oneTimeTransactions={pastTransactions.data}
-                userLevel={userMetaData.userLevel}
-              />
-            </div>
+          <Sidebar userLevel={userMetaData.userLevel} />
+          <div className={styles.wrapper__content}>
+            {!userMetaData.profileCompleted && (
+              <AlertBanner>
+                {userMetaData.userLevel === 2 ? (
+                  <>
+                    We need some info for your creator's page. Please complete
+                    your profile&nbsp;
+                    <Link href="/settings">here</Link>.
+                  </>
+                ) : (
+                  <>
+                    Please complete your profile&nbsp;
+                    <Link href="/settings">here</Link>.
+                  </>
+                )}
+              </AlertBanner>
+            )}
+            <PastTransactionsTable
+              activeSubscriptions={activeSubscriptions.data}
+              oneTimeTransactions={pastTransactions.data}
+              userLevel={userMetaData.userLevel}
+            />
           </div>
         </div>
       </section>
