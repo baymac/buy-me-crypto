@@ -38,10 +38,10 @@ export default function Home() {
           },
         })
           .then((data) => {
-            setActiveSubscriptions(data);
             if (data.error) {
               throw Error(data.message);
             }
+            setActiveSubscriptions(data);
           })
           .catch((error) => {
             enqueueSnackbar({
@@ -58,10 +58,10 @@ export default function Home() {
           },
         })
           .then((data) => {
-            setActiveSubscriptions(data);
             if (data.error) {
               throw Error(data.message);
             }
+            setActiveSubscriptions(data);
           })
           .catch((error) => {
             enqueueSnackbar({
@@ -85,10 +85,10 @@ export default function Home() {
         }
       )
         .then((data) => {
-          setPastTransactions(data);
           if (data.error) {
             throw Error(data.message);
           }
+          setPastTransactions(data);
         })
         .catch((error) => {
           enqueueSnackbar({
