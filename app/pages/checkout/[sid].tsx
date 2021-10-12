@@ -5,7 +5,10 @@ import ButtonLoading from '../../components/ButtonLoading/ButtonLoading';
 import ConnectWallet from '../../components/ConnectWallet/ConnectWallet';
 import PieLoading from '../../components/PieLoading/PieLoading';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
-import { useWalletContext } from '../../context/WalletContextProvider';
+import {
+  clusterUrls,
+  useWalletContext,
+} from '../../context/WalletContextProvider';
 import HomeLayout from '../../layouts/HomeLayout';
 import {
   IGetCheckoutRequest,
@@ -13,7 +16,7 @@ import {
   IGetCheckoutResponseData,
 } from '../../lib/checkout/getCheckoutSession';
 import fetcher from '../../lib/fetcher';
-import styles from '../../styles/pageStyles/app.module.css';
+import styles from '../../styles/pageStyles/checkout.module.css';
 import rootStyles from '../../styles/root.module.css';
 import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
 import router from 'next/router';
@@ -22,6 +25,8 @@ import {
   IAddOneTimeTxnResponse,
 } from '../../lib/checkout/addOneTimeTxn';
 import useSessionRedirect from '../../hooks/useSessionRedirect';
+import Select from '../../components/Select/Select';
+import DisconnectWallet from '../../components/DisconnectWallet/DisconnectWallet';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -50,7 +55,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
   );
   const [transacting, setTransacting] = useState(false);
 
-  const { walletBalance, confirmTxn } = useWalletContext();
+  const { walletBalance, confirmTxn, walletAddr } = useWalletContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -113,6 +118,8 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
     setTransacting(false);
   };
 
+  const { cluster, setCluster } = useWalletContext();
+
   return (
     <HomeLayout hideMenu={true}>
       <section className={cn(rootStyles.section)} id="about">
@@ -129,7 +136,29 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
               <h1>Transaction Details</h1>
               <p>Amount: {txnDetails?.amt} Lamports</p>
               <p>Creator Solana Address: {txnDetails?.creatorSolAddr}</p>
+              {!walletBalance && (
+                <div className={styles.selectWrapper}>
+                  <Select
+                    label="Cluster Connection"
+                    onChange={setCluster}
+                    item={cluster}
+                    items={Object.keys(clusterUrls)}
+                  />
+                </div>
+              )}
+              {walletBalance && <p>Cluster connection: {cluster}</p>}
               <ConnectWallet />
+              {walletAddr && (
+                <div>
+                  <p>Your Wallet Address: {walletAddr}</p>
+                </div>
+              )}
+              {walletBalance && (
+                <div>
+                  <p>Your Wallet Balance: {`${walletBalance} Lamports`}</p>
+                </div>
+              )}
+              {walletBalance && <DisconnectWallet />}
               {walletBalance && (
                 <button
                   className={cn(inputStyles.btn, inputStyles.saveBtn)}

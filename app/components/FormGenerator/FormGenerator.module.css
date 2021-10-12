@@ -129,9 +129,8 @@
 }
 
 .socialDropdown {
-  width: 100%;
+  width: 180px;
   font-size: var(--h4-font-size);
-  height: 100%;
   height: 54px;
   border-radius: 5px;
   color: var(--input-text-color);
