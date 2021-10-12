@@ -1,0 +1,20 @@
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+}
+
+.socialDropdown {
+  padding: var(--mb-0-75);
+  font-size: var(--normal-font-size);
+  width: 180px;
+  background-color: var(--landing-input-bg-color);
+  border: 1px solid var(--footer-border-color);
+  border-radius: 5px;
+  height: 54px;
+  border-radius: 5px;
+  color: var(--inverted-bw);
+}
