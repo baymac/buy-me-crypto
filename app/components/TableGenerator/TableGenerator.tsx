@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import cn from 'classnames';
 import tableStyles from './TableGenerator.module.css';
 

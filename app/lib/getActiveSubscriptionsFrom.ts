@@ -28,7 +28,7 @@ export default async function getOneTimeTransactionsFrom({
 
     if (!activeSubscriptions) {
       return {
-        error: true,
+        error: false,
         data: null,
         message: 'no active subscriptions',
       };

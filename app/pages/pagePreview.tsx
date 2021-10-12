@@ -12,6 +12,7 @@ import fetchJson from '../lib/fetchJson';
 import { IPageInfo } from '../lib/userSettings/addPageInfo';
 import styles from '../styles/pageStyles/creator.module.css';
 import rootStyles from '../styles/root.module.css';
+import { useSnackbar } from '../context/SnackbarContextProvider';
 
 const pagePreview = () => {
   const [session, loading] = useSession();
@@ -20,7 +21,9 @@ const pagePreview = () => {
   const [creatorPageInfo, setCreatorPageInfo] = useState<IPageInfo | null>(
     null
   );
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
+
   useEffect(() => {
     if (session && userMetaData) {
       if (!userMetaData.profileCompleted) {
@@ -42,10 +45,15 @@ const pagePreview = () => {
           },
         })
           .then((data) => {
+            if (data.error) {
+              throw new Error(data.message);
+            }
             setCreatorPageInfo(data.data);
           })
           .catch((error) => {
-            console.log(error.message);
+            enqueueSnackbar({
+              message: error.message,
+            });
           });
       }
     }

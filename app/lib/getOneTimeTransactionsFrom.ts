@@ -29,7 +29,7 @@ export default async function getOneTimeTransactionFrom({
 
     if (!oneTimePayments) {
       return {
-        error: true,
+        error: false,
         data: null,
         message: 'No past transactions.',
       };

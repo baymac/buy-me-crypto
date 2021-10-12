@@ -4,11 +4,12 @@ import {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
 } from '../../../lib/checkout/addOneTimeTxn';
+import markCheckoutComplete from '../../../lib/checkout/markCheckoutComplete';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { amount, fan, creator, note, txnId } = req.body;
+  const { amount, fan, creator, note, txnId, payId } = req.body;
 
   const body: IAddOneTimeTxnRequest = {
     amount,
@@ -19,7 +20,14 @@ export default async function handler(
   };
   try {
     const result: IAddOneTimeTxnResponse = await addOneTimeTxn(body);
-    res.status(200).json(result);
+    if (!result.error) {
+      var markCheckoutCompleteResp = await markCheckoutComplete({ payId });
+    }
+    if (!markCheckoutCompleteResp.error) {
+      res.status(200).json(result);
+    } else {
+      res.status(200).json(markCheckoutCompleteResp);
+    }
   } catch (error) {
     res.status(200).json({
       error: true,

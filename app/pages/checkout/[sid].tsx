@@ -5,7 +5,10 @@ import ButtonLoading from '../../components/ButtonLoading/ButtonLoading';
 import ConnectWallet from '../../components/ConnectWallet/ConnectWallet';
 import PieLoading from '../../components/PieLoading/PieLoading';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
-import { useWalletContext } from '../../context/WalletContextProvider';
+import {
+  clusterUrls,
+  useWalletContext,
+} from '../../context/WalletContextProvider';
 import HomeLayout from '../../layouts/HomeLayout';
 import {
   IGetCheckoutRequest,
@@ -13,14 +16,18 @@ import {
   IGetCheckoutResponseData,
 } from '../../lib/checkout/getCheckoutSession';
 import fetcher from '../../lib/fetcher';
-import styles from '../../styles/pageStyles/app.module.css';
+import styles from '../../styles/pageStyles/checkout.module.css';
 import rootStyles from '../../styles/root.module.css';
 import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
 } from '../../lib/checkout/addOneTimeTxn';
+import useSessionRedirect from '../../hooks/useSessionRedirect';
+import Select from '../../components/Select/Select';
+import DisconnectWallet from '../../components/DisconnectWallet/DisconnectWallet';
+import ContentWrapper from '../../components/ContentWrapper/ContentWrapper';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -41,15 +48,19 @@ export async function getServerSideProps(context) {
 }
 
 export default function Checkout({ sessionId }: { sessionId: string }) {
+  useSessionRedirect('/', true);
+
   const [loadingTxnDetails, setLoadingTxnDetails] = useState(false);
   const [txnDetails, setTxnDetails] = useState<IGetCheckoutResponseData | null>(
     null
   );
   const [transacting, setTransacting] = useState(false);
 
-  const { walletBalance, confirmTxn } = useWalletContext();
+  const { walletBalance, confirmTxn, walletAddr } = useWalletContext();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const router = useRouter();
 
   useEffect(() => {
     setLoadingTxnDetails(true);
@@ -58,9 +69,23 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       { sessionId }
     ).then((res) => {
       if (res.error) {
-        enqueueSnackbar({
-          message: res.message,
-        });
+        if (res.message.includes('Checkout session not found')) {
+          router.push('/404');
+        } else if (res.message.includes('Transaction complete')) {
+          router.push('/app');
+          enqueueSnackbar({
+            message: 'Transaction complete.',
+          });
+        } else if (res.message.includes('Checkout session expired')) {
+          router.push('/app');
+          enqueueSnackbar({
+            message: 'Checkout session expired.',
+          });
+        } else {
+          enqueueSnackbar({
+            message: res.message,
+          });
+        }
       } else {
         setTxnDetails(res.data);
       }
@@ -80,7 +105,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       });
       // TODO: First add txn to db then complete txn then add txnId (or signature)
       const addOneTimeTxnResp = await fetcher<
-        IAddOneTimeTxnRequest,
+        IAddOneTimeTxnRequest & { payId: string },
         IAddOneTimeTxnResponse
       >('/api/checkout/addOneTimeTxn', {
         amount: txnDetails.amt,
@@ -88,6 +113,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
         creator: txnDetails.creator,
         fan: txnDetails.fan,
         note: txnDetails.note,
+        payId: sessionId,
       });
       if (addOneTimeTxnResp.error) {
         enqueueSnackbar({ message: addOneTimeTxnResp.message });
@@ -97,6 +123,8 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
     }
     setTransacting(false);
   };
+
+  const { cluster, setCluster } = useWalletContext();
 
   return (
     <HomeLayout hideMenu={true}>
@@ -110,11 +138,27 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
         >
           {loadingTxnDetails && <PieLoading />}
           {!loadingTxnDetails && txnDetails !== null && (
-            <>
-              <h1>Transaction Details</h1>
+            <ContentWrapper className={styles.contentWrapper}>
+              <h1 className={styles.pageHeading}>Transaction Details</h1>
               <p>Amount: {txnDetails?.amt} Lamports</p>
-              <p>Creator Solana Address: {txnDetails?.creatorSolAddr}</p>
+              <p>Creator&apos;s Solana Address: {txnDetails?.creatorSolAddr}</p>
+              {!walletBalance && (
+                <div className={styles.selectWrapper}>
+                  <Select
+                    label="Cluster Connection"
+                    onChange={setCluster}
+                    item={cluster}
+                    items={Object.keys(clusterUrls)}
+                  />
+                </div>
+              )}
+              {walletBalance && <p>Cluster connection: {cluster}</p>}
               <ConnectWallet />
+              {walletAddr && <p>Your Wallet Address: {walletAddr}</p>}
+              {walletBalance && (
+                <p>Your Wallet Balance: {`${walletBalance} Lamports`}</p>
+              )}
+              {walletBalance && <DisconnectWallet />}
               {walletBalance && (
                 <button
                   className={cn(inputStyles.btn, inputStyles.saveBtn)}
@@ -128,7 +172,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
                   )}
                 </button>
               )}
-            </>
+            </ContentWrapper>
           )}
         </div>
       </section>

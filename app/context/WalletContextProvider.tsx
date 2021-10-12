@@ -14,16 +14,16 @@ import React, {
 } from 'react';
 import { useSnackbar } from './SnackbarContextProvider';
 
-export const CLUSTER_LOCAL = 'local';
+// export const CLUSTER_LOCAL = 'local';
 export const CLUSTER_DEVNET = 'devnet';
 export const CLUSTER_TESTNET = 'testnet';
-export const CLUSTER_MAINNET = 'mainnet-beta';
+// export const CLUSTER_MAINNET = 'mainnet-beta';
 
-const clusterUrls = {
-  [CLUSTER_LOCAL]: () => 'http://127.0.0.1:8899',
+export const clusterUrls = {
+  // [CLUSTER_LOCAL]: () => 'http://127.0.0.1:8899',
   [CLUSTER_DEVNET]: () => clusterApiUrl(CLUSTER_DEVNET),
   [CLUSTER_TESTNET]: () => clusterApiUrl(CLUSTER_TESTNET),
-  [CLUSTER_MAINNET]: () => clusterApiUrl(CLUSTER_MAINNET),
+  // [CLUSTER_MAINNET]: () => clusterApiUrl(CLUSTER_MAINNET),
 };
 
 export interface IWalletInfo {
@@ -137,7 +137,7 @@ export default function WalletContextProvider({
     const provider = getProvider();
     if (provider) {
       if (provider.isConnected) {
-        await provider.disconect();
+        await provider.disconnect();
         setWalletAddr(null);
         setWalletBalance(null);
         enqueueSnackbar({

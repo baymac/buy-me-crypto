@@ -5,11 +5,12 @@ import PieLoading from '../components/PieLoading/PieLoading';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import { useRouter } from 'next/router';
 import { UilStar, UilRocket } from '@iconscout/react-unicons';
+import { useSnackbar } from '../context/SnackbarContextProvider';
 
 export default function finishSignup() {
   const [session, loading] = useSession();
   const router = useRouter();
-
+  const { enqueueSnackbar } = useSnackbar();
   useSessionRedirect('/', true);
 
   const handleFanCreation = async (e) => {
@@ -29,6 +30,10 @@ export default function finishSignup() {
 
     if (!result.error) {
       router.push('/app');
+    } else {
+      enqueueSnackbar({
+        message: result.message,
+      });
     }
   };
 
@@ -61,7 +66,15 @@ export default function finishSignup() {
 
       if (!resultPageInfo.error) {
         router.push('/app');
+      } else {
+        enqueueSnackbar({
+          message: resultPageInfo.message,
+        });
       }
+    } else {
+      enqueueSnackbar({
+        message: resultMetaData.message,
+      });
     }
   };
 

@@ -17,7 +17,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  max-height: 357px;
+  max-height: 500px;
   overflow-y: auto;
   position: relative;
   overflow-x: auto;
@@ -53,6 +53,8 @@
   border: 1px solid var(--footer-border-color);
   padding: var(--mb-0-75);
   text-align: center;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 @media (min-width: 600px) {
@@ -69,6 +71,6 @@
 
 @media (min-width: 1024px) {
   .table {
-    max-width: calc(100vw - 15rem - 230px);
+    max-width: calc(var(--big-screen-width) - 250px);
   }
 }

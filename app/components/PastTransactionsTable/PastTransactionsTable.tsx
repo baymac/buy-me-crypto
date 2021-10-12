@@ -1,7 +1,5 @@
-import cn from 'classnames';
-import tableStyles from '../ActiveSubscriptionsTable/ActiveSubscriptionsTable.module.css';
 import { useEffect, useState } from 'react';
-import { rawListeners } from 'process';
+import tableStyles from '../ActiveSubscriptionsTable/ActiveSubscriptionsTable.module.css';
 import Table, {
   ITableColumn,
   ITableRowContent,
@@ -10,8 +8,8 @@ import Table, {
 const FanTableColumns: ITableColumn[] = [
   {
     heading: 'Sl.No',
-    minWidth: 65,
-    maxWidth: 70,
+    minWidth: 80,
+    maxWidth: 90,
     registerName: 'serialNo',
     width: '10%',
   },
@@ -45,8 +43,8 @@ const FanTableColumns: ITableColumn[] = [
   },
   {
     heading: 'TxnId',
-    minWidth: 900,
-    maxWidth: 1000,
+    minWidth: 300,
+    maxWidth: 300,
     registerName: 'txnId',
     width: '25%',
   },

@@ -4,22 +4,10 @@
   margin: 4rem auto 1rem;
 }
 
-.wrapper {
-  display: flex;
-  width: 100%;
-}
-
-.wrapper__content {
-  width: 100%;
-}
-
 @media (min-width: 600px) {
-  .wrapper__content {
-    padding-left: 250px;
-    overflow: hidden;
-  }
-
   .about__container {
+    grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
     margin: 2rem auto;
   }
 }

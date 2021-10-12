@@ -34,11 +34,11 @@ export default async function getCheckoutSession({
       .get()
       .then(async (querySnapshot) => {
         if (!querySnapshot.exists) {
-          throw new Error('Checkout session not found');
+          throw new Error('Checkout session not found.');
         }
         const data = querySnapshot.data();
         if (data.completed) {
-          throw new Error('Transaction complete');
+          throw new Error('Transaction complete.');
         }
         const { seconds, nanoseconds } = data.expiresAt;
         if (
@@ -48,7 +48,7 @@ export default async function getCheckoutSession({
             ).getTime() >
           0
         ) {
-          throw new Error('Checkout session expired');
+          throw new Error('Checkout session expired.');
         }
         const creatorSolAddrResp = await getCreatorSolAddr({
           creatorId: data.creator,

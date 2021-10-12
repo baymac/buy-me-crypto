@@ -13,11 +13,12 @@ import HomeLayout from '../layouts/HomeLayout';
 import fetchJson from '../lib/fetchJson';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
+import { useSnackbar } from '../context/SnackbarContextProvider';
 
 export default function Home() {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
-
+  const { enqueueSnackbar } = useSnackbar();
   const [userMetaData] = useFinishSignupRedirect();
   const [activeSubscriptions, setActiveSubscriptions] = useState(null);
   const [pastTransactions, setPastTransactions] = useState(null);
@@ -37,10 +38,15 @@ export default function Home() {
           },
         })
           .then((data) => {
+            if (data.error) {
+              throw new Error(data.message);
+            }
             setActiveSubscriptions(data);
           })
           .catch((error) => {
-            console.log('error ' + error.message);
+            enqueueSnackbar({
+              message: error.message,
+            });
           });
       } else {
         fetchJson('/api/getActiveSubscriptionsFrom', {
@@ -51,10 +57,15 @@ export default function Home() {
           },
         })
           .then((data) => {
+            if (data.error) {
+              throw new Error(data.message);
+            }
             setActiveSubscriptions(data);
           })
           .catch((error) => {
-            console.log('error ' + error.message);
+            enqueueSnackbar({
+              message: error.message,
+            });
           });
       }
 
@@ -72,10 +83,15 @@ export default function Home() {
         }
       )
         .then((data) => {
+          if (data.error) {
+            throw Error(data.message);
+          }
           setPastTransactions(data);
         })
         .catch((error) => {
-          console.log('error ' + error.message);
+          enqueueSnackbar({
+            message: error.message,
+          });
         });
     }
   }, [userMetaData, session]);
@@ -87,8 +103,6 @@ export default function Home() {
       </div>
     );
   }
-
-  console.log(pastTransactions);
 
   return (
     <HomeLayout>
@@ -103,31 +117,29 @@ export default function Home() {
             styles.about__container
           )}
         >
-          <div className={styles.wrapper}>
-            <Sidebar userLevel={userMetaData.userLevel} />
-            <div className={styles.wrapper__container}>
-              {!userMetaData.profileCompleted && (
-                <AlertBanner>
-                  {userMetaData.userLevel === 2 ? (
-                    <>
-                      We need some info for your creator's page. Please complete
-                      your profile&nbsp;
-                      <Link href="/settings">here</Link>.
-                    </>
-                  ) : (
-                    <>
-                      Please complete your profile&nbsp;
-                      <Link href="/settings">here</Link>.
-                    </>
-                  )}
-                </AlertBanner>
-              )}
-              <PastTransactionsTable
-                activeSubscriptions={activeSubscriptions.data}
-                oneTimeTransactions={pastTransactions.data}
-                userLevel={userMetaData.userLevel}
-              />
-            </div>
+          <Sidebar userLevel={userMetaData.userLevel} />
+          <div className={styles.wrapper__content}>
+            {!userMetaData.profileCompleted && (
+              <AlertBanner>
+                {userMetaData.userLevel === 2 ? (
+                  <>
+                    We need some info for your creator's page. Please complete
+                    your profile&nbsp;
+                    <Link href="/settings">here</Link>.
+                  </>
+                ) : (
+                  <>
+                    Please complete your profile&nbsp;
+                    <Link href="/settings">here</Link>.
+                  </>
+                )}
+              </AlertBanner>
+            )}
+            <PastTransactionsTable
+              activeSubscriptions={activeSubscriptions.data}
+              oneTimeTransactions={pastTransactions.data}
+              userLevel={userMetaData.userLevel}
+            />
           </div>
         </div>
       </section>

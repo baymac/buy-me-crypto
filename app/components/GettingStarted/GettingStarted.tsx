@@ -27,7 +27,6 @@ const GettingStarted = () => {
     if (pageName == '') {
       enqueueSnackbar({
         message: 'Cannot submit without name',
-        options: { duration: 2000 },
       });
     } else {
       //check with database if that name is taken
@@ -46,7 +45,6 @@ const GettingStarted = () => {
       if (resData.data) {
         enqueueSnackbar({
           message: 'Page Name is taken',
-          options: { duration: 2000 },
         });
         setBtnLoading(false);
       } else {
@@ -59,7 +57,9 @@ const GettingStarted = () => {
   return (
     <div className={styles.getStarted}>
       <div className={styles.getStarted__inpWrapper}>
-        <div className={styles.getStarted__inpWrapper__url}>buymecryp.to/</div>
+        <div className={styles.getStarted__inpWrapper__url}>
+          buymecryp.to/c/
+        </div>
         <div
           ref={inputRef}
           className={cn(styles.getStarted__inpWrapper__inp, {
