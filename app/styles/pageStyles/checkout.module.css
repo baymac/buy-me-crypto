@@ -14,6 +14,12 @@
   margin-bottom: 1rem;
 }
 
+@media (min-width: 300px) {
+  .about__container {
+    margin: 0 auto;
+  }
+}
+
 @media (min-width: 600px) {
   .about__container {
     margin: 2rem auto;
