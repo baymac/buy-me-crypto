@@ -5,7 +5,6 @@ const db = firebase.firestore();
 
 export interface IGetUserFromIdRequest extends IGenericAPIRequest {}
 
-//Having problem when declaring return types as Promise<IGetcreatorMetaDataResponse>
 export default async function getCreatorInfo({
   userId,
 }: IGetUserFromIdRequest): Promise<IGetUserResponse> {

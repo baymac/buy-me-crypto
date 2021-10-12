@@ -21,12 +21,11 @@ export interface IGetUserResponse extends IGenericAPIResponse {
   data: IUser | null;
 }
 
-//Having problem when declaring return types as Promise<IGetcreatorMetaDataResponse>
 export default async function getUserInfo({
   username,
 }: IGetUserRequest): Promise<IGetUserResponse> {
   try {
-    const user = await userIfExists(username);
+    const user: IUser = await userIfExists(username);
     if (user) {
       return {
         error: false,
