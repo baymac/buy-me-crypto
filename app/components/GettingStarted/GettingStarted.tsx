@@ -59,7 +59,9 @@ const GettingStarted = () => {
   return (
     <div className={styles.getStarted}>
       <div className={styles.getStarted__inpWrapper}>
-        <div className={styles.getStarted__inpWrapper__url}>buymecryp.to/</div>
+        <div className={styles.getStarted__inpWrapper__url}>
+          buymecryp.to/c/
+        </div>
         <div
           ref={inputRef}
           className={cn(styles.getStarted__inpWrapper__inp, {
