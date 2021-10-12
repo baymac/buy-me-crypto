@@ -1,4 +1,5 @@
 import firebase from '../../firebase/clientApp';
+import { IGenericAPIResponse } from '../utils';
 import userIfExists from './userIfExists';
 
 const db = firebase.firestore();
@@ -7,8 +8,23 @@ export interface IGetUserRequest {
   username: string;
 }
 
+export interface IUser {
+  name: string;
+  email: string;
+  image: string;
+  username: string;
+  emailVerified: string;
+  id?: string;
+}
+
+export interface IGetUserResponse extends IGenericAPIResponse {
+  data: IUser | null;
+}
+
 //Having problem when declaring return types as Promise<IGetcreatorMetaDataResponse>
-export default async function getCreatorInfo({ username }: IGetUserRequest) {
+export default async function getUserInfo({
+  username,
+}: IGetUserRequest): Promise<IGetUserResponse> {
   try {
     const user = await userIfExists(username);
     if (user) {

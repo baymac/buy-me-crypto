@@ -1,9 +1,9 @@
 import firebase from '../../firebase/clientApp';
-
+import { IUser } from './getUser';
 const db = firebase.firestore();
 
 export default async function updatePageInfo(username: string) {
-  const userExists = await db
+  return await db
     .collection('users')
     .where('username', '==', username)
     .get()
@@ -13,8 +13,6 @@ export default async function updatePageInfo(username: string) {
         return {
           id: querySnapshot.docs[0].id,
           ...querySnapshot.docs[0].data(),
-        };
+        } as IUser;
     });
-
-  return userExists;
 }
