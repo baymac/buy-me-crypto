@@ -8,8 +8,6 @@ export interface IGetPageInfoResponse extends IGenericAPIResponse {
   data: null | IPageInfo;
 }
 
-//having problem when defining return type as IGetPageInfoResponse
-
 export default async function getPageInfo({
   userId,
 }: IGetPageInfoRequest): Promise<IGetPageInfoResponse> {

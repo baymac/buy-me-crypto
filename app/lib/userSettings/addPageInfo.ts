@@ -18,13 +18,9 @@ export interface IPageInfo {
   solanaAddress: string;
 }
 
-export interface IAddPageInfoResponse extends IGenericAPIResponse {
-  data: null | IPageInfo;
-}
-
 export default async function addPageInfo({
   userId,
-}: IAddPageInfoRequest): Promise<IAddPageInfoResponse> {
+}: IAddPageInfoRequest): Promise<IGenericAPIResponse> {
   try {
     const pageInfo = await db
       .collection('pageInfo')
@@ -34,7 +30,7 @@ export default async function addPageInfo({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...(querySnapshot.data() as IPageInfo) };
       });
 
     if (!pageInfo) {
@@ -58,20 +54,17 @@ export default async function addPageInfo({
       return {
         error: false,
         message: 'PageInfo Created Successfully',
-        data: null,
       };
     } else {
       return {
         error: true,
         message: 'page info already exits',
-        data: null,
       };
     }
   } catch (error) {
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
-      data: null,
     };
   }
 }
