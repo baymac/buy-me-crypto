@@ -34,7 +34,7 @@ const GettingStarted = () => {
       const body = {
         username: pageName,
       };
-      const resData = await fetchJson('/api/getUser', {
+      const resData = await fetchJson('/api/user/get', {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {

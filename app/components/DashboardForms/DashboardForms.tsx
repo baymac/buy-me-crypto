@@ -49,7 +49,7 @@ const DashboardForms = () => {
             });
           });
       } else {
-        fetchJson('/api/getUserFromId', {
+        fetchJson('/api/user/getFromId', {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {

@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
   const body: IGetUserRequest = {
     username,
   };
-  const creator = await fetchJson(`${getHostUrl}/api/getUser`, {
+  const creator = await fetchJson(`${getHostUrl}/api/user/get`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
