@@ -39,7 +39,7 @@ export default function Home() {
         })
           .then((data) => {
             if (data.error) {
-              throw Error(data.message);
+              throw new Error(data.message);
             }
             setActiveSubscriptions(data);
           })
@@ -59,7 +59,7 @@ export default function Home() {
         })
           .then((data) => {
             if (data.error) {
-              throw Error(data.message);
+              throw new Error(data.message);
             }
             setActiveSubscriptions(data);
           })

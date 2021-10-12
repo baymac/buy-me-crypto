@@ -45,7 +45,7 @@ const pagePreview = () => {
         })
           .then((data) => {
             if (data.error) {
-              throw Error(data.message);
+              throw new Error(data.message);
             }
             setCreatorPageInfo(data.data);
           })
