@@ -19,7 +19,7 @@ import fetcher from '../../lib/fetcher';
 import styles from '../../styles/pageStyles/checkout.module.css';
 import rootStyles from '../../styles/root.module.css';
 import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
@@ -27,6 +27,7 @@ import {
 import useSessionRedirect from '../../hooks/useSessionRedirect';
 import Select from '../../components/Select/Select';
 import DisconnectWallet from '../../components/DisconnectWallet/DisconnectWallet';
+import ContentWrapper from '../../components/ContentWrapper/ContentWrapper';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -58,6 +59,8 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
   const { walletBalance, confirmTxn, walletAddr } = useWalletContext();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const router = useRouter();
 
   useEffect(() => {
     setLoadingTxnDetails(true);
@@ -135,10 +138,10 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
         >
           {loadingTxnDetails && <PieLoading />}
           {!loadingTxnDetails && txnDetails !== null && (
-            <>
-              <h1>Transaction Details</h1>
+            <ContentWrapper className={styles.contentWrapper}>
+              <h1 className={styles.pageHeading}>Transaction Details</h1>
               <p>Amount: {txnDetails?.amt} Lamports</p>
-              <p>Creator Solana Address: {txnDetails?.creatorSolAddr}</p>
+              <p>Creator&apos;s Solana Address: {txnDetails?.creatorSolAddr}</p>
               {!walletBalance && (
                 <div className={styles.selectWrapper}>
                   <Select
@@ -151,15 +154,9 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
               )}
               {walletBalance && <p>Cluster connection: {cluster}</p>}
               <ConnectWallet />
-              {walletAddr && (
-                <div>
-                  <p>Your Wallet Address: {walletAddr}</p>
-                </div>
-              )}
+              {walletAddr && <p>Your Wallet Address: {walletAddr}</p>}
               {walletBalance && (
-                <div>
-                  <p>Your Wallet Balance: {`${walletBalance} Lamports`}</p>
-                </div>
+                <p>Your Wallet Balance: {`${walletBalance} Lamports`}</p>
               )}
               {walletBalance && <DisconnectWallet />}
               {walletBalance && (
@@ -175,7 +172,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
                   )}
                 </button>
               )}
-            </>
+            </ContentWrapper>
           )}
         </div>
       </section>

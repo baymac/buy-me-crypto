@@ -21,6 +21,7 @@ const pagePreview = () => {
     null
   );
   const router = useRouter();
+
   useEffect(() => {
     if (session && userMetaData) {
       if (!userMetaData.profileCompleted) {
