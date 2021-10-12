@@ -41,7 +41,7 @@ export default async function getPageInfo({
   } catch (error) {
     return {
       error: true,
-      message: ' Some error occured while fetching apge info ' + error.message,
+      message: ' Some error occured while fetching page info ' + error.message,
       data: null,
     };
   }
