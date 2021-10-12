@@ -19,7 +19,8 @@ export default async function handler(
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGetUserResponse);
   }
 }
