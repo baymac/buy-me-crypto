@@ -23,7 +23,9 @@ export default async function updatePageInfo({
     };
 
     // Add page name as a username for creator
-    const updateUsernameRes = await addUserName(updateUsernameBody);
+    const updateUsernameRes: IGenericAPIResponse = await addUserName(
+      updateUsernameBody
+    );
 
     // throw error if username already exists
     if (updateUsernameRes.error) {

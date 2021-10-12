@@ -1,11 +1,20 @@
 import firebase from '../../firebase/clientApp';
+import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
+import { IUser } from './getUser';
 import userIfExists from './userIfExists';
 
 const db = firebase.firestore();
 
-export default async function updateFanProfile({ userId, username }) {
+export interface IUpdateFanProfileRequest extends IGenericAPIRequest {
+  username: string;
+}
+
+export default async function updateFanProfile({
+  userId,
+  username,
+}): Promise<IGenericAPIResponse> {
   try {
-    const userExists = await userIfExists(username);
+    const userExists: IUser = await userIfExists(username);
 
     if (!userExists || (userExists && userId === userExists.id)) {
       const result = await db.collection('users').doc(userId).update({
@@ -21,20 +30,17 @@ export default async function updateFanProfile({ userId, username }) {
 
       return {
         error: false,
-        data: null,
         message: 'Username updated successfully',
       };
     } else {
       return {
         error: true,
-        data: null,
         message: 'Username taken',
       };
     }
   } catch (error) {
     return {
       error: true,
-      data: null,
       message: 'Some error occured ' + error.message,
     };
   }

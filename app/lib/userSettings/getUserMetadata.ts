@@ -15,7 +15,7 @@ export default async function getUserMetaData({
   userId,
 }: IGenericAPIRequest): Promise<IGetUserMetaDataResponse> {
   try {
-    const metaData = await db
+    const metaData: IUserMetaData = await db
       .collection('userMetaData')
       .doc(userId)
       .get()

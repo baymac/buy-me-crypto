@@ -2,7 +2,7 @@ import firebase from '../../firebase/clientApp';
 import { IUser } from './getUser';
 const db = firebase.firestore();
 
-export default async function updatePageInfo(username: string) {
+export default async function userIfExists(username: string) {
   return await db
     .collection('users')
     .where('username', '==', username)

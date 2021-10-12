@@ -1,4 +1,5 @@
 import firebase from '../../firebase/clientApp';
+import { IUserMetaData } from '../userSettings/addUserMetaData';
 import { IGenericAPIResponse } from '../utils';
 
 const db = firebase.firestore();
@@ -26,7 +27,7 @@ export default async function addSubscription({
   note,
 }: IAddSubcriptionRequest): Promise<IAddSubscriptionResponse> {
   try {
-    const fanUser = db
+    const fanUser: IUserMetaData = await db
       .collection('userMetaData')
       .doc(fan)
       .get()
@@ -34,10 +35,10 @@ export default async function addSubscription({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IUserMetaData;
       });
 
-    const creatorUser = await db
+    const creatorUser: IUserMetaData = await db
       .collection('userMetaData')
       .doc(creator)
       .get()
@@ -45,7 +46,7 @@ export default async function addSubscription({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IUserMetaData;
       });
 
     if (!fanUser || !creatorUser) {
@@ -66,7 +67,6 @@ export default async function addSubscription({
           note: note,
         })
         .then(() => {
-          console.log('subscription added successfully');
           return {
             error: false,
             message: 'subscription added successfully',
