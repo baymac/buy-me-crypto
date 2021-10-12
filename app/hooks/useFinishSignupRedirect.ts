@@ -3,11 +3,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IUserMetaData } from '../lib/userSettings/addUserMetaData';
 import fetchJson from '../lib/fetchJson';
+import { useSnackbar } from '../context/SnackbarContextProvider';
 
 export default function useFinishSignupRedirect() {
   const [userMetaData, setUserMetaData] = useState<IUserMetaData | null>(null);
   const router = useRouter();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [session, loading] = useSession();
 
   useEffect(() => {
@@ -62,7 +63,10 @@ export default function useFinishSignupRedirect() {
                         'Content-Type': 'application/json',
                       },
                     })
-                      .then((pageResDate) => {
+                      .then((pageResData) => {
+                        if (pageResData.error) {
+                          throw new Error(pageResData.message);
+                        }
                         fetchJson('/api/updatePageInfo', {
                           method: 'POST',
                           body: JSON.stringify(updatePageInfo),
@@ -71,6 +75,9 @@ export default function useFinishSignupRedirect() {
                           },
                         })
                           .then((data) => {
+                            if (data.error) {
+                              throw new Error(data.message);
+                            }
                             fetchJson('/api/getUserMetaData', {
                               method: 'POST',
                               body: JSON.stringify(bodyPageInfo),
@@ -79,31 +86,40 @@ export default function useFinishSignupRedirect() {
                               },
                             })
                               .then((res) => {
+                                if (res.error) {
+                                  throw new Error(res.message);
+                                }
                                 localStorage.removeItem('pageName');
                                 setUserMetaData(res.data);
                                 router.push('/app');
                               })
-                              .catch((error) => {
-                                console.log(
-                                  'error is getting pageInfo ' + error.message
-                                );
+                              .catch((err) => {
+                                enqueueSnackbar({
+                                  message: err.message,
+                                  options: { duration: 2000 },
+                                });
                               });
                           })
-                          .catch((error) => {
-                            console.log(
-                              'error in updating page info ' + error.message
-                            );
+                          .catch((err) => {
+                            enqueueSnackbar({
+                              message: err.message,
+                              options: { duration: 2000 },
+                            });
                           });
                       })
-                      .catch((error) => {
-                        console.log(
-                          'error in adding new page info ' + error.message
-                        );
+                      .catch((err) => {
+                        enqueueSnackbar({
+                          message: err.message,
+                          options: { duration: 2000 },
+                        });
                       });
                   }
                 })
-                .catch((error) => {
-                  console.log('error occ ' + error.message);
+                .catch((err) => {
+                  enqueueSnackbar({
+                    message: err.message,
+                    options: { duration: 2000 },
+                  });
                 });
             } else {
               router.push('/finishSignup');
@@ -113,7 +129,10 @@ export default function useFinishSignupRedirect() {
           }
         })
         .catch((err) => {
-          console.log('Some error has been occured ' + err.message);
+          enqueueSnackbar({
+            message: err.message,
+            options: { duration: 2000 },
+          });
         });
     }
   }, [session]);
