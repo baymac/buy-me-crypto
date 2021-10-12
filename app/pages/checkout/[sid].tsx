@@ -68,13 +68,15 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       if (res.error) {
         if (res.message.includes('Checkout session not found')) {
           router.push('/404');
-        } else if (
-          res.message.includes('Transaction complete') ||
-          res.message.includes('Checkout session expired')
-        ) {
+        } else if (res.message.includes('Transaction complete')) {
           router.push('/app');
           enqueueSnackbar({
-            message: res.message,
+            message: 'Transaction complete.',
+          });
+        } else if (res.message.includes('Checkout session expired')) {
+          router.push('/app');
+          enqueueSnackbar({
+            message: 'Checkout session expired.',
           });
         } else {
           enqueueSnackbar({
@@ -100,7 +102,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       });
       // TODO: First add txn to db then complete txn then add txnId (or signature)
       const addOneTimeTxnResp = await fetcher<
-        IAddOneTimeTxnRequest,
+        IAddOneTimeTxnRequest & { payId: string },
         IAddOneTimeTxnResponse
       >('/api/checkout/addOneTimeTxn', {
         amount: txnDetails.amt,
@@ -108,6 +110,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
         creator: txnDetails.creator,
         fan: txnDetails.fan,
         note: txnDetails.note,
+        payId: sessionId,
       });
       if (addOneTimeTxnResp.error) {
         enqueueSnackbar({ message: addOneTimeTxnResp.message });
