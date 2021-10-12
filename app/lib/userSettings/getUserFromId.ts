@@ -1,6 +1,6 @@
 import firebase from '../../firebase/clientApp';
 import { IGenericAPIRequest } from '../utils';
-
+import { IUser, IGetUserResponse } from './getUser';
 const db = firebase.firestore();
 
 export interface IGetUserFromIdRequest extends IGenericAPIRequest {}
@@ -8,7 +8,7 @@ export interface IGetUserFromIdRequest extends IGenericAPIRequest {}
 //Having problem when declaring return types as Promise<IGetcreatorMetaDataResponse>
 export default async function getCreatorInfo({
   userId,
-}: IGetUserFromIdRequest) {
+}: IGetUserFromIdRequest): Promise<IGetUserResponse> {
   try {
     const user = await db
       .collection('users')
@@ -18,7 +18,10 @@ export default async function getCreatorInfo({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return {
+          id: querySnapshot.id,
+          ...querySnapshot.data(),
+        } as IUser;
       });
 
     if (user) {
