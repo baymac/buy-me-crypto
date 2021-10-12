@@ -16,16 +16,13 @@ export interface IAddSubcriptionRequest {
   creator: string;
   note: string;
 }
-export interface IAddSubscriptionResponse extends IGenericAPIResponse {
-  data: null | ISubscription;
-}
 
 export default async function addSubscription({
   rate,
   fan,
   creator,
   note,
-}: IAddSubcriptionRequest): Promise<IAddSubscriptionResponse> {
+}: IAddSubcriptionRequest): Promise<IGenericAPIResponse> {
   try {
     const fanUser: IUserMetaData = await db
       .collection('userMetaData')
@@ -52,7 +49,6 @@ export default async function addSubscription({
     if (!fanUser || !creatorUser) {
       return {
         error: true,
-        data: null,
         message: "either fan or creator doesn't exist",
       };
     } else {
@@ -70,14 +66,12 @@ export default async function addSubscription({
           return {
             error: false,
             message: 'subscription added successfully',
-            data: null,
           };
         })
         .catch((err) => {
           return {
             error: true,
             message: 'some error occured',
-            data: null,
           };
         });
 
@@ -87,7 +81,6 @@ export default async function addSubscription({
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
-      data: null,
     };
   }
 }
