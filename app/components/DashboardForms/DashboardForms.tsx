@@ -7,6 +7,7 @@ import styles from '../DashboardForms/DashboardForms.module.css';
 import FanSettingForm from '../FanSettingForm/FanSettingForm';
 import PieLoading from '../PieLoading/PieLoading';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
+import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 
 export interface IFormInputField {
   label: string;
@@ -19,73 +20,56 @@ export interface IFormInputField {
 const DashboardForms = () => {
   const [session, loading] = useSession();
   const [initialData, setInitialData] = useState(null);
-  const [userMetaData, setUserMetaData] = useState(null);
+  const [userMetaData, setUserMetaData] = useFinishSignupRedirect();
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
-    const body = {
-      userId: session.userId,
-    };
-
-    fetchJson('/api/getUserMetaData', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        if (res.error) {
-          throw new Error(res.message);
-        }
-        setUserMetaData(res.data);
-        if (res.data.userLevel === 2) {
-          fetchJson('/api/pageInfo/get', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-              'Content-Type': 'application/json',
-            },
+    if (userMetaData) {
+      const body = {
+        userId: session.userId,
+      };
+      if (userMetaData.userLevel === 2) {
+        fetchJson('/api/pageInfo/get', {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((pageInfo) => {
+            if (pageInfo.error) {
+              throw new Error(pageInfo.message);
+            }
+            if (pageInfo.data) {
+              setInitialData(pageInfo);
+            }
           })
-            .then((pageInfo) => {
-              if (pageInfo.error) {
-                throw new Error(pageInfo.message);
-              }
-              if (pageInfo.data) {
-                setInitialData(pageInfo);
-              }
-            })
-            .catch((error) => {
-              enqueueSnackbar({
-                message: error.message,
-              });
+          .catch((error) => {
+            enqueueSnackbar({
+              message: error.message,
             });
-        } else {
-          fetchJson('/api/getUserFromId', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-              'Content-Type': 'application/json',
-            },
+          });
+      } else {
+        fetchJson('/api/getUserFromId', {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((data) => {
+            if (data.error) {
+              throw new Error(data.message);
+            }
+            setInitialData(data);
           })
-            .then((data) => {
-              if (data.error) {
-                throw new Error(data.message);
-              }
-              setInitialData(data);
-            })
-            .catch((error) => {
-              enqueueSnackbar({
-                message: error.message,
-              });
+          .catch((error) => {
+            enqueueSnackbar({
+              message: error.message,
             });
-        }
-      })
-      .catch((error) => {
-        enqueueSnackbar({
-          message: error.message,
-        });
-      });
-  }, [session]);
+          });
+      }
+    }
+  }, [session, userMetaData]);
 
   if (loading || !session || !initialData || !userMetaData) {
     return (

@@ -78,7 +78,7 @@ export default function useFinishSignupRedirect() {
                             if (data.error) {
                               throw new Error(data.message);
                             }
-                            fetchJson('/api/getUserMetaData', {
+                            fetchJson('/api/userMetaData/get', {
                               method: 'POST',
                               body: JSON.stringify(bodyPageInfo),
                               headers: {
