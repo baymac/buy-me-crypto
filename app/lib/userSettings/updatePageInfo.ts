@@ -2,7 +2,8 @@ import firebase from '../../firebase/clientApp';
 import { IPageInfo } from './addPageInfo';
 import addUserName, { IAddUsernameRequest } from './addUsername';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
-import getPageInfo from '../home/getPageInfo';
+import getPageInfo, { IGetPageInfoResponse } from '../home/getPageInfo';
+
 const db = firebase.firestore();
 
 export interface IUpdatePageInfoRequest extends IGenericAPIRequest {
@@ -32,7 +33,7 @@ export default async function updatePageInfo({
       };
     }
 
-    const userInfo = await db
+    const userInfo: IPageInfo = await db
       .collection('pageInfo')
       .doc(userId)
       .get()
@@ -40,7 +41,7 @@ export default async function updatePageInfo({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IPageInfo;
       });
 
     if (userInfo) {
@@ -60,7 +61,7 @@ export default async function updatePageInfo({
 
       //checking if pageInfo is completed
       let isProfileCompleted: boolean = true;
-      let res = await getPageInfo({ userId });
+      let res: IGetPageInfoResponse = await getPageInfo({ userId });
       let updatedPageInfo = res.data;
       for (let x in updatedPageInfo) {
         if (

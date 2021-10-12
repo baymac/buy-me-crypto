@@ -24,6 +24,6 @@ export default async function handler(
     res.status(200).json({
       error: true,
       message: 'Some error occurres' + error.message,
-    });
+    } as IAddUserMetaDataResponse);
   }
 }

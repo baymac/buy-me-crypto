@@ -41,7 +41,7 @@ export default async function updateUserInfo(
       },
     };
     const result: IUpdatePageInfoResponse = await updatePageInfo(reqBody);
-    res.status(200).json({ result });
+    res.status(200).json({ ...result });
   } catch (error) {
     res.status(200).json({
       error: true,
