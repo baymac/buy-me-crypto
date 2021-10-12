@@ -107,7 +107,7 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
       },
     });
 
-    enqueueSnackbar({ message: resData.message, options: { duration: 2000 } });
+    enqueueSnackbar({ message: resData.message });
     setSubLoading(false);
   };
 

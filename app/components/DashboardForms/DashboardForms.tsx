@@ -57,7 +57,6 @@ const DashboardForms = () => {
             .catch((error) => {
               enqueueSnackbar({
                 message: error.message,
-                options: { duration: 2000 },
               });
             });
         } else {
@@ -77,7 +76,6 @@ const DashboardForms = () => {
             .catch((error) => {
               enqueueSnackbar({
                 message: error.message,
-                options: { duration: 2000 },
               });
             });
         }
@@ -85,7 +83,6 @@ const DashboardForms = () => {
       .catch((error) => {
         enqueueSnackbar({
           message: error.message,
-          options: { duration: 2000 },
         });
       });
   }, [session]);

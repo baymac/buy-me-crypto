@@ -96,21 +96,18 @@ export default function useFinishSignupRedirect() {
                               .catch((err) => {
                                 enqueueSnackbar({
                                   message: err.message,
-                                  options: { duration: 2000 },
                                 });
                               });
                           })
                           .catch((err) => {
                             enqueueSnackbar({
                               message: err.message,
-                              options: { duration: 2000 },
                             });
                           });
                       })
                       .catch((err) => {
                         enqueueSnackbar({
                           message: err.message,
-                          options: { duration: 2000 },
                         });
                       });
                   }
@@ -118,7 +115,6 @@ export default function useFinishSignupRedirect() {
                 .catch((err) => {
                   enqueueSnackbar({
                     message: err.message,
-                    options: { duration: 2000 },
                   });
                 });
             } else {
@@ -131,7 +127,6 @@ export default function useFinishSignupRedirect() {
         .catch((err) => {
           enqueueSnackbar({
             message: err.message,
-            options: { duration: 2000 },
           });
         });
     }

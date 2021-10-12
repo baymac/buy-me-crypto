@@ -33,7 +33,6 @@ export default function finishSignup() {
     } else {
       enqueueSnackbar({
         message: result.message,
-        options: { duration: 2000 },
       });
     }
   };
@@ -70,13 +69,11 @@ export default function finishSignup() {
       } else {
         enqueueSnackbar({
           message: resultPageInfo.message,
-          options: { duration: 2000 },
         });
       }
     } else {
       enqueueSnackbar({
         message: resultMetaData.message,
-        options: { duration: 2000 },
       });
     }
   };

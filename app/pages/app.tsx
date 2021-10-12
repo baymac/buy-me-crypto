@@ -46,7 +46,6 @@ export default function Home() {
           .catch((error) => {
             enqueueSnackbar({
               message: error.message,
-              options: { duration: 2000 },
             });
           });
       } else {
@@ -66,7 +65,6 @@ export default function Home() {
           .catch((error) => {
             enqueueSnackbar({
               message: error.message,
-              options: { duration: 2000 },
             });
           });
       }
@@ -93,7 +91,6 @@ export default function Home() {
         .catch((error) => {
           enqueueSnackbar({
             message: error.message,
-            options: { duration: 2000 },
           });
         });
     }

@@ -28,7 +28,7 @@ const FanSettingForm = ({ initialData, userId }) => {
         'Content-Type': 'application/json',
       },
     });
-    enqueueSnackbar({ message: resData.message, options: { duration: 2000 } });
+    enqueueSnackbar({ message: resData.message });
     setSubLoading(false);
   };
 

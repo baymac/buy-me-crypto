@@ -52,7 +52,6 @@ const pagePreview = () => {
           .catch((error) => {
             enqueueSnackbar({
               message: error.message,
-              options: { duration: 2000 },
             });
           });
       }
