@@ -56,19 +56,22 @@
 }
 
 @media (min-width: 600px) {
-  .table {
+  .table,
+  .wrapper {
     max-width: 400px;
   }
 }
 
 @media (min-width: 800px) {
-  .table {
+  .table,
+  .wrapper {
     max-width: 600px;
   }
 }
 
 @media (min-width: 1024px) {
-  .table {
-    max-width: calc(100vw - 15rem - 230px);
+  .table,
+  .wrapper {
+    max-width: calc(1300px - 250px);
   }
 }
