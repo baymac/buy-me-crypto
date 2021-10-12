@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getPageInfo, { IGetPageInfoRequest } from '../../lib/home/getPageInfo';
+import getPageInfo, {
+  IGetPageInfoRequest,
+  IGetPageInfoResponse,
+} from '../../lib/home/getPageInfo';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,7 +16,7 @@ export default async function handler(
     userId,
   };
   try {
-    const result = await getPageInfo(body);
+    const result: IGetPageInfoResponse = await getPageInfo(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({

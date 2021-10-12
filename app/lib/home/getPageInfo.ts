@@ -10,7 +10,9 @@ export interface IGetPageInfoResponse extends IGenericAPIResponse {
 
 //having problem when defining return type as IGetPageInfoResponse
 
-export default async function getPageInfo({ userId }: IGetPageInfoRequest) {
+export default async function getPageInfo({
+  userId,
+}: IGetPageInfoRequest): Promise<IGetPageInfoResponse> {
   try {
     const pageInfo = await db
       .collection('pageInfo')
@@ -20,7 +22,7 @@ export default async function getPageInfo({ userId }: IGetPageInfoRequest) {
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IPageInfo;
       });
 
     if (pageInfo) {

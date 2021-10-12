@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getUser from '../../lib/userSettings/getUser';
+import getUser, { IGetUserResponse } from '../../lib/userSettings/getUser';
 import { IGetUserRequest } from '../../lib/userSettings/getUser';
 
 export default async function handler(
@@ -14,7 +14,7 @@ export default async function handler(
     username,
   };
   try {
-    const result = await getUser(body);
+    const result: IGetUserResponse = await getUser(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
