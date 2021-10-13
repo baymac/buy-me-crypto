@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/client';
 import React, { useEffect, useState } from 'react';
 import fetchJson from '../../lib/fetchJson';
+import fetcher from '../../lib/fetcher';
 import rootStyles from '../../styles/root.module.css';
 import CreatorPageInfoForm from '../CreatorPageInfoForm/CreatorPageInfoForm';
 import styles from '../DashboardForms/DashboardForms.module.css';
@@ -8,6 +9,9 @@ import FanSettingForm from '../FanSettingForm/FanSettingForm';
 import PieLoading from '../PieLoading/PieLoading';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
+import { IGenericAPIRequest } from '../../lib/utils';
+import { IGetUserResponse } from '../../lib/userSettings/getUser';
+import { IGetPageInfoResponse } from '../../lib/home/getPageInfo';
 
 export interface IFormInputField {
   label: string;
@@ -24,17 +28,14 @@ const DashboardForms = () => {
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (userMetaData) {
-      const body = {
-        userId: session.userId,
+      const body: IGenericAPIRequest = {
+        userId: session.userId as string,
       };
       if (userMetaData.userLevel === 2) {
-        fetchJson('/api/pageInfo/get', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetcher<IGenericAPIRequest, IGetPageInfoResponse>(
+          '/api/pageInfo/get',
+          body
+        )
           .then((pageInfo) => {
             if (pageInfo.error) {
               throw new Error(pageInfo.message);
@@ -49,13 +50,10 @@ const DashboardForms = () => {
             });
           });
       } else {
-        fetchJson('/api/user/getFromId', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetcher<IGenericAPIRequest, IGetUserResponse>(
+          '/api/user/getFromId',
+          body
+        )
           .then((data) => {
             if (data.error) {
               throw new Error(data.message);

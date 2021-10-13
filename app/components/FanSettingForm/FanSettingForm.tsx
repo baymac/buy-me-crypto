@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
 import fetchJson from '../../lib/fetchJson';
+import fetcher from '../../lib/fetcher';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
+import { IUpdateFanProfileRequest } from '../../lib/userSettings/updateFanProfile';
+import { IUpdatePageInfoResponse } from '../../lib/userSettings/updatePageInfo';
 const fanUserNameList: IFormInputField[] = [
   {
     label: 'Username',
@@ -20,14 +23,14 @@ const FanSettingForm = ({ initialData, userId }) => {
   const handleOnSubmitFan = async (data) => {
     setSubLoading(true);
     data['userId'] = userId;
+    const body = {
+      ...data,
+    } as IUpdateFanProfileRequest;
 
-    const resData = await fetchJson('/api/updateFanProfile', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const resData = await fetcher<
+      IUpdateFanProfileRequest,
+      IUpdatePageInfoResponse
+    >('/api/updateFanProfile', body);
     enqueueSnackbar({ message: resData.message });
     setSubLoading(false);
   };

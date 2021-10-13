@@ -7,10 +7,21 @@ import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../../hooks/useSessionRedirect';
 import HomeLayout from '../../layouts/HomeLayout';
-import fetchJson from '../../lib/fetchJson';
-import { IGetPageInfoRequest } from '../../lib/home/getPageInfo';
-import { IGetUserRequest } from '../../lib/userSettings/getUser';
-import { getHostUrl } from '../../lib/utils';
+import {
+  IGetActiveSubscriptionRequest,
+  IGetActiveSubscriptionResponse,
+} from '../../lib/creatorPage/getActiveSubscription';
+import fetcher from '../../lib/fetcher';
+import {
+  IGetPageInfoRequest,
+  IGetPageInfoResponse,
+} from '../../lib/home/getPageInfo';
+import {
+  IGetUserRequest,
+  IGetUserResponse,
+} from '../../lib/userSettings/getUser';
+import { IGetUserMetaDataResponse } from '../../lib/userSettings/getUserMetadata';
+import { getHostUrl, IGenericAPIRequest } from '../../lib/utils';
 import styles from '../../styles/pageStyles/creator.module.css';
 import rootStyles from '../../styles/root.module.css';
 
@@ -31,13 +42,10 @@ export async function getServerSideProps(context) {
   const body: IGetUserRequest = {
     username,
   };
-  const creator = await fetchJson(`${getHostUrl}/api/user/get`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const creator = await fetcher<IGetUserRequest, IGetUserResponse>(
+    `${getHostUrl}/api/user/get`,
+    body
+  );
   if (!creator.data) {
     return {
       redirect: {
@@ -54,20 +62,14 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const pageInfoBody: IGetPageInfoRequest = {
+  const pageInfoBody: IGenericAPIRequest = {
     userId: creator.data.id,
   };
 
-  const creatorMetaData = await fetchJson(
-    `${getHostUrl}/api/userMetaData/get`,
-    {
-      method: 'POST',
-      body: JSON.stringify(pageInfoBody),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const creatorMetaData = await fetcher<
+    IGenericAPIRequest,
+    IGetUserMetaDataResponse
+  >(`${getHostUrl}/api/userMetaData/get`, pageInfoBody);
 
   if (!creatorMetaData.data.profileCompleted) {
     return {
@@ -79,13 +81,10 @@ export async function getServerSideProps(context) {
 
   console.log('test');
 
-  const creatorPageInfo = await fetchJson(`${getHostUrl}/api/pageInfo/get`, {
-    method: 'POST',
-    body: JSON.stringify(pageInfoBody),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const creatorPageInfo = await fetcher<
+    IGenericAPIRequest,
+    IGetPageInfoResponse
+  >(`${getHostUrl}/api/pageInfo/get`, pageInfoBody);
 
   if (!creatorPageInfo.data) {
     return {
@@ -98,18 +97,12 @@ export async function getServerSideProps(context) {
   const activeSubscriptionBody = {
     fan: session.userId,
     creator: creator.data.id,
-  };
+  } as IGetActiveSubscriptionRequest;
 
-  const activeSubscriptions = await fetchJson(
-    `${getHostUrl}/api/getActiveSubscriptions`,
-    {
-      method: 'POST',
-      body: JSON.stringify(activeSubscriptionBody),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const activeSubscriptions = await fetcher<
+    IGetActiveSubscriptionRequest,
+    IGetActiveSubscriptionResponse
+  >(`${getHostUrl}/api/getActiveSubscriptions`, activeSubscriptionBody);
 
   return {
     props: {

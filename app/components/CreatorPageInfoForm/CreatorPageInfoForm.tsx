@@ -2,11 +2,15 @@ import Form from '../FormGenerator/FormGenerator';
 import { useState, createElement, useEffect } from 'react';
 import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
-import fetchJson from '../../lib/fetchJson';
+import fetcher from '../../lib/fetcher';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
 import cn from 'classnames';
 import { UilMinusCircle, UilPlus } from '@iconscout/react-unicons';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
+import {
+  IUpdatePageInfoResponse,
+  IUpdatePageInfoRequest,
+} from '../../lib/userSettings/updatePageInfo';
 
 const pageInfoForm: IFormInputField[] = [
   {
@@ -99,14 +103,14 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
     setSubLoading(true);
     data['userId'] = userId;
 
-    const resData = await fetchJson('/api/pageInfo/update', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const body = {
+      ...data,
+    } as IUpdatePageInfoRequest;
 
+    const resData = await fetcher<
+      IUpdatePageInfoRequest,
+      IUpdatePageInfoResponse
+    >('/api/pageInfo/update', body);
     enqueueSnackbar({ message: resData.message });
     setSubLoading(false);
   };
