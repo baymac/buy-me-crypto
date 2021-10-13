@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  IAddSubcriptionRequest,
-  IAddSubscriptionResponse,
-} from '../../lib/creatorPage/addSubscription';
+import { IAddSubcriptionRequest } from '../../lib/creatorPage/addSubscription';
 import addSubscription from '../../lib/creatorPage/addSubscription';
+import { IGenericAPIResponse } from '../../lib/utils';
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,12 +18,13 @@ export default async function handler(
     note: note,
   };
   try {
-    const result: IAddSubscriptionResponse = await addSubscription(body);
+    const result: IGenericAPIResponse = await addSubscription(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGenericAPIResponse);
   }
 }

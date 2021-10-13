@@ -1,5 +1,6 @@
 import firebase from '../../firebase/clientApp';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
+
 const db = firebase.firestore();
 
 export interface IAddUserMetaDataRequest extends IGenericAPIRequest {
@@ -11,16 +12,12 @@ export interface IUserMetaData {
   profileCompleted: boolean;
 }
 
-export interface IAddUserMetaDataResponse extends IGenericAPIResponse {
-  data: any;
-}
-
 export default async function addUserMetaData({
   userId,
   userLevel,
-}: IAddUserMetaDataRequest): Promise<IAddUserMetaDataResponse> {
+}: IAddUserMetaDataRequest): Promise<IGenericAPIResponse> {
   try {
-    const metaData = await db
+    const metaData: IUserMetaData = await db
       .collection('userMetaData')
       .doc(userId)
       .get()
@@ -28,7 +25,7 @@ export default async function addUserMetaData({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...(querySnapshot.data() as IUserMetaData) };
       });
 
     if (!metaData) {
@@ -36,26 +33,20 @@ export default async function addUserMetaData({
         userLevel: userLevel,
         profileCompleted: false,
       });
-      const body = {
-        userId: userId,
-      };
       return {
         error: false,
         message: 'userMetaData Created Successfully',
-        data: null,
       };
     } else {
       return {
         error: true,
         message: 'user Meta Data already exits',
-        data: null,
       };
     }
   } catch (error) {
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
-      data: null,
     };
   }
 }

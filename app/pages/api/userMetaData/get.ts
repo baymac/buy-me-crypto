@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import getUserMetaData, {
   IGetUserMetaDataRequest,
-} from '../../lib/userSettings/getUserMetadata';
+  IGetUserMetaDataResponse,
+} from '../../../lib/userSettings/getUserMetadata';
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,12 +16,13 @@ export default async function handler(
     userId,
   };
   try {
-    const result = await getUserMetaData(body);
+    const result: IGetUserMetaDataResponse = await getUserMetaData(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGetUserMetaDataResponse);
   }
 }

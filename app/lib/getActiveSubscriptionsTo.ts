@@ -1,9 +1,13 @@
 import firebase from '../firebase/clientApp';
+import { ISubscription } from './creatorPage/addSubscription';
 import getUserFromId from './userSettings/getUserFromId';
-import { convertDate, IGenericAPIRequest } from './utils';
+import { convertDate, IGenericAPIRequest, IGenericAPIResponse } from './utils';
 const db = firebase.firestore();
 
-export interface IActiveSubscriptionsToRequest extends IGenericAPIRequest {}
+export interface IGetActiveSubscriptionsToRequest extends IGenericAPIRequest {}
+export interface IGetActiveSubscriptionsToResponse extends IGenericAPIResponse {
+  data: Array<ISubscription> | null;
+}
 
 export async function populateUser(activeSubs, field) {
   for (let i in activeSubs) {
@@ -37,18 +41,18 @@ function sortArrInDesc(arr) {
 //function to get all the active subscriptions a fan is currently paying
 export default async function getActiveSubscriptionTo({
   userId,
-}: IActiveSubscriptionsToRequest) {
+}: IGetActiveSubscriptionsToRequest): Promise<IGetActiveSubscriptionsToResponse> {
   try {
-    const activeSubscriptions = await db
+    const activeSubscriptions: ISubscription[] = await db
       .collection('subscriptions')
       .where('fan', '==', userId)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.docs.length === 0) return null;
         else {
-          let arr = [];
+          let arr: ISubscription[] = [];
           querySnapshot.forEach((doc) => {
-            arr.push(doc.data());
+            arr.push(doc.data() as ISubscription);
           });
           return arr;
         }

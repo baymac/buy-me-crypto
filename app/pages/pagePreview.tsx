@@ -8,11 +8,13 @@ import SponsorForm from '../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
-import fetchJson from '../lib/fetchJson';
+import fetcher from '../lib/fetcher';
 import { IPageInfo } from '../lib/userSettings/addPageInfo';
 import styles from '../styles/pageStyles/creator.module.css';
 import rootStyles from '../styles/root.module.css';
 import { useSnackbar } from '../context/SnackbarContextProvider';
+import { IGenericAPIRequest } from '../lib/utils';
+import { IGetPageInfoResponse } from '../lib/home/getPageInfo';
 
 const pagePreview = () => {
   const [session, loading] = useSession();
@@ -35,15 +37,12 @@ const pagePreview = () => {
       } else {
         const pageInfoBody = {
           userId: session.userId,
-        };
+        } as IGenericAPIRequest;
 
-        fetchJson(`/api/getPageInfo`, {
-          method: 'POST',
-          body: JSON.stringify(pageInfoBody),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetcher<IGenericAPIRequest, IGetPageInfoResponse>(
+          '/api/pageInfo/get',
+          pageInfoBody
+        )
           .then((data) => {
             if (data.error) {
               throw new Error(data.message);

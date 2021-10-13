@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import addPageInfo, {
-  IAddPageInfoResponse,
-} from '../../lib/userSettings/addPageInfo';
-import { IAddPageInfoRequest } from '../../lib/userSettings/addPageInfo';
+import getUser, { IGetUserResponse } from '../../../lib/userSettings/getUser';
+import { IGetUserRequest } from '../../../lib/userSettings/getUser';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,17 +9,18 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ message: 'Wrong req method' });
   }
-  const { userId } = req.body;
-  const body: IAddPageInfoRequest = {
-    userId,
+  const { username } = req.body;
+  const body: IGetUserRequest = {
+    username,
   };
   try {
-    const result: IAddPageInfoResponse = await addPageInfo(req.body);
+    const result: IGetUserResponse = await getUser(body);
     res.status(200).json(result);
   } catch (error) {
     res.status(200).json({
       error: true,
+      data: null,
       message: 'Some error occurres' + error.message,
-    });
+    } as IGetUserResponse);
   }
 }

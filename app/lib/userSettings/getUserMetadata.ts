@@ -11,9 +11,11 @@ export interface IGetUserMetaDataResponse extends IGenericAPIResponse {
 }
 
 //Having problem when declaring return types as Promise<IGetUserMetaDataResponse>
-export default async function getUserMetaData({ userId }: IGenericAPIRequest) {
+export default async function getUserMetaData({
+  userId,
+}: IGenericAPIRequest): Promise<IGetUserMetaDataResponse> {
   try {
-    const metaData = await db
+    const metaData: IUserMetaData = await db
       .collection('userMetaData')
       .doc(userId)
       .get()
@@ -21,7 +23,7 @@ export default async function getUserMetaData({ userId }: IGenericAPIRequest) {
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IUserMetaData;
       });
 
     if (metaData) {

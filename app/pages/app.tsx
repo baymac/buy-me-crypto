@@ -10,10 +10,14 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import HomeLayout from '../layouts/HomeLayout';
+import fetcher from '../lib/fetcher';
 import fetchJson from '../lib/fetchJson';
 import styles from '../styles/pageStyles/app.module.css';
 import rootStyles from '../styles/root.module.css';
 import { useSnackbar } from '../context/SnackbarContextProvider';
+import { IGenericAPIRequest } from '../lib/utils';
+import { IGetActiveSubscriptionsToResponse } from '../lib/getActiveSubscriptionsTo';
+import { IGetAcitveSubscriptionsFromResponse } from '../lib/getActiveSubscriptionsFrom';
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -27,16 +31,13 @@ export default function Home() {
     if (userMetaData && session) {
       const body = {
         userId: session.userId,
-      };
+      } as IGenericAPIRequest;
       //request for active Subscriptions
       if (userMetaData.userLevel === 1) {
-        fetchJson('/api/getActiveSubscriptionsTo', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetcher<IGenericAPIRequest, IGetActiveSubscriptionsToResponse>(
+          '/api/getActiveSubscriptionsTo',
+          body
+        )
           .then((data) => {
             if (data.error) {
               throw new Error(data.message);
@@ -49,13 +50,10 @@ export default function Home() {
             });
           });
       } else {
-        fetchJson('/api/getActiveSubscriptionsFrom', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetcher<IGenericAPIRequest, IGetAcitveSubscriptionsFromResponse>(
+          '/api/getActiveSubscriptionsFrom',
+          body
+        )
           .then((data) => {
             if (data.error) {
               throw new Error(data.message);

@@ -16,7 +16,7 @@ export default function useFinishSignupRedirect() {
       const body = {
         userId: session.userId,
       };
-      fetchJson('/api/getUserMetaData', {
+      fetchJson('/api/userMetaData/get', {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
@@ -47,7 +47,7 @@ export default function useFinishSignupRedirect() {
                 solanaAddress: '',
               };
 
-              fetchJson('/api/addUserMetaData', {
+              fetchJson('/api/userMetaData/add', {
                 method: 'POST',
                 body: JSON.stringify(bodyMetaData),
                 headers: {
@@ -56,7 +56,7 @@ export default function useFinishSignupRedirect() {
               })
                 .then((resData) => {
                   if (!resData.error) {
-                    fetchJson('/api/addPageInfo', {
+                    fetchJson('/api/pageInfo/add', {
                       method: 'POST',
                       body: JSON.stringify(bodyPageInfo),
                       headers: {
@@ -67,7 +67,7 @@ export default function useFinishSignupRedirect() {
                         if (pageResData.error) {
                           throw new Error(pageResData.message);
                         }
-                        fetchJson('/api/updatePageInfo', {
+                        fetchJson('/api/pageInfo/update', {
                           method: 'POST',
                           body: JSON.stringify(updatePageInfo),
                           headers: {
@@ -78,7 +78,7 @@ export default function useFinishSignupRedirect() {
                             if (data.error) {
                               throw new Error(data.message);
                             }
-                            fetchJson('/api/getUserMetaData', {
+                            fetchJson('/api/userMetaData/get', {
                               method: 'POST',
                               body: JSON.stringify(bodyPageInfo),
                               headers: {

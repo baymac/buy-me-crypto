@@ -1,11 +1,14 @@
 import { useSession } from 'next-auth/client';
-import fetchJson from '../lib/fetchJson';
+import fetcher from '../lib/fetcher';
 import styles from '../styles/pageStyles/finishSignup.module.css';
 import PieLoading from '../components/PieLoading/PieLoading';
 import useSessionRedirect from '../hooks/useSessionRedirect';
 import { useRouter } from 'next/router';
 import { UilStar, UilRocket } from '@iconscout/react-unicons';
 import { useSnackbar } from '../context/SnackbarContextProvider';
+import { IAddUserMetaDataRequest } from '../lib/userSettings/addUserMetaData';
+import { IGenericAPIResponse } from '../lib/utils';
+import { IAddPageInfoRequest } from '../lib/userSettings/addPageInfo';
 
 export default function finishSignup() {
   const [session, loading] = useSession();
@@ -18,15 +21,12 @@ export default function finishSignup() {
     const body = {
       userId: session.userId,
       userLevel: 1,
-    };
+    } as IAddUserMetaDataRequest;
 
-    let result = await fetchJson('/api/addUserMetaData', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    let result = await fetcher<IAddUserMetaDataRequest, IGenericAPIResponse>(
+      '/api/userMetaData/add',
+      body
+    );
 
     if (!result.error) {
       router.push('/app');
@@ -42,27 +42,21 @@ export default function finishSignup() {
     const bodyMetaData = {
       userId: session.userId,
       userLevel: 2,
-    };
+    } as IAddUserMetaDataRequest;
     const bodyPageInfo = {
       userId: session.userId,
-    };
+    } as IAddPageInfoRequest;
 
-    let resultMetaData = await fetchJson('/api/addUserMetaData', {
-      method: 'POST',
-      body: JSON.stringify(bodyMetaData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    let resultMetaData = await fetcher<
+      IAddUserMetaDataRequest,
+      IGenericAPIResponse
+    >('/api/userMetaData/add', bodyMetaData);
 
     if (!resultMetaData.error) {
-      let resultPageInfo = await fetchJson('/api/addPageInfo', {
-        method: 'POST',
-        body: JSON.stringify(bodyPageInfo),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      let resultPageInfo = await fetcher<
+        IAddPageInfoRequest,
+        IGenericAPIResponse
+      >('/api/pageInfo/add', bodyPageInfo);
 
       if (!resultPageInfo.error) {
         router.push('/app');

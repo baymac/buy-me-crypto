@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import updatePageInfo, {
   IUpdatePageInfoRequest,
-} from '../../lib/userSettings/updatePageInfo';
+  IUpdatePageInfoResponse,
+} from '../../../lib/userSettings/updatePageInfo';
 
 export default async function updateUserInfo(
   req: NextApiRequest,
@@ -39,15 +40,12 @@ export default async function updateUserInfo(
         },
       },
     };
-    const result = await updatePageInfo(reqBody);
-    res.status(200).json({
-      error: false,
-      message: result.message,
-    });
+    const result: IUpdatePageInfoResponse = await updatePageInfo(reqBody);
+    res.status(200).json({ ...result });
   } catch (error) {
     res.status(200).json({
       error: true,
       message: 'Some error occurres' + error.message,
-    });
+    } as IUpdatePageInfoResponse);
   }
 }

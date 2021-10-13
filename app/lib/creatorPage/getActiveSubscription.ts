@@ -1,4 +1,7 @@
 import firebase from '../../firebase/clientApp';
+import { populateUser } from '../getActiveSubscriptionsTo';
+import { IGenericAPIResponse } from '../utils';
+import { ISubscription } from './addSubscription';
 
 const db = firebase.firestore();
 
@@ -11,10 +14,14 @@ export interface IGetActiveSubscriptionRequest {
   creator: string;
 }
 
+export interface IGetActiveSubscriptionResponse extends IGenericAPIResponse {
+  data: ISubscription | null;
+}
+
 export default async function getActiveSubscription({
   fan,
   creator,
-}: IGetActiveSubscriptionRequest) {
+}: IGetActiveSubscriptionRequest): Promise<IGetActiveSubscriptionResponse> {
   try {
     const activeSubscription = await db
       .collection('subscriptions')
@@ -25,14 +32,13 @@ export default async function getActiveSubscription({
         if (querySnapshot.docs.length === 0) return null;
         else
           return {
-            id: querySnapshot.docs[0].id,
             ...querySnapshot.docs[0].data(),
-          };
+          } as ISubscription;
       });
 
     if (!activeSubscription) {
       return {
-        error: true,
+        error: false,
         data: null,
         message: 'no active subscriptions',
       };

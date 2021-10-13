@@ -1,4 +1,5 @@
 import firebase from '../../firebase/clientApp';
+import { IUserMetaData } from '../userSettings/addUserMetaData';
 import { IGenericAPIResponse } from '../utils';
 
 const db = firebase.firestore();
@@ -8,6 +9,10 @@ export interface ISubscription {
   fan: string;
   creator: string;
   note: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
 export interface IAddSubcriptionRequest {
   rate: number;
@@ -15,18 +20,15 @@ export interface IAddSubcriptionRequest {
   creator: string;
   note: string;
 }
-export interface IAddSubscriptionResponse extends IGenericAPIResponse {
-  data: null | ISubscription;
-}
 
 export default async function addSubscription({
   rate,
   fan,
   creator,
   note,
-}: IAddSubcriptionRequest): Promise<IAddSubscriptionResponse> {
+}: IAddSubcriptionRequest): Promise<IGenericAPIResponse> {
   try {
-    const fanUser = db
+    const fanUser: IUserMetaData = await db
       .collection('userMetaData')
       .doc(fan)
       .get()
@@ -34,10 +36,10 @@ export default async function addSubscription({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IUserMetaData;
       });
 
-    const creatorUser = await db
+    const creatorUser: IUserMetaData = await db
       .collection('userMetaData')
       .doc(creator)
       .get()
@@ -45,13 +47,12 @@ export default async function addSubscription({
         if (!querySnapshot.exists) {
           return null;
         }
-        return { ...querySnapshot.data() };
+        return { ...querySnapshot.data() } as IUserMetaData;
       });
 
     if (!fanUser || !creatorUser) {
       return {
         error: true,
-        data: null,
         message: "either fan or creator doesn't exist",
       };
     } else {
@@ -61,23 +62,20 @@ export default async function addSubscription({
           rate: rate,
           fan: fan,
           creator: creator,
-          start: firebase.firestore.Timestamp.fromDate(new Date()),
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           active: true,
           note: note,
         })
         .then(() => {
-          console.log('subscription added successfully');
           return {
             error: false,
             message: 'subscription added successfully',
-            data: null,
           };
         })
         .catch((err) => {
           return {
             error: true,
             message: 'some error occured',
-            data: null,
           };
         });
 
@@ -87,7 +85,6 @@ export default async function addSubscription({
     return {
       error: true,
       message: ' Some error occured while fetching metaData ' + error.message,
-      data: null,
     };
   }
 }
