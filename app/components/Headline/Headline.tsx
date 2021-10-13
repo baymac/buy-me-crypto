@@ -8,8 +8,8 @@ const Headline = () => {
         Start earning donations via crypto
       </h2>
       <p className={styles.content__subheadline}>
-        Its a fast, easy and secure way to receive donations and provides you
-        with a unique way to fund your creative work or support people.
+        A fast, easy and secure way to receive donations and provides you with a
+        unique way to fund your creative work or support people.
       </p>
     </div>
   );
