@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useWalletContext } from '../../context/WalletContextProvider';
 import ButtonLoading from '../ButtonLoading/ButtonLoading';
 import inputStyles from '../FormGenerator/FormGenerator.module.css';
+import styles from './connectwallet.module.css';
 
 export default function ConnectWallet() {
   const [connecting, setConnecting] = useState(false);
@@ -24,7 +25,11 @@ export default function ConnectWallet() {
           disabled={connecting}
           onClick={(e) => onConnectClick(e)}
         >
-          {connecting ? <ButtonLoading /> : <span>Connect Wallet</span>}
+          {connecting ? (
+            <ButtonLoading className={styles.buttonLoading} />
+          ) : (
+            <span>Connect Wallet</span>
+          )}
         </button>
       )}
     </>
