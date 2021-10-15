@@ -12,6 +12,9 @@ The following dependencies are required to build and run this app:
 
 - Install node (v14 recommended)
 - Install npm
+
+The following dependencies are required to test this app:
+
 - Phantom wallet (extension on your browser)
 
 ## Local Setup
