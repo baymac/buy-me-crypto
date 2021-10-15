@@ -47,4 +47,4 @@ This project was built during Solana Ignition Hackathon.
 Maintainers:
 
 - [Parichay](https://github.com/baymac)
-- [Ishaan](https://github.com/IshaanDesai48)
+- [Ishaan](https://github.com/IshaanDesai45)
