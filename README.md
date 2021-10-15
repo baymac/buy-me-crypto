@@ -1,3 +1,7 @@
+[![Join the community on GitHub Discussions](https://badgen.net/badge/join%20the%20discussion/on%20github/black?icon=github)](https://github.com/baymac/buy-me-crypto/discussions)
+
+[![Buy Me Crypto Server](https://img.shields.io/discord/898386257435054091.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/dWXcA2R6Aj)
+
 # Buy Me Crypto
 
 Buy Me Crypto is a platform that makes it easier for creators to get funding from their fans using crypto. The app was built using React.js, Next.js and @solana/web3.js library.
