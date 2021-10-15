@@ -139,6 +139,7 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
                     {
                       className: cn(styles.nav__signin),
                       onClick: () => {
+                        setNavBarOpen(false);
                         router.push('/login');
                       },
                       'aria-label': 'sign-in-button',

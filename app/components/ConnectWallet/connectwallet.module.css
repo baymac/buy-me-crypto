@@ -4,6 +4,10 @@
   margin: 4rem auto 1rem;
 }
 
+.buttonLoading {
+  background-color: var(--inverted-bw);
+}
+
 @media (min-width: 600px) {
   .about__container {
     grid-template-columns: 1fr;
