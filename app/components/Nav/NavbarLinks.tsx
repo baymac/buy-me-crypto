@@ -114,6 +114,7 @@ export default function NavBarLinks() {
             className={cn(styles.nav__item, styles.signout_nav_item)}
             onClick={() => {
               signOut();
+              setNavBarOpen(false);
               router.push('/');
             }}
             tabIndex={0}
@@ -135,6 +136,7 @@ export default function NavBarLinks() {
           <a
             className={cn(styles.nav__item, styles.signout_nav_item)}
             onClick={() => {
+              setNavBarOpen(false);
               router.push('/login');
             }}
             tabIndex={0}
