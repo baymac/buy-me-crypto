@@ -8,8 +8,7 @@
     "start": "next start",
     "prettify": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
     "lint": "next lint",
-    "prepare": "cd .. && husky install app/.husky",
-    "pre-commit": "yarn lint --fix"
+    "pre-commit": "yarn lint --fix && yarn prettify && git add -A ."
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",
