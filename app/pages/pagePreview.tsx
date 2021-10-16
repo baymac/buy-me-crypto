@@ -15,8 +15,9 @@ import rootStyles from '../styles/root.module.css';
 import { useSnackbar } from '../context/SnackbarContextProvider';
 import { IGenericAPIRequest } from '../lib/utils';
 import { IGetPageInfoResponse } from '../lib/home/getPageInfo';
+import Image from 'next/image';
 
-const pagePreview = () => {
+export default function PagePreview() {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
   const [userMetaData] = useFinishSignupRedirect();
@@ -56,7 +57,7 @@ const pagePreview = () => {
           });
       }
     }
-  }, [session, userMetaData]);
+  }, [session, userMetaData, enqueueSnackbar, router]);
 
   if (loading || !userMetaData || !creatorPageInfo) {
     return (
@@ -80,10 +81,14 @@ const pagePreview = () => {
           >
             <div className={styles.wrapper}>
               <div className={styles.wrapper__pageInfo}>
-                <img
-                  className={styles.wrapper__pageInfo__avatar}
+                <Image
+                  priority
                   src={session.user.image}
-                  alt="creator avatar"
+                  height={80}
+                  width={80}
+                  alt={'creator avatar'}
+                  layout="fixed"
+                  className={styles.wrapper__pageInfo__avatar}
                 />
                 <h2 className={styles.wrapper__pageInfo__pageName}>
                   {creatorPageInfo.pageName}
@@ -107,6 +112,4 @@ const pagePreview = () => {
       </HomeLayout>
     );
   }
-};
-
-export default pagePreview;
+}

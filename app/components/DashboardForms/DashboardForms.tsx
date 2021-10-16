@@ -26,6 +26,7 @@ const DashboardForms = () => {
   const [initialData, setInitialData] = useState(null);
   const [userMetaData, setUserMetaData] = useFinishSignupRedirect();
   const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     if (userMetaData) {
       const body: IGenericAPIRequest = {
@@ -67,7 +68,7 @@ const DashboardForms = () => {
           });
       }
     }
-  }, [session, userMetaData]);
+  }, [session, userMetaData, enqueueSnackbar]);
 
   if (loading || !session || !initialData || !userMetaData) {
     return (

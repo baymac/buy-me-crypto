@@ -42,7 +42,7 @@ const FormGenerator = ({
         }
       }
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
   return (
     <div className={styles.formWrapper}>
