@@ -10,7 +10,7 @@ import { IAddUserMetaDataRequest } from '../lib/userSettings/addUserMetaData';
 import { IGenericAPIResponse } from '../lib/utils';
 import { IAddPageInfoRequest } from '../lib/userSettings/addPageInfo';
 
-export default function finishSignup() {
+export default function FinishSignup() {
   const [session, loading] = useSession();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();

@@ -12,10 +12,7 @@ import {
   IGetActiveSubscriptionResponse,
 } from '../../lib/creatorPage/getActiveSubscription';
 import fetcher from '../../lib/fetcher';
-import {
-  IGetPageInfoRequest,
-  IGetPageInfoResponse,
-} from '../../lib/home/getPageInfo';
+import { IGetPageInfoResponse } from '../../lib/home/getPageInfo';
 import {
   IGetUserRequest,
   IGetUserResponse,
@@ -24,6 +21,7 @@ import { IGetUserMetaDataResponse } from '../../lib/userSettings/getUserMetadata
 import { getHostUrl, IGenericAPIRequest } from '../../lib/utils';
 import styles from '../../styles/pageStyles/creator.module.css';
 import rootStyles from '../../styles/root.module.css';
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -79,8 +77,6 @@ export async function getServerSideProps(context) {
     };
   }
 
-  console.log('test');
-
   const creatorPageInfo = await fetcher<
     IGenericAPIRequest,
     IGetPageInfoResponse
@@ -113,7 +109,11 @@ export async function getServerSideProps(context) {
   };
 }
 
-const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
+export default function CreatorPage({
+  creator,
+  creatorPageInfo,
+  activeSubscription,
+}) {
   const [session, loading] = useSession();
   useSessionRedirect('/', true);
   const [userMetaData] = useFinishSignupRedirect();
@@ -140,10 +140,14 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
         >
           <div className={styles.wrapper}>
             <div className={styles.wrapper__pageInfo}>
-              <img
-                className={styles.wrapper__pageInfo__avatar}
+              <Image
+                priority
                 src={creator.image}
-                alt="creator avatar"
+                height={80}
+                width={80}
+                alt={'creator avatar'}
+                layout="fixed"
+                className={styles.userInfo__img}
               />
               <h2 className={styles.wrapper__pageInfo__pageName}>
                 {creator.username}
@@ -176,6 +180,4 @@ const creatorPage = ({ creator, creatorPageInfo, activeSubscription }) => {
       </section>
     </HomeLayout>
   );
-};
-
-export default creatorPage;
+}

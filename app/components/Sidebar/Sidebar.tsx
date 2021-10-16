@@ -2,12 +2,10 @@ import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { createElement, useEffect, useState } from 'react';
-import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
-import { sidebarItems } from '../Nav/NavbarLinks';
+import { INavItem, sidebarItems } from '../Nav/NavbarLinks';
 import styles from '../Sidebar/sidebar.module.css';
-import { INavItem } from '../Nav/NavbarLinks';
-import PieLoading from '../PieLoading/PieLoading';
+import Image from 'next/image';
 
 const Sidebar = ({ userLevel }) => {
   const [selectedMenu] = useNavSelection();
@@ -28,17 +26,17 @@ const Sidebar = ({ userLevel }) => {
     }
   }, [userLevel]);
 
-  // if(  !sidebarItemsArr){
-  //     <PieLoading />
-  // }
-
   return (
     <div className={styles.sidebarContainer}>
       <div className={styles.userInfo}>
-        <img
-          className={styles.userInfo__img}
+        <Image
+          priority
           src={session.user.image}
-          alt="user avatar"
+          height={80}
+          width={80}
+          alt={'user avatar'}
+          layout="fixed"
+          className={styles.userInfo__img}
         />
         <h4 className={styles.userInfo__name}>{session.user.name}</h4>
       </div>
