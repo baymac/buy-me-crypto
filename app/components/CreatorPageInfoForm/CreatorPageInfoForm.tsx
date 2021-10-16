@@ -99,7 +99,6 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleOnSubmitCreator = async (data) => {
-    console.log(data);
     setSubLoading(true);
     data['userId'] = userId;
 
