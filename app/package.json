@@ -8,7 +8,7 @@
     "start": "next start",
     "prettify": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
     "lint": "next lint",
-    "pre-commit": "yarn lint --fix && yarn prettify && git add -A ."
+    "pre-commit": "yarn lint --fix && yarn prettify && git add -A ../"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",

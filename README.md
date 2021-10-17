@@ -10,8 +10,8 @@ Buy Me Crypto is a platform that makes it easier for creators to get funding fro
 
 The following dependencies are required to build and run this app:
 
-- Install node (v14 recommended)
-- Install yarn
+- Install node (v14.18.1 recommended)
+- Install yarn (v1.22.5 recommended)
 
 The following dependencies are required to test this app:
 
