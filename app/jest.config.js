@@ -5,7 +5,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(scss|sass|css)$': 'identity-obj-proxy',
   },
-  verbose: true,
-  collectCoverage: true,
+  testEnvironment: 'jest-environment-jsdom',
+  // verbose: true,
+  // collectCoverage: true,
   coveragePathIgnorePatterns: ["<rootDir>/test/test-utils.js"]
 };

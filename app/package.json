@@ -6,7 +6,8 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "prettify": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'"
+    "prettify": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
+    "test": "jest"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",
