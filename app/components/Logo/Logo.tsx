@@ -23,4 +23,6 @@ const Logo = forwardRef((props: SVGProps<SVGSVGElement>, ref: any) => {
   );
 });
 
+Logo.displayName = 'Logo';
+
 export default Logo;

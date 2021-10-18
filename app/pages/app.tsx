@@ -92,7 +92,7 @@ export default function Home() {
           });
         });
     }
-  }, [userMetaData, session]);
+  }, [userMetaData, session, enqueueSnackbar]);
 
   if (loading || !userMetaData || !activeSubscriptions || !pastTransactions) {
     return (
@@ -121,8 +121,8 @@ export default function Home() {
               <AlertBanner>
                 {userMetaData.userLevel === 2 ? (
                   <>
-                    We need some info for your creator's page. Please complete
-                    your profile&nbsp;
+                    We need some info for your creator&apos;s page. Please
+                    complete your profile&nbsp;
                     <Link href="/settings">here</Link>.
                   </>
                 ) : (

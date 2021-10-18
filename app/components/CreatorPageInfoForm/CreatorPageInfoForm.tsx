@@ -99,7 +99,6 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleOnSubmitCreator = async (data) => {
-    console.log(data);
     setSubLoading(true);
     data['userId'] = userId;
 
@@ -171,7 +170,7 @@ export default function CreatorPageInfoForm({ initialData, userId }) {
     arr.forEach((url) => {
       setValue(url.registerName, initialData.data.links[url.registerName]);
     });
-  }, [initialData]);
+  }, [initialData, setValue, socialAddedList, socialUrlList]);
 
   return (
     <>

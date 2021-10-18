@@ -9,5 +9,5 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom',
   // verbose: true,
   // collectCoverage: true,
-  coveragePathIgnorePatterns: ["<rootDir>/test/test-utils.js"]
+  coveragePathIgnorePatterns: ['<rootDir>/test/test-utils.js'],
 };

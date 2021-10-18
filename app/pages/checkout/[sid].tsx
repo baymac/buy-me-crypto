@@ -1,15 +1,25 @@
 import cn from 'classnames';
 import { getSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import ButtonLoading from '../../components/ButtonLoading/ButtonLoading';
 import ConnectWallet from '../../components/ConnectWallet/ConnectWallet';
+import ContentWrapper from '../../components/ContentWrapper/ContentWrapper';
+import DisconnectWallet from '../../components/DisconnectWallet/DisconnectWallet';
+import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
 import PieLoading from '../../components/PieLoading/PieLoading';
+import Select from '../../components/Select/Select';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
 import {
   clusterUrls,
   useWalletContext,
 } from '../../context/WalletContextProvider';
+import useSessionRedirect from '../../hooks/useSessionRedirect';
 import HomeLayout from '../../layouts/HomeLayout';
+import {
+  IAddOneTimeTxnRequest,
+  IAddOneTimeTxnResponse,
+} from '../../lib/checkout/addOneTimeTxn';
 import {
   IGetCheckoutRequest,
   IGetCheckoutResponse,
@@ -18,16 +28,6 @@ import {
 import fetcher from '../../lib/fetcher';
 import styles from '../../styles/pageStyles/checkout.module.css';
 import rootStyles from '../../styles/root.module.css';
-import inputStyles from '../../components/FormGenerator/FormGenerator.module.css';
-import router, { useRouter } from 'next/router';
-import {
-  IAddOneTimeTxnRequest,
-  IAddOneTimeTxnResponse,
-} from '../../lib/checkout/addOneTimeTxn';
-import useSessionRedirect from '../../hooks/useSessionRedirect';
-import Select from '../../components/Select/Select';
-import DisconnectWallet from '../../components/DisconnectWallet/DisconnectWallet';
-import ContentWrapper from '../../components/ContentWrapper/ContentWrapper';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;
@@ -91,7 +91,7 @@ export default function Checkout({ sessionId }: { sessionId: string }) {
       }
       setLoadingTxnDetails(false);
     });
-  }, []);
+  }, [enqueueSnackbar, router, sessionId]);
 
   const onConfirmTxnClick = async (e) => {
     setTransacting(true);

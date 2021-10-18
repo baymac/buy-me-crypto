@@ -4,17 +4,17 @@ import {
   UilSetting,
   UilSignInAlt,
   UilSignOutAlt,
-  UilUsersAlt,
 } from '@iconscout/react-unicons';
 import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createElement, useState, useEffect } from 'react';
+import { createElement, useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContextProvider';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
+import Image from 'next/image';
 
 export interface INavItem {
   label: string;
@@ -76,10 +76,14 @@ export default function NavBarLinks() {
     <>
       {session && (
         <div className={styles.infoContainer}>
-          <img
+          <Image
+            priority
             className={styles.infoContainer__avatar}
             src={session.user.image}
-            alt="User avatar"
+            height={80}
+            width={80}
+            alt={'user avatar'}
+            layout="fixed"
           />
           <h4 className={styles.infoContainer__name}> {session.user.name}</h4>
           <p className={styles.infoContainer__email}>{session.user.email}</p>
