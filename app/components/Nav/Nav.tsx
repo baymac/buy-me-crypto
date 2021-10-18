@@ -32,31 +32,17 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
     <>
       <header className={styles.header}>
         <nav className={cn(styles.nav, rootStyles.container)}>
-          {!router.pathname.startsWith('/posts') && (
-            <Link href="/">
-              <button
-                className={styles.nav__logo_button}
-                aria-label="logo-button"
-              >
-                <div className={styles.nav__logo}>
-                  <Logo />
-                </div>
-              </button>
-            </Link>
-          )}
-          {router.pathname.startsWith('/posts') && (
-            <Link href={`/blog`} passHref>
-              <button
-                className={styles.nav__logo_button}
-                aria-label="back-button"
-              >
-                <div className={styles.nav__logo}>
-                  <UilArrowLeft />
-                </div>
-              </button>
-            </Link>
-          )}
-          {/* <NavLinkBigScreen /> */}
+          <Link href="/">
+            <button
+              className={styles.nav__logo_button}
+              aria-label="logo-button"
+            >
+              <div className={styles.nav__logo}>
+                <Logo />
+              </div>
+            </button>
+          </Link>
+          ){/* <NavLinkBigScreen /> */}
           <div className={styles.nav__btns}>
             {mounted &&
               createElement(
@@ -127,6 +113,7 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
                       createElement(
                         'span',
                         {
+                          key: 'logout',
                           className: cn(styles.nav__signout__text),
                         },
                         'Log Out'
@@ -149,6 +136,7 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
                       createElement(
                         'span',
                         {
+                          key: 'login',
                           className: cn(styles.nav__signin__text),
                         },
                         'Log In'

@@ -4,7 +4,7 @@ module.exports = {
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   moduleNameMapper: {
     '^.+\\.module\\.css$': 'identity-obj-proxy',
-    '^.+\\.css$': require.resolve('./test/style-mock.js'),
+    '^.+\\.css$': require.resolve('./test/mocks/style-mock.js'),
   },
   testEnvironment: 'jest-environment-jsdom',
   // verbose: true,

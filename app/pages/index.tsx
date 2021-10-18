@@ -13,7 +13,7 @@ export default function Index() {
   const [session, loading] = useSession();
   useSessionRedirect('/app', false);
 
-  if (loading || session) {
+  if (session || loading) {
     return (
       <div className={rootStyles.absolute_center}>
         <PieLoading />
