@@ -32,7 +32,7 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
     <>
       <header className={styles.header}>
         <nav className={cn(styles.nav, rootStyles.container)}>
-          <Link href="/">
+          <Link href="/" passHref>
             <button
               className={styles.nav__logo_button}
               aria-label="logo-button"
