@@ -5,8 +5,7 @@ import { render } from "../../test-utils";
 describe("Sponsor Form", () => {
     it("is form accesible", () => {
 
-        const { debug } = render(<SponsorForm creatorName="Parichay" creatorId={"xyz"} fanId={"abc"} isDisabled={false} />);
-        debug()
+        render(<SponsorForm creatorName="Parichay" creatorId={"xyz"} fanId={"abc"} isDisabled={false} />);
         // TBD
     });
 });

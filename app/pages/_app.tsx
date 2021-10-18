@@ -5,6 +5,7 @@ import { Provider } from 'next-auth/client';
 import SnackbarContextProvider from '../context/SnackbarContextProvider';
 import WalletContextProvider from '../context/WalletContextProvider';
 import useCleanUpPageName from '../hooks/useCleanUpPageName';
+
 export default function App({ Component, pageProps }) {
   useCleanUpPageName();
   return (
