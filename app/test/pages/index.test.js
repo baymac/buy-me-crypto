@@ -6,8 +6,7 @@ describe("HomePage", () => {
     it("should render the heading", () => {
         const textToFind = "Start earning donations via crypto"
 
-        const { debug } = render(<HomePage />);
-        debug()
+        // render(<HomePage />);
         // const heading = screen.getByText(textToFind);
 
         // expect(heading).toBeInTheDocument();

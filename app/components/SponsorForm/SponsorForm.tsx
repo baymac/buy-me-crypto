@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
@@ -10,7 +10,7 @@ import {
 import fetcher from '../../lib/fetcher';
 import Form from '../FormGenerator/FormGenerator';
 import formStyles from '../FormGenerator/FormGenerator.module.css';
-import styles from './SponsorForm.module.css';
+import styles from './sponsorform.module.css';
 
 const SponsorForm = ({ creatorName, creatorId, fanId, isDisabled }) => {
   const {
