@@ -3,7 +3,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   moduleNameMapper: {
-    '\\.(scss|sass|css)$': 'identity-obj-proxy',
+    '\\.css$': require.resolve('./test/style-mock.js'),
+    '\\.module\\.css$': 'identity-obj-proxy',
   },
   testEnvironment: 'jest-environment-jsdom',
   // verbose: true,
