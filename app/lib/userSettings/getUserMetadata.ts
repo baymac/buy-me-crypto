@@ -1,6 +1,6 @@
 import firebase from '../../firebase/clientApp';
-import { IUserMetaData } from './addUserMetaData';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
+import { IUserMetaData } from './addUserMetaData';
 
 const db = firebase.firestore();
 

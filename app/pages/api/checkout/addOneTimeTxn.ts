@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import addOneTimeTxn from '../../../lib/checkout/addOneTimeTxn';
-import {
+import addOneTimeTxn, {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
 } from '../../../lib/checkout/addOneTimeTxn';

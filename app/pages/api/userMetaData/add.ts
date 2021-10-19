@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IAddUserMetaDataRequest } from '../../../lib/userSettings/addUserMetaData';
-import addUserMetaData from '../../../lib/userSettings/addUserMetaData';
+import addUserMetaData, {
+  IAddUserMetaDataRequest,
+} from '../../../lib/userSettings/addUserMetaData';
 import { IGenericAPIResponse } from '../../../lib/utils';
 
 export default async function handler(

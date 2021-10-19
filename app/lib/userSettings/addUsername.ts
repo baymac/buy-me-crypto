@@ -1,6 +1,6 @@
 import firebase from '../../firebase/clientApp';
-import userIfExists from './userIfExists';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
+import userIfExists from './userIfExists';
 import { IUser } from './getUser';
 
 const db = firebase.firestore();

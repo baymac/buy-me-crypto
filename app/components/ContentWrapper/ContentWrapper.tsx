@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import styles from './contentwrapper.module.css';
 import cn from 'classnames';
+import styles from './contentwrapper.module.css';
 
 export interface IContentWrapperProps {
   children: ReactNode;

@@ -1,11 +1,11 @@
-import Form from '../FormGenerator/FormGenerator';
 import { useState, createElement, useEffect } from 'react';
-import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
-import fetcher from '../../lib/fetcher';
-import inputStyles from '../FormGenerator/FormGenerator.module.css';
 import cn from 'classnames';
 import { UilMinusCircle, UilPlus } from '@iconscout/react-unicons';
+import Form from '../FormGenerator/FormGenerator';
+import { IFormInputField } from '../DashboardForms/DashboardForms';
+import fetcher from '../../lib/fetcher';
+import inputStyles from '../FormGenerator/FormGenerator.module.css';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
 import {
   IUpdatePageInfoResponse,

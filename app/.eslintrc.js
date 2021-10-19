@@ -1,9 +1,15 @@
 const path = require('path');
 
 module.exports = {
-  extends: ['next/core-web-vitals', 'prettier'],
+  extends: [
+    'next/core-web-vitals',
+    'prettier',
+    'kentcdodds/import',
+    'kentcdodds/jest',
+  ],
   rules: {
     'no-console': 'error',
+    'import/named': 'off',
   },
   overrides: [
     {

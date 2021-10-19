@@ -2,9 +2,9 @@ import { rest } from 'msw';
 import { Provider } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
-import HomePage from '../../pages/index';
 import { server } from 'next-auth-mock';
 import { render, screen, waitFor } from 'test-utils';
+import HomePage from '../../pages/index';
 
 // Setup api routes for next auth
 beforeAll(() => {
@@ -71,6 +71,7 @@ describe('HomePage', () => {
     await waitFor(() => {
       expect(sessionRouteCall).toHaveBeenCalledTimes(1); // Ensures session has been returned
       const heading = screen.getByText(textToFind);
+      // eslint-disable-next-line testing-library/no-wait-for-multiple-assertions
       expect(heading).toBeInTheDocument();
     });
   });

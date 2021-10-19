@@ -10,11 +10,11 @@ import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createElement, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useAppContext } from '../../context/AppContextProvider';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
 import useNavSelection from '../../hooks/useNavSelection';
 import styles from './navlink.module.css';
-import Image from 'next/image';
 
 export interface INavItem {
   label: string;

@@ -1,8 +1,10 @@
 import cn from 'classnames';
-import tableStyles from './ActiveSubscriptionsTable.module.css';
 import { useEffect, useState } from 'react';
-import Table, { ITableRowContent } from '../TableGenerator/TableGenerator';
-import { ITableColumn } from '../TableGenerator/TableGenerator';
+import Table, {
+  ITableRowContent,
+  ITableColumn,
+} from '../TableGenerator/TableGenerator';
+import tableStyles from './ActiveSubscriptionsTable.module.css';
 const FanTableColumns: ITableColumn[] = [
   {
     heading: 'Sl.No',
