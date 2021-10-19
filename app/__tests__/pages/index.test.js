@@ -3,8 +3,8 @@ import { Provider } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
 import HomePage from '../../pages/index';
-import { server } from '../mocks/next-auth-mock';
-import { render, screen, waitFor } from '../test-utils';
+import { server } from 'next-auth-mock';
+import { render, screen, waitFor } from 'test-utils';
 
 // Setup api routes for next auth
 beforeAll(() => {

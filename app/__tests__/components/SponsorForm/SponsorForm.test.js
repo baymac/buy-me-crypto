@@ -1,6 +1,6 @@
 import React from 'react';
 import SponsorForm from '../../../components/SponsorForm/SponsorForm';
-import { render } from '../../test-utils';
+import { render } from 'test-utils';
 
 describe('Sponsor Form', () => {
   it('is form accesible', () => {
