@@ -1,6 +1,6 @@
+import cn from 'classnames';
 import styles from './navlink.module.css';
 import NavbarLinks from './NavbarLinks';
-import cn from 'classnames';
 
 export default function NavLinkBigScreen() {
   return (

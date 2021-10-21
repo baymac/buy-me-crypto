@@ -1,11 +1,11 @@
-import styles from './GettingStarted.module.css';
 import { useState, useRef, createElement } from 'react';
 import { UilArrowRight } from '@iconscout/react-unicons';
 import cn from 'classnames';
+import { useRouter } from 'next/router';
 import { useSnackbar } from '../../context/SnackbarContextProvider';
 import fetchJson from '../../lib/fetchJson';
-import { useRouter } from 'next/router';
 import ButtonLoading from '../ButtonLoading/ButtonLoading';
+import styles from './GettingStarted.module.css';
 
 const GettingStarted = () => {
   const [inputFocus, setInputFocus] = useState<boolean>(false);

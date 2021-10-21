@@ -1,8 +1,8 @@
 import firebase from '../../firebase/clientApp';
-import { IPageInfo } from './addPageInfo';
-import addUserName, { IAddUsernameRequest } from './addUsername';
 import { IGenericAPIRequest, IGenericAPIResponse } from '../utils';
 import getPageInfo, { IGetPageInfoResponse } from '../home/getPageInfo';
+import { IPageInfo } from './addPageInfo';
+import addUserName, { IAddUsernameRequest } from './addUsername';
 
 const db = firebase.firestore();
 

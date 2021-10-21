@@ -1,10 +1,10 @@
 import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import { UilStar, UilRocket } from '@iconscout/react-unicons';
 import fetcher from '../lib/fetcher';
 import styles from '../styles/pageStyles/finishSignup.module.css';
 import PieLoading from '../components/PieLoading/PieLoading';
 import useSessionRedirect from '../hooks/useSessionRedirect';
-import { useRouter } from 'next/router';
-import { UilStar, UilRocket } from '@iconscout/react-unicons';
 import { useSnackbar } from '../context/SnackbarContextProvider';
 import { IAddUserMetaDataRequest } from '../lib/userSettings/addUserMetaData';
 import { IGenericAPIResponse } from '../lib/utils';

@@ -1,7 +1,7 @@
-import Form from '../FormGenerator/FormGenerator';
 import { useState } from 'react';
-import { IFormInputField } from '../DashboardForms/DashboardForms';
 import { useForm } from 'react-hook-form';
+import Form from '../FormGenerator/FormGenerator';
+import { IFormInputField } from '../DashboardForms/DashboardForms';
 import fetchJson from '../../lib/fetchJson';
 import fetcher from '../../lib/fetcher';
 import { useSnackbar } from '../../context/SnackbarContextProvider';

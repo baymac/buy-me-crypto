@@ -2,10 +2,10 @@ import cn from 'classnames';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { createElement, useEffect, useState } from 'react';
+import Image from 'next/image';
 import useNavSelection from '../../hooks/useNavSelection';
 import { INavItem, sidebarItems } from '../Nav/NavbarLinks';
 import styles from '../Sidebar/sidebar.module.css';
-import Image from 'next/image';
 
 const Sidebar = ({ userLevel }) => {
   const [selectedMenu] = useNavSelection();

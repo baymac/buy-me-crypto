@@ -1,6 +1,6 @@
 import { UilInfoCircle } from '@iconscout/react-unicons';
-import styles from '../AlertBanner/AlertBanner.module.css';
 import { createElement } from 'react';
+import styles from '../AlertBanner/AlertBanner.module.css';
 
 const AlertBanner = ({ children }) => {
   return (

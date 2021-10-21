@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { getSession, useSession } from 'next-auth/client';
 import Head from 'next/head';
 import React from 'react';
+import Image from 'next/image';
 import PieLoading from '../../components/PieLoading/PieLoading';
 import SponsorForm from '../../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../../hooks/useFinishSignupRedirect';
@@ -21,7 +22,6 @@ import { IGetUserMetaDataResponse } from '../../lib/userSettings/getUserMetadata
 import { getHostUrl, IGenericAPIRequest } from '../../lib/utils';
 import styles from '../../styles/pageStyles/creator.module.css';
 import rootStyles from '../../styles/root.module.css';
-import Image from 'next/image';
 
 export async function getServerSideProps(context) {
   const { params, req } = context;

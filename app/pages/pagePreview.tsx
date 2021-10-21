@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/client';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import PieLoading from '../components/PieLoading/PieLoading';
 import SponsorForm from '../components/SponsorForm/SponsorForm';
 import useFinishSignupRedirect from '../hooks/useFinishSignupRedirect';
@@ -15,7 +16,6 @@ import rootStyles from '../styles/root.module.css';
 import { useSnackbar } from '../context/SnackbarContextProvider';
 import { IGenericAPIRequest } from '../lib/utils';
 import { IGetPageInfoResponse } from '../lib/home/getPageInfo';
-import Image from 'next/image';
 
 export default function PagePreview() {
   const [session, loading] = useSession();

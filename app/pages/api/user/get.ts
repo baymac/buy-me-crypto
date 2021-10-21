@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getUser, { IGetUserResponse } from '../../../lib/userSettings/getUser';
-import { IGetUserRequest } from '../../../lib/userSettings/getUser';
+import getUser, {
+  IGetUserResponse,
+  IGetUserRequest,
+} from '../../../lib/userSettings/getUser';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,5 +1,5 @@
-import styles from './buttonloading.module.css';
 import cn from 'classnames';
+import styles from './buttonloading.module.css';
 
 export default function ButtonLoading({ className }: { className?: string }) {
   return (
