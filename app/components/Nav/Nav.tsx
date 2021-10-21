@@ -42,7 +42,7 @@ export default function Nav({ hideMenu }: { hideMenu?: boolean }) {
               </div>
             </button>
           </Link>
-          ){/* <NavLinkBigScreen /> */}
+          {/* <NavLinkBigScreen /> */}
           <div className={styles.nav__btns}>
             {mounted &&
               createElement(

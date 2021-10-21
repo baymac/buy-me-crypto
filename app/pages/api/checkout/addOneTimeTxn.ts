@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { withSentry } from '@sentry/nextjs';
 import addOneTimeTxn, {
   IAddOneTimeTxnRequest,
   IAddOneTimeTxnResponse,
 } from '../../../lib/checkout/addOneTimeTxn';
 import markCheckoutComplete from '../../../lib/checkout/markCheckoutComplete';
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { amount, fan, creator, note, txnId, payId } = req.body;
 
   const body: IAddOneTimeTxnRequest = {
@@ -34,3 +33,5 @@ export default async function handler(
     });
   }
 }
+
+export default withSentry(handler);
